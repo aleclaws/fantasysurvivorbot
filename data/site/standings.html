@@ -1,0 +1,317 @@
+<!DOCTYPE html><html lang="en"><head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<title>Fantasy Survivor Game : Leaderboards</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js" integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+	<link rel="stylesheet" type="text/css" href="/css/responsive.css">
+	<link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-180x180.png" sizes="180x180">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-152x152.png" sizes="152x152">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-167x167.png" sizes="167x167">
+	<link rel="shortcut icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+	<meta name="apple-mobile-web-app-title" content="Fantasy Survivor">
+			<script src="js/table-sort.js"></script>
+		</head>
+<body>
+	
+
+					
+				<div class="container-fluid px-0">
+		<nav class="row container mx-auto px-0">
+			<ul class="navbar nav-fsg-underline px-2 mb-0" aira-role="menu">
+				<li class="navbar-brand p-1 me-auto">
+					<a href="/" class="d-sm-none"><img src="/images/logos/fantasy-survivor-logo-small.png" alt="Fantasy Survivor Game logo"></a>
+					<a href="/" class="d-none d-sm-inline"><img src="/images/logos/fantasy-survivor-logo.png" alt="Fantasy Survivor Game logo"></a>
+					<input type="radio" id="navbar-toggle-reset-radio" name="navbar-radio-group" checked="">
+				</li>
+				<li class="p-2 p-sm-3">
+					<a href="https://fantasysurvivorgame.myshopify.com/" id="shop-link-nav" class="btn-link-secondary text-decoration-none text-uppercase">Shop</a>
+				</li>
+				<li id="navbar-groupname" class="p-2">
+					<input type="radio" id="navbar-toggle-groupmenu-radio" name="navbar-radio-group">
+											<label for="navbar-toggle-groupmenu-radio"><span class="d-inline-block text-truncate">identos</span><i class="ps-1 bi bi-caret-down-fill"></i></label>
+						<label for="navbar-toggle-reset-radio"><span class="d-inline-block text-truncate">identos</span><i class="ps-1 bi bi-caret-down-fill"></i></label>
+										<ul class="dropmenu p-2 px-0 mt-3 text-start collapse" aira-role="menu">
+																										<li class="row p-2 m-0  active group-name">
+								<a class="col p-1 nav-link text-truncate active" href="?selectPlayer=426696"><span>identos</span></a>
+								<a class="col-auto p-1" href="/group.html?selectPlayer=426696"><i class="bi bi-gear"></i></a>
+															</li>
+																			<li class="text-center"><a class="secondary-link nav-link" href="/group.html">Join/Leave Leagues</a></li>
+					</ul>
+				</li>
+				<li id="navbar-mainmenu" class="p-2 position-relative">
+					<input type="radio" id="navbar-toggle-menu-radio" name="navbar-radio-group">
+					<label for="navbar-toggle-menu-radio"><span class="navbar-toggler-icon btn"></span></label>
+					<label for="navbar-toggle-reset-radio"><span class="navbar-toggler-icon btn"></span></label>
+					<ul class="dropmenu p-2 mt-3 collapse" aira-role="menu">
+						<li><a class="px-1 nav-link" href="/group.html">League</a></li>
+						<li><a class="px-1 nav-link" href="/profile.html">Tribe</a></li>
+						<li><a class="px-1 nav-link" href="/vote.html">Vote</a></li>
+						<li><a class="px-1 nav-link active" aria-current="page" href="/standings.html">Standings</a></li>
+						<li><a class="px-1 nav-link" href="/survivors/season/51">Castaways</a></li>
+						<li><a class="px-1 nav-link" href="/rules.html">Rules</a></li>
+						<li><a class="px-1 nav-link" href="/contact.html">Contact</a></li>
+						<li><a class="px-1 nav-link secondary-link semibold" href="/my-account.html">Account Settings</a></li>
+						<li><a class="px-1 nav-link donate-button" id="donate-header-link" href="https://ko-fi.com/A712L9F" target="_blank"><img src="/images/kofi-donate-button.png" alt="Donate at ko-fi.com"></a></li>
+												<li><a class="px-1 nav-link" href="/logout.html">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		<nav class="row mx-auto px-0">
+			<ul class="navbar nav-fsg-underline justify-content-center text-nowrap m-0 py-1 fsg-bg-color">
+				<li><a class="col mx-1 mx-sm-2 mx-md-3 nav-link" href="/group.html">League</a></li>
+				<li><a class="col mx-1 mx-sm-2 mx-md-3 nav-link" href="/profile.html">Tribe</a></li>
+				<li><a class="col mx-1 mx-sm-2 mx-md-3 nav-link" href="/vote.html">Vote</a></li>
+				<li><a class="col mx-1 mx-sm-2 mx-md-3 nav-link active" aria-current="page" href="/standings.html">Standings</a></li>
+				<li><a class="col mx-1 mx-sm-2 mx-md-3 nav-link" href="/survivors/season/51">Castaways</a></li>
+			</ul>
+		</nav>
+	</div>
+	<script>
+		// if the user taps anywhere that is not the menus, go ahead and close them
+		document.addEventListener('click', function(ev) {
+			const menu1 = document.getElementById('navbar-groupname');
+			const menu2 = document.getElementById('navbar-mainmenu');
+			if (menu1.contains(ev.target) || menu2.contains(ev.target)) {
+				// tap was within the menus
+				return;
+			}
+			// close the menu
+			document.getElementById('navbar-toggle-reset-radio').checked = true;
+		});
+		document.getElementById('donate-header-link').addEventListener('click', function() {
+			const formData = new FormData();
+			formData.set('t', 'donate-header');
+			const url = '/ajax-track.php';
+			navigator.sendBeacon(url, formData);
+		});
+		document.getElementById('shop-link-nav').addEventListener('click', function() {
+			const formData = new FormData();
+			formData.set('t', 'shop-nav');
+			const url = '/ajax-track.php';
+			navigator.sendBeacon(url, formData);
+		});
+	</script>
+	
+		<div id="header" class="container-fluid scores-bg">
+		<div class="row">
+			<div class="col">
+				<h1 class="pgheadTitle text-center">identos</h1>
+				<h6 class="pgheadSeason text-center">Season 51</h6>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid headerbamboo"></div>
+							<!-- <p><a href="#" class="simplelink activelink">Global Leaderboard</a> | <a href="#" class="simplelink">Group History</a></p> -->
+		<div class="container-fluid table-responsive pt-3">
+	<div class="d-flex limit-width mx-auto">
+		<p class="epilabel"><span class="d-none d-sm-block">Episode</span><span class="d-sm-none">Epi</span></p>
+		<nav aria-label="Episode navigation">
+			<ul class="pagination mt-2 mb-1">
+								<li class="page-item"><a class="page-link" href="?episode=1">1</a></li>
+							</ul>
+		</nav>
+	</div>
+	<table id="leaderboard" class="align-middle text-center mx-auto mb-3 limit-width">
+		<thead><tr>
+		<th scope="col" class="TableStat text-uppercase" title="Rank in standings" style="touch-action: manipulation; cursor: pointer;">Rank</th>
+		<th scope="col" class="SurvInfo text-uppercase" title="Tribe and personal name for this player" style="touch-action: manipulation; cursor: pointer;">Tribe/Player</th>
+		<th scope="col" class="TableStat text-uppercase" title="Draft Picks" style="touch-action: manipulation; cursor: pointer;">Draft</th>
+		<th scope="col" class="TableStat text-uppercase" title="Points earned from the survivors" style="touch-action: manipulation; cursor: pointer;">Survivor</th>		<th scope="col" class="TableStat text-uppercase" title="Points earned by voting" style="touch-action: manipulation; cursor: pointer;">Vote</th>		<th scope="col" class="TableStat text-uppercase" title="Points earned by guessing sole survivor correctly" style="touch-action: manipulation; cursor: pointer;">Sole</th>		<th scope="col" class="TableStat text-uppercase" title="Extra points gained for Survivors voted out" style="touch-action: manipulation; cursor: pointer;">Out</th>		<th scope="col" class="TableStat text-uppercase" title="Points gained this week" style="touch-action: manipulation; cursor: pointer;">Week</th>
+		<th scope="col" class="TableStat text-uppercase" title="Total current season score" style="touch-action: manipulation; cursor: pointer;">Total</th>
+		</tr></thead>
+	<tbody>
+									<tr id="leaderboard-self">
+				<td class="rank">1</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=426696">
+	<span class="player-tribename"></span>
+	<span class="player-realname">AI bot</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">0</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																			–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">0</td>
+								<td class="points">0</td>
+				<td class="points">0</td>
+			</tr>
+								<tr>
+				<td class="rank">1</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=426633">
+	<span class="player-tribename">Touch Copper</span>
+	<span class="player-realname">aaaaaaaaaaaa</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">0</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																										–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">0</td>
+								<td class="points">0</td>
+				<td class="points">0</td>
+			</tr>
+								<tr>
+				<td class="rank">1</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=424093">
+	<span class="player-tribename">Claude Spoiler Bot 2000</span>
+	<span class="player-realname">Claude-Bot</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">0</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																										–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">0</td>
+								<td class="points">0</td>
+				<td class="points">0</td>
+			</tr>
+								<tr>
+				<td class="rank">1</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=424043">
+	<span class="player-tribename">Claude's Fleshbag</span>
+	<span class="player-realname">JCPenny</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">0</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																										–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">0</td>
+								<td class="points">0</td>
+				<td class="points">0</td>
+			</tr>
+				</tbody>
+	</table>
+</div>
+
+<div class="container">
+	<h4 class="text-center xspace mb-1">League Activity</h4>
+															<div class="row">
+				<div class="col">
+					<div class="hr-container">
+						<hr class="line-with-text">
+												<span class="overlapping-text h6 survivorfont mb-3 text-nowrap">Before Episode 1</span>
+											</div>
+				</div>
+			</div>
+			<div class="col col-md-9 col-lg-7 m-auto">
+				<ol class="mt-3 list-unstyled">
+										
+																																										<li><a class="player-profilelink" href="/profile.html?player=424043">
+	<span class="player-tribename">Claude's Fleshbag</span>
+	<span class="player-realname">JCPenny</span>
+</a>
+ predicted <span class="feedsurvivor"><a href="/survivors/542-Carter"><span class="survivorname" title="Carter Krull">Carter</span></a></span> would be the Sole Survivor.</li>
+																																																			<li><a class="player-profilelink" href="/profile.html?player=424093">
+	<span class="player-tribename">Claude Spoiler Bot 2000</span>
+	<span class="player-realname">Claude-Bot</span>
+</a>
+ predicted <span class="feedsurvivor"><a href="/survivors/538-Thien An"><span class="survivorname" title="An &quot;Thien An&quot; Nguyen">Thien An</span></a></span> would be the Sole Survivor.</li>
+																																																			<li><a class="player-profilelink" href="/profile.html?player=426633">
+	<span class="player-tribename">Touch Copper</span>
+	<span class="player-realname">aaaaaaaaaaaa</span>
+</a>
+ predicted <span class="feedsurvivor"><a href="/survivors/547-Jenna"><span class="survivorname" title="Jenna Doore">Jenna</span></a></span> would be the Sole Survivor.</li>
+																																			
+				</ol>
+			</div>
+			</div>
+
+				<div id="footer">
+		<hr class="bamboo">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="row row-cols-1 row-cols-md-2">
+						<div class="col d-flex flex-column mb-3">
+							<a href="/howto.html">How to Play</a>
+							<a href="/rules.html">Rules</a>
+							<a href="/faq.html">FAQ</a>
+						</div>
+						<div class="col d-flex flex-column">
+							<a href="/profile.html">Overview</a>
+							<a href="/vote.html">Vote</a>
+							<a href="/standings.html">Group</a>
+							<a href="/survivors/season/51">Survivors</a>
+							<a href="/episode-recap/season/51">Episodes</a>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="row row-cols-1 row-cols-md-2">
+						<div class="col d-flex flex-column mb-3">
+							<a href="/my-account.html">My Account</a>
+							<a href="/invite.html">Invite Friends</a>
+							<a href="/group.html">Join/Leave Group</a>
+							<a href="/draft.html">Survivor Draft</a>
+							<a href="/sole-survivor.html">Sole Survivor</a>
+						</div>
+						<div class="col d-flex flex-column">
+							<a href="/contact.html">Contact &amp; Support</a>
+							<a href="https://www.facebook.com/fantasysurvivor" target="_blank">Facebook</a>
+							<a href="https://ko-fi.com/A712L9F" target="_blank" id="donate-footer-link"><img src="/images/kofi-donate-button.png" alt="Donate at ko-fi.com" class="mw-50"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="text-center">
+				<img id="footer-logo" src="/images/logos/fantasy-survivor-logo-white.png" alt="Fantasy Survivor Game logo in solid white" title="Fantasy Survivor Game">
+			</div>
+		</div>
+	</div>
+	<div id="bottom-bar">
+		<div class="container">
+			<p class="text-center p-3 mb-0">© FantasySurvivorGame.com. This site is not affiliated with, associated, authorized, endorsed by, or officially connected in any way with SURVIVOR, CBS, SEG, or any of its affiliates. Images used are the property of their respective trademark holders.</p>
+		</div>
+	</div>
+	<script>
+		document.getElementById('donate-footer-link').addEventListener('click', function() {
+			const formData = new FormData();
+			formData.set('t', 'donate-footer');
+			const url = '/ajax-track.php';
+			navigator.sendBeacon(url, formData);
+		});
+	</script>
+		<!-- Google tag (gtag.js) -->
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TZKHXFDDMF"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-TZKHXFDDMF');
+	</script>
+
+
+</body></html>

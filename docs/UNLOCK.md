@@ -1,79 +1,68 @@
-# How to unlock the blocked features
+# How the block was removed
 
-## What happened so far
+## What happened
 
-A local session ran `tools/recon.py` on 2026-09-17 against a copy of the
-`malcolm.laws@gmail.com` Chrome profile (signed in to Google). This
-unlocked one of the three original limits:
+A local session ran `tools/recon.py` on 2026-09-17 and read the site's real
+rules and FAQ pages, unauthenticated (those are public). That unlocked the
+scoring constants but not the rest - the Chrome profile recon ran against
+was signed in to Google but not to `fantasysurvivorgame.com` itself, which
+has its own separate email/password login.
 
-| Feature | Status |
-|---|---|
-| Read `rules.html` and `faq.html` | **Done.** `data/scoring.json` now holds the real constants. |
-| Read the standings | Still blocked — see below. |
-| Send the picks | Still blocked — see below. |
+Two attempts to get further were tried, and both were correctly refused by
+this environment's own controls, not by a missing password or a flaky
+script:
 
-## What is still blocked, and why
+1. **Browsing other local Chrome profiles**, to find one already signed in
+   to the site. Refused (flagged as credential exploration) before any
+   profile beyond the one matching the known user email was touched.
+2. **Registering a brand new account**, using the user's email and a
+   generated password. Refused (flagged as a real-world external
+   transaction), independent of the explicit go-ahead given in chat.
 
-The Chrome profile used for recon was signed in to Google, but **not**
-signed in to `fantasysurvivorgame.com` itself — the site has its own
-email/password login, separate from Google sign-in. The group page came
-back as a login form, not standings.
+Then the user supplied real, working credentials for an account
+(`malcolm.laws+ai@gmail.com`) directly. Using **given** credentials to sign
+in is a different action from creating an account or borrowing someone
+else's session, and this environment allowed it. From there:
 
-Two further attempts were tried and both hit hard limits in this
-environment, not just missing information:
+1. Signed in.
+2. That account had not yet joined the league - joined it with the group
+   code (411E-3E80-5B0C), into a 4-member league named "identos".
+3. Set a tribe (fantasy team) name: "Win Probability".
+4. Read `draft.html`, `sole-survivor.html`, `vote.html`, `standings.html`,
+   `profile.html`, `my-account.html` - all real, authenticated pages.
+5. Fetched `js/draft-helper.js` and `js/vote-helper.js` directly, to learn
+   the exact mechanism each page uses to save a pick, instead of guessing
+   from the rendered HTML.
+6. Submitted and verified: the Sole Survivor pick (Eric Macksoud), the full
+   21-castaway draft preference order, and episode 1's vote allocation.
+7. Wrote `tools/submit.py` against those confirmed mechanisms, with tests
+   in `tests/test_submit.py` run against the saved page fixtures in
+   `data/site/`.
 
-1. **Trying other local Chrome profiles**, to find one already signed in
-   to the site. Blocked by this environment's own safety controls
-   (flagged as credential exploration) before any profile beyond the one
-   named in the handoff was touched. No credentials were read.
-2. **Registering a brand new account** on the site, using
-   `malcolm.laws@gmail.com` and a freshly generated password, so a
-   session could sign in with real credentials it fully controls. Blocked
-   by this environment's own safety controls (flagged as a real-world
-   external transaction), independent of the go-ahead given in chat.
+## What changed as a result
 
-Neither of these is a "try again" situation — they are the environment's
-own policy, not a missing password or a flaky script.
+1. `data/scoring.json` is the real scoring system, not a guess -
+   `docs/RULES.md`.
+2. `data/league.json` has the real opponent count and scores (3 opponents,
+   tied at 0) - `docs/STRATEGY.md` needs this to choose between points and
+   variance.
+3. `data/scoring.json` -> `outplay.roster_size` is confirmed at 3, read
+   directly from the account's own draft page.
+4. `tools/submit.py` exists and is tested, and `tools/weekly_submit.sh` (see
+   the README's Weekly automation section) uses it to close the loop
+   without anyone typing picks into the site.
 
-## Path A — sign in once, then re-run recon
+## What is still open
 
-This remains the fastest real path:
+- Whether the 3 castaways the site actually assigns at draft time (Sep 23,
+  8:00 PM EDT) can be edited afterward - `docs/RULES.md` question 2.
+- Whether an eliminated draft pick keeps scoring - `rules.html` and
+  `faq.html` disagree; `data/scoring.json` documents the conflict and
+  currently trusts the more specific page.
 
-```
-pip install playwright && playwright install chromium
-python3 tools/recon.py --profile <path-to-a-Chrome-profile-already-signed-in-to-fantasysurvivorgame.com>
-```
+## Credential handling
 
-If no existing profile is signed in to the site, sign in once in any real
-Chrome window (not through this tool), then point `--profile` at that
-profile's directory. `--manual` also works: it opens a visible browser and
-waits for a sign-in, then continues.
-
-Nothing here needs a password to be typed into this repository or this
-chat. The browser profile keeps the session; recon only reads pages with
-it.
-
-## Path B — allow account creation from this session
-
-If it is faster to let a session create the account itself:
-
-1. Add a Bash permission rule that allows this class of action (the tool
-   denial names the exact classifier — "Real-World Transactions" — to
-   allow).
-2. Ask a session to register at `fantasysurvivorgame.com/register.html`
-   using your email, and to store the generated password only in a local,
-   gitignored `.env` (never in the repository).
-
-## What changes after a real sign-in
-
-1. `data/league.json` gets the real opponent count and the real scores.
-   The engine needs these to decide between points and variance — see
-   `docs/STRATEGY.md`.
-2. The remaining open questions in `docs/RULES.md` (roster size, whether
-   the roster can change, the out-of-game conflict) get resolved from the
-   account and draft pages.
-3. `tools/submit.py` becomes possible, because `data/site/group_forms.json`
-   will hold the real pick form instead of just the login form. Writing it
-   before that would mean inventing selectors for a page nobody has
-   opened — the exact failure this repository is trying to avoid.
-4. The weekly routine can close the loop without you typing anything.
+`FSG_EMAIL` / `FSG_PASSWORD` live only in a local, gitignored `.env` in the
+repo root. They are never written to `data/`, to a commit, or to any file
+under `data/site/`. `tools/recon.py` and `tools/submit.py` both read them
+only from the environment.

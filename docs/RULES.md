@@ -2,15 +2,12 @@
 
 ## How this page was made
 
-A local Claude Code session ran `tools/recon.py` against a signed-in Chrome
-profile on 2026-09-17. That machine can open `fantasysurvivorgame.com`. The
-session read `rules.html` and `faq.html` directly. The text below is
-quoted from those pages, saved at `data/site/rules.txt` and
-`data/site/faq.txt`. `data/scoring.json` holds the same numbers in a form
-the code reads.
-
-The session could not sign in to the league itself (see the note at the
-bottom). Nothing that needs a login is in this file.
+A local Claude Code session read `rules.html` and `faq.html` directly on
+2026-09-17, and later signed in to the league with a real account and read
+`draft.html`, `sole-survivor.html`, and `vote.html` too. The text below is
+quoted from those pages, saved at `data/site/`. `data/scoring.json` holds
+the same numbers in a form the code reads. See `docs/UNLOCK.md` for how the
+sign-in happened.
 
 ## High confidence — quoted from the site
 
@@ -104,19 +101,19 @@ unconfirmed until a scored episode shows which page is right. If you can
 see your own score breakdown after episode 1, check whether an eliminated
 roster pick still added points that week.
 
-## Open questions — need the account or draft page (behind login)
+## Open questions — status after signing in
 
-The local session read the public rules and FAQ pages, but could not sign in
-to the league (see below), so it could not open the draft or account pages.
-These remain open:
-
-1. **Roster size.** Not stated on the rules or FAQ page. `data/scoring.json`
-   -> `outplay.roster_size` is `null`. Read it off the draft page once
-   signed in.
+1. **Roster size.** Resolved: **3**. `draft.html`'s own "Draft Order" list
+   shows exactly 3 pick slots. `data/scoring.json` -> `outplay.roster_size`.
+   The draft itself is a preference order over all 21 castaways, not a
+   direct pick - the site auto-drafts (snake order across the league) at
+   draft time (Sep 23, 8:00 PM EDT) and autofills any unranked spots.
 2. **Can the roster be edited during the season, or is the draft final?**
-   The FAQ says a league cannot be *left* once drafting begins — a
-   different question from whether the roster itself can be changed.
-   Unconfirmed.
+   Still open. The preference *order* can clearly be resubmitted before
+   draft time (confirmed - `tools/submit.py` overwrote it and re-read it
+   back). Whether the 3 castaways actually assigned can be swapped out
+   *after* the draft happens is unconfirmed - the FAQ's "cannot leave a
+   league once drafted" is a different question from this one.
 3. Resolved — see Outlast above. The bonus does not pay for second or
    third; it is a streak, not a placement payout.
 4. Resolved — the deadline is "before the episode airs on the US East
@@ -126,24 +123,26 @@ These remain open:
    most likely lets you score on both names if you put points on both —
    but this is a reading of the rule, not a confirmation.
 6. **Tribe swap budget.** The rule reads "10 points per tribe, each week."
-   A swap into three tribes should scale the budget to 30 points that week
-   by the same reading. Not separately confirmed.
+   Confirmed structurally: pre-tribe-reveal, `vote.html` treats the whole
+   21-castaway cast as one pool with a single 10-point budget (tribe index
+   1). A swap into three tribes should scale the budget to 30 points that
+   week the same way, by direct reading of the field-naming pattern
+   (`votenum<episode>-<tribe>-<survivor>`) - `tools/submit.py`'s
+   `parse_vote_fields` reads this live each week instead of assuming a
+   fixed tribe count, so this will keep working through a swap without a
+   code change. Not separately confirmed by seeing an actual swap yet.
 7. Resolved — quitting, medical evacuation, and production removal all do
    **not** count as "voted out" for vote points.
 
-## Why standings and the draft are still not confirmed
+## Standings and the draft are confirmed
 
-The signed-in Chrome profile recon ran against (`malcolm.laws@gmail.com`,
-Google-signed-in) turned out **not** to be signed in to
-`fantasysurvivorgame.com` itself — the league site uses its own
-email/password login, separate from Google. The group page returned a
-login form, not standings.
-
-Creating a new account on the site is blocked by this environment's own
-safety controls (it flagged it as a real-world external transaction) even
-with direct authorization in the chat. That needs a setting change on your
-end, not more retries from here. See `docs/UNLOCK.md` for what changes once
-a session has a real, signed-in session.
+A local session signed in with a real account (`malcolm.laws+ai@gmail.com`)
+on 2026-09-17, joined the league "identos" (group code 411E-3E80-5B0C, 3
+opponents, all tied at 0 before episode 1), and read the real draft,
+sole-survivor, and vote pages. See `docs/UNLOCK.md` for exactly how. The
+draft preference order, Sole Survivor pick, and episode 1's vote were all
+submitted through `tools/submit.py` and verified against a fresh read of
+the site.
 
 ## Season facts
 

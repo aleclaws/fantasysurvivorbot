@@ -72,10 +72,11 @@
         "confirmed. Verify against a real scored episode before trusting it."
       ]
     },
-    "roster_size": null,
-    "roster_size_confidence": "unknown - not stated on any page read so far. Needs the account draft page (behind login). Question 1, still open.",
+    "roster_size": 3,
+    "roster_size_confidence": "high - read directly from the account's own draft.html on 2026-09-17: exactly 3 pick slots ('Draft Order' shows three placeholders). Question 1 resolved.",
+    "roster_mechanic": "not a direct pick. You submit a full preference order over all 21 castaways; the site auto-drafts (snake order across the league) at draft time and autofills any unranked spots. See tools/submit.py.",
     "roster_editable_during_season": null,
-    "roster_editable_confidence": "unknown - the FAQ says a league cannot be LEFT once drafting begins, which is a different question from whether the roster can be edited after the draft. Needs the account draft page. Question 2, still open."
+    "roster_editable_confidence": "still unknown - the preference order can clearly be resubmitted before draft time (tools/submit.py verified this), but whether the 3 actually-drafted castaways can be swapped out after Sep 23 8:00 PM EDT is unconfirmed. Question 2, still open until after the draft."
   },
   "sole_survivor": {
     "confidence": "high",

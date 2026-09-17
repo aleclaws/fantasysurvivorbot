@@ -7,16 +7,20 @@
     "eliminated   = player ids already voted out, in boot order.",
     "edit         = player id -> -1..1 doom signal from the latest episode.",
     "idols        = player ids known to hold an idol or immunity advantage.",
-    "my_draft     = the castaways on my fantasy roster.",
+    "my_draft     = the castaways actually drafted onto my roster (3 slots).",
     "my_mvp       = my sole-survivor pick.",
+    "draft_preference_order = what was submitted to draft.html on 2026-09-17,",
+    "  best to worst, via tools/submit.py. The draft itself is a snake auto-draft",
+    "  at Sep 23 8:00 PM EDT (data/site/draft.html), not an immediate pick, so",
+    "  my_draft stays [] until the site actually assigns the 3 roster slots.",
+    "  Re-run 'python3 tools/submit.py verify' after the draft to read the result",
+    "  and fill my_draft in by hand.",
     "",
-    "my_draft is [] because the roster size is not yet confirmed (see",
-    "docs/RULES.md question 1) and the site is not yet reachable with a",
-    "signed-in session, so nothing has actually been drafted. See",
-    "docs/PRESEASON.md for the ranked board; take the top N once N is known.",
-    "my_mvp is set to the engine's recommendation from the corrected",
-    "constants (docs/PRESEASON.md). It has not been entered on the site -",
-    "that step is blocked; see docs/RULES.md."
+    "my_mvp was submitted for real via tools/submit.py on 2026-09-17",
+    "(sole-survivor.html?solesurvivor=546, confirmed: 'Eric chosen as Sole",
+    "Survivor.'). Re-run 'python3 -m fsb mvp' and 'python3 tools/submit.py",
+    "sole-survivor <id>' whenever a stronger candidate emerges - the site lets",
+    "you change this pick for free; see docs/RULES.md."
   ],
   "episode": 1,
   "merged": false,
@@ -25,5 +29,10 @@
   "edit": {},
   "idols": [],
   "my_draft": [],
-  "my_mvp": "eric"
+  "my_mvp": "eric",
+  "draft_preference_order": [
+    "brady", "ori", "carter", "lewis", "maggie", "patt", "devin", "aaliyah",
+    "eric", "mike", "sharonda", "cristian", "jelly", "jenna", "linnea",
+    "alexis", "an", "kilby", "ana", "rob", "kristin"
+  ]
 }
