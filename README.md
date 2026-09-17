@@ -60,6 +60,7 @@ The code reads every constant from these files. No constant is in the source.
 ## Documents
 
 - `docs/UNLOCK.md` — how to remove the network limit
+- `docs/HANDOFF.md` — the prompt that moves this work to a local session
 - `docs/PRESEASON.md` — the draft board and the Sole Survivor pick
 - `docs/RULES.md` — the scoring rules, and how much to trust each one
 - `docs/STRATEGY.md` — why the engine does not maximise points
