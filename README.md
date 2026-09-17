@@ -55,9 +55,26 @@ The code reads every constant from these files. No constant is in the source.
 
 ## Documents
 
+- `docs/PRESEASON.md` — the draft board and the Sole Survivor pick
 - `docs/RULES.md` — the scoring rules, and how much to trust each one
 - `docs/STRATEGY.md` — why the engine does not maximise points
 - `docs/PLAYBOOK.md` — what to do each Wednesday
+
+## Weekly automation
+
+A scheduled routine runs each Wednesday at 14:00 ET. It does this:
+
+1. Searches the web for the result of the last episode.
+2. Updates `data/state.json`.
+3. Calculates the picks.
+4. Pushes the new state to this branch.
+5. Sends you the picks by push notification and email.
+
+The first run is 23 September 2026, the day of the premiere.
+
+You must still type the picks into the website. The routine cannot reach it.
+
+To stop the routine, delete it from your routines list on claude.ai.
 
 ## Tests
 
