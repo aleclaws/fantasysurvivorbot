@@ -108,7 +108,11 @@ your MVP from the second.
 
 Be honest about this list:
 
-- The pre-season priors use age and occupation only. They are weak.
+- The pre-season priors use age, occupation, and cited pundit predictions
+  (`data/priors.json` -> `preseason_buzz`, deliberately capped and
+  under-weighted below the in-season edit signal). No prediction-market
+  odds exist yet for this season - checked directly. All of it is weak
+  next to real edit evidence once the season starts.
 - No tribe rosters were public before the premiere.
 - The "open era" format can break the schedule the simulation assumes.
 - The draft scoring constants are a guess. See `docs/RULES.md`.

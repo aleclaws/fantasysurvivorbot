@@ -74,6 +74,19 @@ class TestModel(unittest.TestCase):
         safe.apply_state({"idols": ["mike"]})
         self.assertLess(safe.boot_probabilities()["mike"], base)
 
+    def test_preseason_buzz_nudges_risk_but_stays_weaker_than_edit(self):
+        # linnea is the cited pre-season "predicted first boot" pick
+        # (preseason_buzz=+0.30); aaliyah is the cited primary winner pick
+        # (preseason_buzz=-0.30). A real edit signal should be able to
+        # override that cheaply, since it carries more weight and range.
+        s = Season()
+        self.assertGreater(s.cast["linnea"].preseason_buzz, 0)
+        self.assertLess(s.cast["aaliyah"].preseason_buzz, 0)
+        buzzed_up = s.hazard(s.cast["linnea"], postmerge=False)
+        s.apply_state({"edit": {"linnea": -1.0}})
+        overridden = s.hazard(s.cast["linnea"], postmerge=False)
+        self.assertLess(overridden, buzzed_up)
+
     def test_two_tribes_split_the_probability_mass(self):
         s = Season()
         ids = list(s.cast)

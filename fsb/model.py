@@ -42,6 +42,10 @@ class Castaway:
     # (sudden backstory, on the wrong side of the numbers, name said out loud
     # at camp), -1 = protected (idol in pocket, clear winner edit).
     edit: float = 0.0
+    # Cited pre-season pundit predictions, same sign convention as edit but
+    # deliberately smaller (see priors.json). Real edit evidence dominates
+    # this once the season starts, by weight and by typical magnitude.
+    preseason_buzz: float = 0.0
     idol: bool = False
     out: bool = False
     placement: Optional[int] = None
@@ -80,6 +84,7 @@ class Season:
                 occupation=row["occupation"], tribe=row.get("tribe"),
                 phys=f.get("phys", 0.5), social=f.get("social", 0.5),
                 threat=f.get("threat", 0.5),
+                preseason_buzz=f.get("preseason_buzz", 0.0),
             )
         self.apply_state(state)
 
@@ -129,7 +134,8 @@ class Season:
              + w["phys"] * c.phys
              + w["social"] * c.social
              + w["threat"] * c.threat
-             + w["edit"] * c.edit)
+             + w["edit"] * c.edit
+             + w.get("preseason_buzz", 0.0) * c.preseason_buzz)
         if c.idol:
             # An idol in hand does not make you safe, but it moves the target.
             h -= 0.9
