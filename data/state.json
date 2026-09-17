@@ -8,7 +8,15 @@
     "edit         = player id -> -1..1 doom signal from the latest episode.",
     "idols        = player ids known to hold an idol or immunity advantage.",
     "my_draft     = the castaways on my fantasy roster.",
-    "my_mvp       = my sole-survivor pick."
+    "my_mvp       = my sole-survivor pick.",
+    "",
+    "my_draft is [] because the roster size is not yet confirmed (see",
+    "docs/RULES.md question 1) and the site is not yet reachable with a",
+    "signed-in session, so nothing has actually been drafted. See",
+    "docs/PRESEASON.md for the ranked board; take the top N once N is known.",
+    "my_mvp is set to the engine's recommendation from the corrected",
+    "constants (docs/PRESEASON.md). It has not been entered on the site -",
+    "that step is blocked; see docs/RULES.md."
   ],
   "episode": 1,
   "merged": false,
@@ -17,5 +25,5 @@
   "edit": {},
   "idols": [],
   "my_draft": [],
-  "my_mvp": null
+  "my_mvp": "eric"
 }

@@ -78,26 +78,66 @@ def simulate_placements(season: Season, n: int = 4000, seed: int = 51,
 
 def draft_board(season: Season, n: int = 4000,
                 seed: int = 51) -> List[Tuple[str, float, dict]]:
-    """Expected season points per castaway, highest first."""
+    """Expected season points per castaway, highest first.
+
+    The real scoring page (data/site/rules.txt) pays per named action, not a
+    flat per-week rate, so this is a deliberate aggregation of that table into
+    four buckets the hazard model can actually price:
+
+      challenge  - tribe/individual reward and immunity wins, scaled by phys,
+                   since challenge outcome is the one category the model
+                   already treats as a physicality contest.
+      camp_life  - the four recurring one-per-episode actions (tree mail,
+                   water well, make fire, find food). Real airtime decides who
+                   gets these; lacking that signal pre-season, they are split
+                   across the live pool and tilted toward `social`.
+      advantages - idol/advantage finds and plays. Rare and roughly flat per
+                   person, so a small trickle rather than a per-person model.
+      season_bonuses - merge, auction, love from home: each capped near once
+                   per season, so paid in proportion to season survived.
+
+    Plus the real Outlast rule: 1 point per consecutive episode a player has
+    the eventual winner picked, up to sole_survivor.max_points if held from
+    week one. Drafting for E[pts] and picking the MVP for P(win) are still two
+    different questions - see mvp_pick.
+    """
     sc = load_scoring()
-    d, ss = sc["draft"], sc["sole_survivor"]
+    op, ss = sc["outplay"], sc["sole_survivor"]
+    a = op["actions"]
+    season_len = season.meta.get("episode_count", 13)
+    out_rate = op["out_of_game"]["per_episode"]
+    out_cap = op["out_of_game"]["cap_episodes"]
+    camp_life_pool = (a["read_tree_mail"] + a["water_well_strategize"]
+                       + a["make_fire_at_camp"] + a["find_food"])
+    advantage_pool = (a["find_idol_or_advantage_clue"]
+                       + a["first_to_gain_immunity_idol"]
+                       + a["first_to_gain_advantage"]
+                       + a["play_idol_or_advantage"]
+                       + a["play_shot_in_the_dark"])
+    season_bonus_pool = (a["reach_merge"] + a["attend_survivor_auction"]
+                          + a["love_from_home"])
+
     places = simulate_placements(season, n=n, seed=seed)
+    alive_now = max(1, len(season.alive()))
 
     rows = []
     for cid, p in places.items():
         c = season.cast[cid]
         pre_weeks = max(0.0, p["mean_weeks"] - p["mean_post_merge_weeks"])
-        pts = (pre_weeks * d["survive_week_premerge"]
-               + p["mean_post_merge_weeks"] * d["survive_week_postmerge"])
-        # Challenge and advantage points scale with physicality; post-merge
-        # immunity is close to a pure physicality lottery.
-        pts += pre_weeks * c.phys * (
-            d["tribe_immunity_win"] + d["tribe_reward_win"]) * 0.5
-        pts += p["mean_post_merge_weeks"] * c.phys * 0.30 * (
-            d["individual_immunity_win"] + d["individual_reward_win"])
-        pts += d["find_idol"] * 0.35
-        pts += (p["p_win"] * ss["first"] + p["p_second"] * ss["second"]
-                + p["p_third"] * ss["third"])
+        post_weeks = p["mean_post_merge_weeks"]
+        total_weeks = pre_weeks + post_weeks
+
+        pts = 0.0
+        pts += pre_weeks * c.phys * (a["tribe_immunity_win"]
+                                      + a["tribe_reward_win"]) * 0.5
+        pts += post_weeks * c.phys * 0.30 * (a["individual_immunity_win"]
+                                              + a["individual_reward_win"])
+        pts += total_weeks * camp_life_pool * (0.5 + 0.5 * c.social) / alive_now
+        pts += total_weeks * advantage_pool * 0.15 / alive_now
+        pts += season_bonus_pool * (total_weeks / season_len)
+        weeks_out = max(0.0, min(out_cap, season_len - total_weeks))
+        pts += weeks_out * out_rate
+        pts += p["p_win"] * ss["max_points"]
         rows.append((cid, pts, p))
     rows.sort(key=lambda r: -r[1])
     return rows
@@ -105,11 +145,15 @@ def draft_board(season: Season, n: int = 4000,
 
 def mvp_pick(season: Season, roster: List[str], n: int = 4000,
              seed: int = 51) -> Tuple[str, dict]:
-    """Sole-survivor pick: the roster player most likely to actually win.
+    """Sole-survivor pick: the castaway most likely to actually win.
 
-    The bonus only pays on an outright win, so this maximises P(win) and
-    ignores expected points entirely.  Hedging a winner pick is not possible -
-    you get one.
+    The real rule pays 1 point per consecutive episode, counting back from
+    the final, that you had the eventual winner picked - see
+    scoring.json:sole_survivor. You may change this pick at any time, and
+    switching to a stronger P(win) candidate loses nothing except a streak
+    you were not going to finish anyway, so this always maximises P(win) and
+    should be re-run whenever the standings or edit signals change, not only
+    once before the premiere.
     """
     places = simulate_placements(season, n=n, seed=seed)
     pool = [c for c in (roster or list(places)) if c in places]

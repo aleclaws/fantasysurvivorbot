@@ -204,6 +204,16 @@ class TestDraft(unittest.TestCase):
         rows = draft_board(self.s, n=800)
         self.assertNotEqual(rows[0][0], "kristin")
 
+    def test_board_scores_stay_positive_and_bounded(self):
+        # An early elimination still banks out-of-game trickle points under
+        # the real rule (data/scoring.json outplay.out_of_game), so nobody's
+        # expected points should collapse to zero or explode from a formula
+        # error.
+        rows = draft_board(self.s, n=800)
+        for cid, pts, _ in rows:
+            self.assertGreater(pts, 0, cid)
+            self.assertLess(pts, 60, cid)
+
     def test_mvp_comes_from_my_roster(self):
         roster = ["rob", "kristin", "an"]
         pick, _ = mvp_pick(self.s, roster, n=400)
@@ -235,6 +245,20 @@ class TestDataFiles(unittest.TestCase):
         for block, body in sc.items():
             if not block.startswith("_"):
                 self.assertIn(body.get("confidence"), {"high", "low"}, block)
+
+    def test_scoring_matches_the_real_site_structure(self):
+        # Locks in the correction made from data/site/rules.txt: the real
+        # game pays per named action and a streak-based Outlast bonus, not
+        # the flat premerge/postmerge rate and placement bonus the engine
+        # started with before recon.py could read the site.
+        with open(os.path.join("data", "scoring.json")) as fh:
+            sc = json.load(fh)
+        self.assertNotIn("draft", sc)
+        self.assertIn("outplay", sc)
+        self.assertEqual(sc["outplay"]["actions"]["tribe_immunity_win"], 3)
+        self.assertEqual(sc["sole_survivor"]["max_points"], 13)
+        self.assertNotIn("first", sc["sole_survivor"])
+        self.assertTrue(sc["sole_survivor"]["pick_changeable_anytime"])
 
 
 if __name__ == "__main__":

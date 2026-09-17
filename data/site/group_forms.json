@@ -1,0 +1,74 @@
+[
+  {
+    "tag": "input",
+    "type": "checkbox",
+    "name": null,
+    "id": "navbar-toggle-checkbox",
+    "cls": null,
+    "value": null,
+    "text": ""
+  },
+  {
+    "tag": "button",
+    "type": "button",
+    "name": null,
+    "id": null,
+    "cls": "btn btn-success rounded-pill px-5 text-nowrap",
+    "value": null,
+    "text": "Sign Up"
+  },
+  {
+    "tag": "button",
+    "type": "button",
+    "name": null,
+    "id": null,
+    "cls": "btn btn-success rounded-pill text-nowrap",
+    "value": null,
+    "text": "Sign Up"
+  },
+  {
+    "tag": "button",
+    "type": "button",
+    "name": null,
+    "id": null,
+    "cls": "btn btn-outline-secondary rounded-pill",
+    "value": null,
+    "text": "Login"
+  },
+  {
+    "tag": "input",
+    "type": "email",
+    "name": "email",
+    "id": "email",
+    "cls": "form-control",
+    "value": "",
+    "text": ""
+  },
+  {
+    "tag": "input",
+    "type": "password",
+    "name": "password",
+    "id": "password",
+    "cls": "form-control",
+    "value": null,
+    "text": ""
+  },
+  {
+    "tag": "button",
+    "type": "submit",
+    "name": null,
+    "id": null,
+    "cls": "btn fsg-primary rounded-pill",
+    "value": null,
+    "text": "Sign in"
+  },
+  {
+    "tag": "input",
+    "type": "hidden",
+    "name": "nextpage",
+    "id": null,
+    "cls": null,
+    "value": "group-join",
+    "text": ""
+  }
+]

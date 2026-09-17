@@ -1,0 +1,243 @@
+<!DOCTYPE html><html lang="en"><head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<title>Fantasy Survivor Game : FAQ</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js" integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+	<link rel="stylesheet" type="text/css" href="/css/responsive.css">
+	<link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-180x180.png" sizes="180x180">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-152x152.png" sizes="152x152">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-167x167.png" sizes="167x167">
+	<link rel="shortcut icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+	<meta name="apple-mobile-web-app-title" content="Fantasy Survivor">
+			</head>
+<body>
+	
+
+
+				<div class="container-fluid px-0">
+		<nav class="row container mx-auto px-0">
+			<ul class="navbar nav-fsg-underline px-2 mb-0" aria-role="menu">
+				<li class="navbar-brand p-1 me-auto">
+					<a href="/" class="d-sm-none"><img src="/images/logos/fantasy-survivor-logo-small.png" alt="Fantasy Survivor Game logo"></a>
+					<a href="/" class="d-none d-sm-inline"><img src="/images/logos/fantasy-survivor-logo.png" alt="Fantasy Survivor Game logo"></a>
+				</li>
+				<li class="me-auto d-inline d-lg-none p-2"><label for="navbar-toggle-checkbox"><span class="navbar-toggler-icon btn"></span></label></li>
+				<li class="position-relative">
+					<input type="checkbox" id="navbar-toggle-checkbox">
+					<ul class="menu p-2 collapse d-lg-flex" aria-role="menu">
+						<li><a class="p-1 nav-link d-inline d-sm-none" href="/register.html"><button type="button" class="btn btn-success rounded-pill px-5 text-nowrap">Sign Up</button></a></li>
+						<li><a class="p-1 nav-link" href="/#howto">How to Play</a></li>
+						<li><a class="p-1 nav-link" href="/#survivors">Survivors</a></li>
+						<li><a class="p-1 nav-link" href="/rules.html">Rules</a></li>
+						<li><a class="p-1 nav-link" href="/contact.html">Contact</a></li>
+						<li><a class="p-1 nav-link d-lg-none donate-button" id="donate-header-link" href="https://ko-fi.com/A712L9F" target="_blank"><img src="/images/kofi-donate-button.png" alt="Donate at ko-fi.com"></a></li>
+					</ul>
+				</li>
+				<li class="d-none d-sm-inline"><a class="p-1 nav-link" href="/register.html"><button type="button" class="btn btn-success rounded-pill text-nowrap">Sign Up</button></a></li>
+				<li><a class="p-1 nav-link" href="/login.html"><button type="button" class="btn btn-outline-secondary rounded-pill">Login</button></a></li>
+			</ul>
+		</nav>
+	</div>
+	<script>
+		// if the user taps anywhere that is not the menus, go ahead and close them
+		document.addEventListener('click', function(ev) {
+			const menu1 = document.getElementById('navbar-toggle-checkbox').parentNode;
+			const menu2 = document.querySelector('label[for="navbar-toggle-checkbox"]');
+			if (menu1.contains(ev.target) || menu2.contains(ev.target)) {
+				// tap was within the menus or menu icons
+				return;
+			}
+			// close the menu
+			document.getElementById('navbar-toggle-checkbox').checked = false;
+		});
+		document.getElementById('donate-header-link').addEventListener('click', function() {
+			const formData = new FormData();
+			formData.set('t', 'donate-header-loggedout');
+			const url = '/ajax-track.php';
+			navigator.sendBeacon(url, formData);
+		});
+	</script>
+	
+			<div id="header" class="container-fluid contact-bg">
+		<div class="row">
+			<div class="col">
+				<h1 class="pghead">FAQ</h1>
+			</div>
+		</div>
+		<div class="row headertexture">
+		</div>
+	</div>
+
+	<div class="container">
+		<p class="text-center mt-4">If you can't find an answer to your question here please <a href="contact.html" class="medium">contact us</a>.</p>
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-10 col-lg-8 col-xl-6" id="faq">
+				<div class="faq-item">
+					<input type="radio" id="faq-radio-1" name="faq-radio-group">
+					<label class="faq-question" for="faq-radio-1">How do I invite others to my league?</label>
+					<div class="faq-answer">
+						<p>Share your league’s unique 12-digit code. Tap <a href="invite.html">here</a> to view your code.</p>
+						<p class="small">Note: Anyone with the code will be allowed to join. Be careful when posting publicly on social media.</p>
+					</div>
+				</div>
+				<div class="faq-item">
+					<input type="radio" id="faq-radio-2" name="faq-radio-group">
+					<label class="faq-question" for="faq-radio-2">How do I leave or change my league?</label>
+					<div class="faq-answer">
+						<p>From the main navigation, tap <span class="medium">Leagues</span> (or tap <a href="group.html">here</a>). Find the league you want to leave and tap the red <span class="medium">Leave</span> button. Finish by selecting <span class="medium">Confirm</span>.</p>
+						<p>To join or create a new league, tap the white <span class="medium">Add League</span> button on the Leagues page and follow the setup steps.</p>
+						<p class="small">Important: You cannot leave a league after it has drafted. Once drafting begins, the Leave button will disappear.</p>
+					</div>
+				</div>
+				<div class="faq-item">
+					<input type="radio" id="faq-radio-3" name="faq-radio-group">
+					<label class="faq-question" for="faq-radio-3">What is the max league size?</label>
+					<div class="faq-answer">
+						A league can have up to <span class="medium">50 players</span>.
+					</div>
+				</div>
+				<div class="faq-item">
+					<input type="radio" id="faq-radio-4" name="faq-radio-group">
+					<label class="faq-question" for="faq-radio-4">Am I able to join multiple groups?</label>
+					<div class="faq-answer">
+						Yes. Players may join up to <span class="medium">3 different leagues</span>.
+					</div>
+				</div>
+				<div class="faq-item">
+					<input type="radio" id="faq-radio-5" name="faq-radio-group">
+					<label class="faq-question" for="faq-radio-5">How do I change my tribe name?</label>
+					<div class="faq-answer">
+						From the <a href="group.html">league page</a>, tap the small edit icon <i class="ms-1 bi bi-pencil"></i> next to your tribe name or tap <a href="draft-info.html">here</a> to change it.
+					</div>
+				</div>
+				<div class="faq-item">
+					<input type="radio" id="faq-radio-6" name="faq-radio-group">
+					<label class="faq-question" for="faq-radio-6">Do I still earn Vote Points if a Survivor quits or is removed from the game?</label>
+					<div class="faq-answer">
+						No. Players do not earn Vote Points for a Survivor who quits, is medically evacuated, or is removed from the game by production. See full <a href="rules.html">Rules</a> for more details.
+					</div>
+				</div>
+				<div class="faq-item">
+					<input type="radio" id="faq-radio-7" name="faq-radio-group">
+					<label class="faq-question" for="faq-radio-7">What happens when my drafted survivor gets voted out?</label>
+					<div class="faq-answer">
+											The survivor will stop earning you points. You don't gain or lose any points for a drafted survivor getting voted out.
+										</div>
+				</div>
+				<div class="faq-item">
+					<input type="radio" id="faq-radio-8" name="faq-radio-group">
+					<label class="faq-question" for="faq-radio-8">Who should I vote for in the final episode?</label>
+					<div class="faq-answer">
+						<p>Always vote for the Survivor you believe will be <span class="medium">voted out</span> of the game.</p>
+						<p>A Survivor is considered voted out if any of the following occur:</p>
+						<ul>
+							<li>They receive the most votes at tribal council;</li>
+							<li>They are eliminated after drawing rocks;</li>
+							<li>They lose a final fire-making challenge; or</li>
+							<li>They receive the most votes and go to another location (such as Extinction Island).</li>
+						</ul>
+						<p>Survivors <span class="medium">not</span> considered voted out include the winner, second place and third place finishers.</p>
+					</div>
+				</div>
+				<div class="faq-item">
+					<input type="radio" id="faq-radio-9" name="faq-radio-group">
+					<label class="faq-question" for="faq-radio-9">How do I view previous Seasons results?</label>
+					<div class="faq-answer">
+						From the main navigation, tap <a href="group.html" class="medium">Leagues</a>. Near the top of the page, tap <a href="league-history.html" class="medium">League History</a>, then select a previous season to view your league’s results from that season.
+					</div>
+				</div>
+				<script>
+					// allows closing of all the FAQs rather than leaving a single one open
+					const radioButtons = document.querySelectorAll('#faq input[type="radio"]');
+					let previouslySelected = null;
+
+					radioButtons.forEach(radio => {
+						if (radio.checked) {
+							previouslySelected = radio;
+						}
+						radio.addEventListener('click', event => {
+							if (previouslySelected && previouslySelected == event.target) {
+								event.target.checked = false;
+								previouslySelected = null; // all of them closed now
+							} else {
+								previouslySelected = event.target;
+							}
+						});
+					});
+				</script>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col my-5">
+				<p class="lore fs-3">“Wanna know what you're playing for?”</p>
+			</div>
+		</div>
+	</div>
+
+				<div id="footer">
+		<hr class="bamboo">
+		<div class="container">
+			<div class="row">
+				<div class="col-6 col-md-3">
+					<div class="row">
+						<div class="col d-flex flex-column">
+							<a href="/login.html">Login</a>
+							<a href="/register.html">Register</a>
+							<a href="/howto.html">How to Play</a>
+							<a href="/rules.html">Rules</a>
+							<a href="/faq.html">FAQ</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-6 col-md-9">
+					<div class="row row-cols-1 row-cols-md-3">
+						<div class="col d-flex flex-column">
+							<a href="/survivors/season/51">Survivors</a>
+							<a href="/episode-recap/season/51">Episodes</a>
+						</div>
+						<div class="col d-flex flex-column">
+							<a href="/contact.html">Contact &amp; Support</a>
+							<a href="https://www.facebook.com/fantasysurvivor" target="_blank">Facebook</a>
+						</div>
+						<div class="col d-flex flex-column">
+							<a href="https://ko-fi.com/A712L9F" target="_blank" id="donate-footer-link"><img src="/images/kofi-donate-button.png" alt="Donate at ko-fi.com"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="text-center">
+				<img id="footer-logo" src="/images/logos/fantasy-survivor-logo-white.png" alt="Fantasy Survivor Game logo in solid white" title="Fantasy Survivor Game">
+			</div>
+		</div>
+	</div>
+	<div id="bottom-bar">
+		<div class="container">
+			<p class="text-center p-3 mb-0">© FantasySurvivorGame.com. This site is not affiliated with, associated, authorized, endorsed by, or officially connected in any way with SURVIVOR, CBS, SEG, or any of its affiliates. Images used are the property of their respective trademark holders.</p>
+		</div>
+	</div>
+	<script>
+		document.getElementById('donate-footer-link').addEventListener('click', function() {
+			const formData = new FormData();
+			formData.set('t', 'donate-footer-loggedout');
+			const url = '/ajax-track.php';
+			navigator.sendBeacon(url, formData);
+		});
+	</script>
+		<!-- Google tag (gtag.js) -->
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TZKHXFDDMF"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-TZKHXFDDMF');
+	</script>
+
+
+</body></html>

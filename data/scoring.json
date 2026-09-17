@@ -1,37 +1,112 @@
 {
   "_comment": [
-    "Scoring constants. CONFIRM THESE AGAINST fantasysurvivorgame.com/rules.html.",
-    "The site is unreachable from the machine that built this repo (egress policy),",
-    "so the vote block is reconstructed from the site's indexed rules text and the",
-    "draft block is a documented GUESS patterned on the common format.",
-    "Every number here is read from this file at run time - correct a value and",
-    "every recommendation updates. Nothing is hard-coded in the source.",
-    "confidence: high = quoted from the site's own rules text, low = assumed."
+    "Scoring constants. Source: data/site/rules.txt and data/site/faq.txt,",
+    "read live from fantasysurvivorgame.com/rules.html and /faq.html on 2026-09-17.",
+    "confidence: high = quoted verbatim from the site. low = not on the site; a guess.",
+    "The code reads every number here at run time. Nothing is hard-coded in fsb/."
   ],
   "vote": {
     "confidence": "high",
     "budget_per_tribe": 10,
     "max_per_castaway": 10,
-    "points_awarded": "points you assigned to the castaway voted out",
+    "points_awarded": "points assigned to the castaway who is voted out",
     "resets_each_episode": true,
-    "deadline": "before the episode airs on the US East coast"
+    "deadline": "before the episode airs on the US East coast",
+    "counts_as_voted_out": [
+      "most votes at tribal council",
+      "eliminated after drawing rocks",
+      "loses a final fire-making challenge",
+      "most votes and sent somewhere else, e.g. Extinction Island"
+    ],
+    "does_not_count_as_voted_out": ["quits", "medical evacuation", "removed by production"],
+    "double_boot_or_split_tribal": "not addressed on the rules page. Each castaway voted out that night is presumably scored the same way, since the rule is per-castaway, not per-episode. Unconfirmed - question 5, still open.",
+    "tribe_swap_budget": "the rule reads '10 points per tribe, each week'. If a swap creates a third tribe, the budget scales to 10 x (tribe count) that week. This is a direct reading of the rule text, not a separate confirmation - question 6, still open."
   },
-  "draft": {
-    "confidence": "low",
-    "roster_size": 4,
-    "survive_week_premerge": 1,
-    "survive_week_postmerge": 3,
-    "tribe_immunity_win": 3,
-    "tribe_reward_win": 2,
-    "individual_immunity_win": 3,
-    "individual_reward_win": 1,
-    "find_idol": 2,
-    "play_idol_correctly": 1
+  "outplay": {
+    "confidence": "high",
+    "_source": "each value below is the exact point award named on the rules page, one entry per named action",
+    "actions": {
+      "marooning_challenge_win": 1,
+      "supply_challenge_win": 1,
+      "tribe_reward_win": 2,
+      "tribe_immunity_win": 3,
+      "individual_reward_win": 1,
+      "individual_immunity_win": 2,
+      "journey_challenge_win": 1,
+      "fire_making_final_four_win": 2,
+      "read_tree_mail": 1,
+      "water_well_strategize": 1,
+      "make_fire_at_camp": 1,
+      "find_food": 1,
+      "go_to_exile_island": 1,
+      "go_on_journey": 1,
+      "reach_merge": 2,
+      "attend_survivor_auction": 1,
+      "love_from_home": 1,
+      "find_idol_or_advantage_clue": 1,
+      "play_idol_or_advantage": 2,
+      "first_to_gain_immunity_idol": 1,
+      "first_to_gain_advantage": 1,
+      "play_shot_in_the_dark": 1
+    },
+    "action_notes": {
+      "read_tree_mail": "limit once per episode per castaway",
+      "water_well_strategize": "limit once per episode per castaway",
+      "make_fire_at_camp": "limit once per episode per castaway",
+      "find_food": "limit once per episode per castaway",
+      "go_on_journey": "limit once per episode per castaway",
+      "reach_merge": "limit once per season",
+      "individual_reward_win": "the winner AND any castaway they choose to bring also earn this"
+    },
+    "out_of_game": {
+      "confidence": "conflicting - see conflict note",
+      "per_episode": 1,
+      "cap_episodes": 13,
+      "conflict": [
+        "rules.html says: 'Once a castaway leaves the game... they will continue to",
+        "earn 1 point for each subsequent episode they are out of the game', 0-13 points.",
+        "faq.html says: 'What happens when my drafted survivor gets voted out? The",
+        "survivor will stop earning you points.' These two site pages disagree.",
+        "This file uses the rules.html number, because that page is titled the",
+        "official rules and is the more specific of the two. Not independently",
+        "confirmed. Verify against a real scored episode before trusting it."
+      ]
+    },
+    "roster_size": null,
+    "roster_size_confidence": "unknown - not stated on any page read so far. Needs the account draft page (behind login). Question 1, still open.",
+    "roster_editable_during_season": null,
+    "roster_editable_confidence": "unknown - the FAQ says a league cannot be LEFT once drafting begins, which is a different question from whether the roster can be edited after the draft. Needs the account draft page. Question 2, still open."
   },
   "sole_survivor": {
-    "confidence": "low",
-    "first": 30,
-    "second": 20,
-    "third": 10
+    "confidence": "high",
+    "mechanic": "streak, not a placement bonus",
+    "points_per_consecutive_episode_correct": 1,
+    "max_points": 13,
+    "rule": [
+      "Each player picks one castaway as their predicted winner, and may change",
+      "that pick at any time between episodes. To score, the pick in place going",
+      "into the final episode must be the actual winner. Points paid = 1 per",
+      "consecutive episode, counting backward from and including the final",
+      "episode, that the correct winner was the standing pick. Switching away",
+      "and back breaks the streak; the streak only counts the run that reaches",
+      "the final episode."
+    ],
+    "pays_for_second_or_third": false,
+    "pick_changeable_anytime": true
+  },
+  "tie_breakers": {
+    "confidence": "high",
+    "order": [
+      "more vote (outwit) points",
+      "more survivor (outplay) points",
+      "more sole survivor + out-of-game points",
+      "still tied after all three: stays tied"
+    ]
+  },
+  "league_rules": {
+    "confidence": "high",
+    "max_players_per_league": 50,
+    "max_leagues_per_player": 3,
+    "cannot_leave_league_once_drafted": true
   }
 }

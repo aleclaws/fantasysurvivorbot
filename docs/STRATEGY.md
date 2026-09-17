@@ -81,7 +81,11 @@ you set them once.
 So order your effort like this:
 
 1. **Get the rules right.** A wrong constant beats any amount of modelling.
-2. **Get the Sole Survivor pick right.** It is one decision worth 30 points.
+2. **Get the Sole Survivor pick right.** It pays 1 point per consecutive
+   episode, counted back from the final, that you held the eventual winner —
+   worth up to 13 points, not a one-off placement bonus. You may change the
+   pick at any time for free, so re-check it whenever the standings or edit
+   signals move, not only once before the premiere. See `docs/RULES.md`.
 3. **Draft for survival time**, not for challenge strength.
 4. **Update the edit signals each week.** They are stronger than any prior.
 5. **Then** worry about the weekly allocation.

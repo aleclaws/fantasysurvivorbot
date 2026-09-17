@@ -11,6 +11,10 @@ the episode starts. Do this sequence each Wednesday.
 4. Run `python3 -m fsb board`. Draft from the top of the list.
 5. Write your roster into `my_draft` in `data/state.json`.
 6. Run `python3 -m fsb mvp`. Set `my_mvp` in `data/state.json`.
+   The Sole Survivor pick pays for a streak of consecutive episodes correct,
+   counted back from the final, and you may change it at any time for free.
+   Re-run this step after every update, not only once before the premiere —
+   see `docs/RULES.md`.
 
 ## After each episode
 

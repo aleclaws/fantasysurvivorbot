@@ -5,22 +5,26 @@ A decision engine for a fantasysurvivorgame.com league. Season: Survivor 51.
 The season starts on 23 September 2026. The league sends picks before each
 episode. This repository makes those picks.
 
-## Important limit
+## Status
 
-The build machine cannot open `fantasysurvivorgame.com`. The network policy
-blocks the domain. Read `docs/RULES.md` before you trust the numbers.
+A local session ran `tools/recon.py` on 2026-09-17 and read the site's real
+rules and FAQ pages. `data/scoring.json` now holds the real scoring
+constants, not a guess. Read `docs/RULES.md` for every rule and its
+confidence.
 
-Two results follow from this limit:
+What is still blocked:
 
-1. This tool cannot send your picks. You must type them into the website.
-2. The draft scoring constants are an assumption, not a fact. Confirm them.
+- **No signed-in session.** The Chrome profile recon ran against was not
+  signed in to `fantasysurvivorgame.com` (a separate login from Google).
+  So the standings, the draft page, and the pick form are still unread.
+- **This tool still cannot send your picks.** `tools/submit.py` needs the
+  real pick form to be written safely; it does not exist yet, because
+  inventing selectors for a form nobody has opened would fail silently
+  later.
+- Creating a new account from a session is blocked by this environment's
+  own safety controls, independent of anything typed in chat.
 
-**To remove this limit, read `docs/UNLOCK.md`.** Run `tools/recon.py` once
-from a local Claude Code session. It reads the real rules and the real
-standings, and it makes an automatic submitter possible.
-
-The vote scoring rules are reliable. The search index shows the text of the
-site's own rules page. See `docs/RULES.md` for each rule and its confidence.
+**To remove this limit, read `docs/UNLOCK.md`.**
 
 ## Install
 

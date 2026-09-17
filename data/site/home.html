@@ -1,0 +1,455 @@
+<!DOCTYPE html><html lang="en"><head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<title>Fantasy Survivor Game</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js" integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+	<link rel="stylesheet" type="text/css" href="/css/responsive.css">
+	<link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-180x180.png" sizes="180x180">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-152x152.png" sizes="152x152">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-167x167.png" sizes="167x167">
+	<link rel="shortcut icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+	<meta name="apple-mobile-web-app-title" content="Fantasy Survivor">
+			</head>
+<body>
+	
+
+
+				<div class="container-fluid px-0">
+		<nav class="row container mx-auto px-0">
+			<ul class="navbar nav-fsg-underline px-2 mb-0" aria-role="menu">
+				<li class="navbar-brand p-1 me-auto">
+					<a href="/" class="d-sm-none"><img src="/images/logos/fantasy-survivor-logo-small.png" alt="Fantasy Survivor Game logo"></a>
+					<a href="/" class="d-none d-sm-inline"><img src="/images/logos/fantasy-survivor-logo.png" alt="Fantasy Survivor Game logo"></a>
+				</li>
+				<li class="me-auto d-inline d-lg-none p-2"><label for="navbar-toggle-checkbox"><span class="navbar-toggler-icon btn"></span></label></li>
+				<li class="position-relative">
+					<input type="checkbox" id="navbar-toggle-checkbox">
+					<ul class="menu p-2 collapse d-lg-flex" aria-role="menu">
+						<li><a class="p-1 nav-link d-inline d-sm-none" href="/register.html"><button type="button" class="btn btn-success rounded-pill px-5 text-nowrap">Sign Up</button></a></li>
+						<li><a class="p-1 nav-link" href="/#howto">How to Play</a></li>
+						<li><a class="p-1 nav-link" href="/#survivors">Survivors</a></li>
+						<li><a class="p-1 nav-link" href="/rules.html">Rules</a></li>
+						<li><a class="p-1 nav-link" href="/contact.html">Contact</a></li>
+						<li><a class="p-1 nav-link d-lg-none donate-button" id="donate-header-link" href="https://ko-fi.com/A712L9F" target="_blank"><img src="/images/kofi-donate-button.png" alt="Donate at ko-fi.com"></a></li>
+					</ul>
+				</li>
+				<li class="d-none d-sm-inline"><a class="p-1 nav-link" href="/register.html"><button type="button" class="btn btn-success rounded-pill text-nowrap">Sign Up</button></a></li>
+				<li><a class="p-1 nav-link" href="/login.html"><button type="button" class="btn btn-outline-secondary rounded-pill">Login</button></a></li>
+			</ul>
+		</nav>
+	</div>
+	<script>
+		// if the user taps anywhere that is not the menus, go ahead and close them
+		document.addEventListener('click', function(ev) {
+			const menu1 = document.getElementById('navbar-toggle-checkbox').parentNode;
+			const menu2 = document.querySelector('label[for="navbar-toggle-checkbox"]');
+			if (menu1.contains(ev.target) || menu2.contains(ev.target)) {
+				// tap was within the menus or menu icons
+				return;
+			}
+			// close the menu
+			document.getElementById('navbar-toggle-checkbox').checked = false;
+		});
+		document.getElementById('donate-header-link').addEventListener('click', function() {
+			const formData = new FormData();
+			formData.set('t', 'donate-header-loggedout');
+			const url = '/ajax-track.php';
+			navigator.sendBeacon(url, formData);
+		});
+	</script>
+	
+		<div id="header" class="container-fluid beach-bg">
+		<div class="row justify-content-center">
+			<div class="col">
+				<h2 class="text-center display-4 mb-2 xspace">WELCOME TO FANTASY SURVIVOR GAME</h2>
+				<h4 class="text-center mt-0">Season 51 starts September 23</h4>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-lg-8">
+				<p class="text-center" style="text-shadow: 0 0 8px #3C2415;">Draft survivors, guess who gets voted out and score points when your survivors win challenges and find advantages. Compete with your friends and see who can score the most points.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col text-center">
+				<a class="btn fsg-danger btn-lg rounded-pill" href="register.html" role="button" style="margin-bottom: 20px;">Join a League</a>
+			</div>
+		</div>
+		<div class="row align-items-center justify-content-center">
+			<div class="col-auto">
+				<img src="/images/welcome_draft.png" alt="Two empty draft cards" style="max-height: 318px; max-width: 100%;">
+			</div>
+			<div class="col-auto text-nowrap" style="font-size: 100%;">
+				<!--<img src="/images/welcome_score.png" alt="Scoring list with 3 example rules" style="max-width: 100%;">-->
+				<div class="row m-0 mb-2">
+					<div class="px-4 py-2" style="background-color: var(--fsg-text); font-size: 140%;">SCORING</div>
+				</div>
+				<div class="row m-0 mb-2" style="background-color: var(--fsg-bg); color: var(--fsg-text); font-size: 120%;">
+					<div class="col-10 px-4 py-2">Read Tree Mail</div>
+					<div class="col-2 p-2 ps-0 semibold">1 pt</div>
+				</div>
+				<div class="row m-0 mb-2" style="background-color: var(--fsg-bg); color: var(--fsg-text); font-size: 120%;">
+					<div class="col-10 px-4 py-2">Win Immunity Challenge</div>
+					<div class="col-2 p-2 ps-0 semibold">2 pt</div>
+				</div>
+				<div class="row m-0 mb-2" style="background-color: var(--fsg-bg); color: var(--fsg-text); font-size: 120%;">
+					<div class="col-10 px-4 py-2">Find Hidden Immunity</div>
+					<div class="col-2 p-2 ps-0 semibold">1 pt</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class="container-fluid parchBG">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+				<h2 class="text-center">ABOUT FANTASY SURVIVOR</h2>
+					<div class="row justify-content-center">
+						  <div class="col-md align-self-center order-2 order-md-1" style="max-width: 570px;">
+							  Earn points by correctly guessing the Survivor voted out each week, and when your drafted Survivors win challenges, find advantages and more. Compete against your friends to see who can outwit, outplay, outlast and score the most points.
+						  <br>
+						  <div class="mt-3">
+								  <a class="btn fsg-primary btn-lg rounded-pill" href="register.html" role="button">Play Now</a>
+								  <a href="rules.html" class="btn btn-link ms-4">Rules</a>
+							  </div>
+						  </div>
+						<div class="col-md col-lg-auto order-1 order-md-2 text-center">
+							<img src="images/51/castphoto.png" class="img-fluid mb-4" alt="The entire cast of Survivor contestants for season 51">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!--HOW-TO-PLAY SECTION-->
+	<div id="howto" class="container">
+		<div class="row text-center">
+		    <div class="col">
+			<h2 class="text-center xspace">HOW TO PLAY</h2>
+			<div class="row">
+			    <div class="col-md-4">
+				<div class="card border-0">
+				    <img class="mx-auto" src="images/Icon-Outwit.png" title="Outwit: Vote Weekly" alt="A voting pen icon overlaid by the word OUTWIT">
+				    <div class="card-body">
+					<h4 class="card-title">Vote Weekly</h4>
+					<p class="card-text">Guess the Survivor you think will be voted out at the next tribal council.</p>
+				    </div>
+				</div>
+			    </div>
+			    <div class="col-md-4">
+				<div class="card border-0">
+				    <img class="mx-auto" src="images/Icon-Outplay.png" title="Outplay: Draft Survivors" alt="An immunity idol icon overlaid by the word OUTPLAY">
+				    <div class="card-body">
+					<h4 class="card-title">Draft Survivors</h4>
+					<p class="card-text">Draft survivors that earn you points each episode for winning challenges.</p>
+				    </div>
+				</div>
+			    </div>
+			    <div class="col-md-4">
+				<div class="card border-0">
+				    <img class="mx-auto" src="images/Icon-Outlast.png" title="Outlast: Guess Winner" alt="An torch icon overlaid by the word OUTLAST">
+				    <div class="card-body">
+					<h4 class="card-title">Guess Winner</h4>
+					<p class="card-text">Pick the Survivor you think will gain the title of <em>Sole Survivor</em>.</p>
+				    </div>
+				</div>
+			    </div>
+			</div>
+			<div class="row">
+			    <div class="text-center col">
+				<br>
+				<a class="btn fsg-primary btn-lg rounded-pill" href="register.html" role="button">Join a League</a>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	</div>
+<!--SURVIVORS SECTION-->
+	<hr class="bamboo">
+	<div id="survivors" class="container">
+		<div class="row">
+			<div class="col">
+				<h2 class="text-center pb-4">SURVIVOR 51 CAST</h2>
+				<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 survivorfont">
+																										<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/aaliyahDFT.jpg" title="Aaliyah Puglia" alt="Survivor cast photo of Aaliyah Puglia" style="border-color: #00B7C9;">
+				<span class="survivorname">Aaliyah</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/alexisDFT.jpg" title="Alexis Levine" alt="Survivor cast photo of Alexis Levine" style="border-color: #00B7C9;">
+				<span class="survivorname">Alexis</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/anaDFT.jpg" title="Ana Sani" alt="Survivor cast photo of Ana Sani" style="border-color: #00B7C9;">
+				<span class="survivorname">Ana</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/bradyDFT.jpg" title="Brady Booker" alt="Survivor cast photo of Brady Booker" style="border-color: #00B7C9;">
+				<span class="survivorname">Brady</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/carterDFT.jpg" title="Carter Krull" alt="Survivor cast photo of Carter Krull" style="border-color: #00B7C9;">
+				<span class="survivorname">Carter</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/cristianDFT.jpg" title="Cristian Chavez" alt="Survivor cast photo of Cristian Chavez" style="border-color: #00B7C9;">
+				<span class="survivorname">Cristian</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/devinDFT.jpg" title="Devin Way" alt="Survivor cast photo of Devin Way" style="border-color: #00B7C9;">
+				<span class="survivorname">Devin</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/ericDFT.jpg" title="Eric Macksoud" alt="Survivor cast photo of Eric Macksoud" style="border-color: #00B7C9;">
+				<span class="survivorname">Eric</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/jellyDFT.jpg" title="Angelica &quot;Jelly&quot; Loblack" alt="Survivor cast photo of Angelica &quot;Jelly&quot; Loblack" style="border-color: #00B7C9;">
+				<span class="survivorname">Jelly</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/jennaDFT.jpg" title="Jenna Doore" alt="Survivor cast photo of Jenna Doore" style="border-color: #00B7C9;">
+				<span class="survivorname">Jenna</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/kilbyDFT.jpg" title="Danny Kilby" alt="Survivor cast photo of Danny Kilby" style="border-color: #00B7C9;">
+				<span class="survivorname">Kilby</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/kristinDFT.jpg" title="Kristin Flickinger" alt="Survivor cast photo of Kristin Flickinger" style="border-color: #00B7C9;">
+				<span class="survivorname">Kristin</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/lewisDFT.jpg" title="Lewis Kelly" alt="Survivor cast photo of Lewis Kelly" style="border-color: #00B7C9;">
+				<span class="survivorname">Lewis</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/linneaDFT.jpg" title="Linnea Capobianco" alt="Survivor cast photo of Linnea Capobianco" style="border-color: #00B7C9;">
+				<span class="survivorname">Linnea</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/maggieDFT.jpg" title="Maggie Nestor" alt="Survivor cast photo of Maggie Nestor" style="border-color: #00B7C9;">
+				<span class="survivorname">Maggie</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/mikeDFT.jpg" title="Mike Pinsky" alt="Survivor cast photo of Mike Pinsky" style="border-color: #00B7C9;">
+				<span class="survivorname">Mike</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/oriDFT.jpg" title="Ori Jean-Charles" alt="Survivor cast photo of Ori Jean-Charles" style="border-color: #00B7C9;">
+				<span class="survivorname">Ori</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/pattDFT.jpg" title="Patt Cannaday" alt="Survivor cast photo of Patt Cannaday" style="border-color: #00B7C9;">
+				<span class="survivorname">Patt</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/robDFT.jpg" title="Rob Antonson" alt="Survivor cast photo of Rob Antonson" style="border-color: #00B7C9;">
+				<span class="survivorname">Rob</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/sharondaDFT.jpg" title="Sharonda Cox" alt="Survivor cast photo of Sharonda Cox" style="border-color: #00B7C9;">
+				<span class="survivorname">Sharonda</span>
+	</div>
+						</div>
+											<div class="mb-2">
+							
+
+
+				
+<div class="survivor-circle-img">
+	<img src="/images/51/draftpics/thien%20anDFT.jpg" title="An &quot;Thien An&quot; Nguyen" alt="Survivor cast photo of An &quot;Thien An&quot; Nguyen" style="border-color: #00B7C9;">
+				<span class="survivorname">Thien An</span>
+	</div>
+						</div>
+									</div>
+			</div>
+		</div>
+	</div>
+
+				<div id="footer">
+		<hr class="bamboo">
+		<div class="container">
+			<div class="row">
+				<div class="col-6 col-md-3">
+					<div class="row">
+						<div class="col d-flex flex-column">
+							<a href="/login.html">Login</a>
+							<a href="/register.html">Register</a>
+							<a href="/howto.html">How to Play</a>
+							<a href="/rules.html">Rules</a>
+							<a href="/faq.html">FAQ</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-6 col-md-9">
+					<div class="row row-cols-1 row-cols-md-3">
+						<div class="col d-flex flex-column">
+							<a href="/survivors/season/51">Survivors</a>
+							<a href="/episode-recap/season/51">Episodes</a>
+						</div>
+						<div class="col d-flex flex-column">
+							<a href="/contact.html">Contact &amp; Support</a>
+							<a href="https://www.facebook.com/fantasysurvivor" target="_blank">Facebook</a>
+						</div>
+						<div class="col d-flex flex-column">
+							<a href="https://ko-fi.com/A712L9F" target="_blank" id="donate-footer-link"><img src="/images/kofi-donate-button.png" alt="Donate at ko-fi.com"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="text-center">
+				<img id="footer-logo" src="/images/logos/fantasy-survivor-logo-white.png" alt="Fantasy Survivor Game logo in solid white" title="Fantasy Survivor Game">
+			</div>
+		</div>
+	</div>
+	<div id="bottom-bar">
+		<div class="container">
+			<p class="text-center p-3 mb-0">© FantasySurvivorGame.com. This site is not affiliated with, associated, authorized, endorsed by, or officially connected in any way with SURVIVOR, CBS, SEG, or any of its affiliates. Images used are the property of their respective trademark holders.</p>
+		</div>
+	</div>
+	<script>
+		document.getElementById('donate-footer-link').addEventListener('click', function() {
+			const formData = new FormData();
+			formData.set('t', 'donate-footer-loggedout');
+			const url = '/ajax-track.php';
+			navigator.sendBeacon(url, formData);
+		});
+	</script>
+		<!-- Google tag (gtag.js) -->
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TZKHXFDDMF"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-TZKHXFDDMF');
+	</script>
+
+
+</body></html>

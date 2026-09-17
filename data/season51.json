@@ -6,6 +6,8 @@
   "premiere_window_et": "20:00-22:00",
   "regular_slot": "Wednesday 20:00-21:30 ET (from 2026-09-30)",
   "projected_finale": "2026-12-16",
+  "episode_count": 13,
+  "episode_count_note": "counted from premiere_date to projected_finale inclusive, weekly Wednesdays. Matches the site's own 'Pick Winner of Survivor (0-13 points)' cap. The 'open era' format can still add or remove episodes.",
   "cast_size": 21,
   "starting_tribes": [
     {"name": "Savu", "color": "purple", "confidence": "medium"},

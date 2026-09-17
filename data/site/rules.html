@@ -1,0 +1,313 @@
+<!DOCTYPE html><html lang="en"><head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<title>Fantasy Survivor Game : Rules</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" integrity="sha512-fw7f+TcMjTb7bpbLJZlP8g2Y4XcCyFZW8uy8HsRZsH/SwbMw0plKHFHr99DN3l04VsYNwvzicUX/6qurvIxbxw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.min.js" integrity="sha512-zKeerWHHuP3ar7kX2WKBSENzb+GJytFSBL6HrR2nPSR1kOX1qjm+oHooQtbDpDBSITgyl7QXZApvDfDWvKjkUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+	<link rel="stylesheet" type="text/css" href="/css/responsive.css">
+	<link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-180x180.png" sizes="180x180">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-152x152.png" sizes="152x152">
+	<link rel="apple-touch-icon" type="image/png" href="/images/favicon-167x167.png" sizes="167x167">
+	<link rel="shortcut icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+	<meta name="apple-mobile-web-app-title" content="Fantasy Survivor">
+			</head>
+<body>
+	
+
+
+				<div class="container-fluid px-0">
+		<nav class="row container mx-auto px-0">
+			<ul class="navbar nav-fsg-underline px-2 mb-0" aria-role="menu">
+				<li class="navbar-brand p-1 me-auto">
+					<a href="/" class="d-sm-none"><img src="/images/logos/fantasy-survivor-logo-small.png" alt="Fantasy Survivor Game logo"></a>
+					<a href="/" class="d-none d-sm-inline"><img src="/images/logos/fantasy-survivor-logo.png" alt="Fantasy Survivor Game logo"></a>
+				</li>
+				<li class="me-auto d-inline d-lg-none p-2"><label for="navbar-toggle-checkbox"><span class="navbar-toggler-icon btn"></span></label></li>
+				<li class="position-relative">
+					<input type="checkbox" id="navbar-toggle-checkbox">
+					<ul class="menu p-2 collapse d-lg-flex" aria-role="menu">
+						<li><a class="p-1 nav-link d-inline d-sm-none" href="/register.html"><button type="button" class="btn btn-success rounded-pill px-5 text-nowrap">Sign Up</button></a></li>
+						<li><a class="p-1 nav-link" href="/#howto">How to Play</a></li>
+						<li><a class="p-1 nav-link" href="/#survivors">Survivors</a></li>
+						<li><a class="p-1 nav-link active" aria-current="page" href="/rules.html">Rules</a></li>
+						<li><a class="p-1 nav-link" href="/contact.html">Contact</a></li>
+						<li><a class="p-1 nav-link d-lg-none donate-button" id="donate-header-link" href="https://ko-fi.com/A712L9F" target="_blank"><img src="/images/kofi-donate-button.png" alt="Donate at ko-fi.com"></a></li>
+					</ul>
+				</li>
+				<li class="d-none d-sm-inline"><a class="p-1 nav-link" href="/register.html"><button type="button" class="btn btn-success rounded-pill text-nowrap">Sign Up</button></a></li>
+				<li><a class="p-1 nav-link" href="/login.html"><button type="button" class="btn btn-outline-secondary rounded-pill">Login</button></a></li>
+			</ul>
+		</nav>
+	</div>
+	<script>
+		// if the user taps anywhere that is not the menus, go ahead and close them
+		document.addEventListener('click', function(ev) {
+			const menu1 = document.getElementById('navbar-toggle-checkbox').parentNode;
+			const menu2 = document.querySelector('label[for="navbar-toggle-checkbox"]');
+			if (menu1.contains(ev.target) || menu2.contains(ev.target)) {
+				// tap was within the menus or menu icons
+				return;
+			}
+			// close the menu
+			document.getElementById('navbar-toggle-checkbox').checked = false;
+		});
+		document.getElementById('donate-header-link').addEventListener('click', function() {
+			const formData = new FormData();
+			formData.set('t', 'donate-header-loggedout');
+			const url = '/ajax-track.php';
+			navigator.sendBeacon(url, formData);
+		});
+	</script>
+	
+		<div id="header" class="container-fluid scores-bg">
+		<div class="row">
+			<div class="col">
+				<h1 class="pgheadTitle text-center">Official Rules</h1>
+				<h6 class="pgheadSeason text-center">Season 51</h6>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid headerbamboo"></div>
+	<div class="container mt-4">
+	<h3>Overview</h3>
+	<p>The goal is simple: outscore everyone in your league. Earn points in three ways— by predicting the correct castaway voted out each week (outwit), drafting castaways who rack up points through their gameplay (outplay), and correctly picking the season’s Sole Survivor (outlast). When the season ends, the highest score wins.</p>
+	<!--
+	<div class="newrule"><p class="description">Indicates a new rule this season</p></div>
+	<div class="changedrule"><p class="description">Indicates a rule that changed this season</p></div>
+	-->
+
+							<hr class="bamboo">
+		<div>
+			<h3>Scoring Vote Points <span class="outwitcolor">(Outwit)</span></h3>
+			<p class="description">Pick Castaway Voted out (0-10 points)</p>
+						<p class="definition">Each week, players receive 10 points per tribe to assign among the castaways on that tribe. Players earn Vote Points equal to the points they assigned to a castaway who is voted out that week.</p>
+			<p class="definition">A player may assign up to 10 points per castaway. All votes reset after each episode is scored. Votes must be submitted before the episode airs on the US East coast. Submissions received after this time will not count.</p>
+			<p class="definition">A castaway is considered <span class="term">voted out</span> if any of the following occur:
+			</p><ul>
+				<li>They receive the most votes at tribal council;</li>
+				<li>They are eliminated after drawing rocks;</li>
+				<li>They lose a final fire-making challenge; or</li>
+				<li>They receive the most votes and go to another location such as Extinction Island.</li>
+			</ul>
+			<p class="definition">In extraordinary circumstances not covered above, Fantasy Survivor reserves the right to determine whether Vote Points will be awarded.</p>
+			<p class="definition">Players do not earn Vote Points for a castaway who quits, is medically evacuated, or removed from the game by production.</p>
+		</div>
+	
+	<hr class="bamboo">
+
+	<h3>Scoring Castaway Points <span class="outplaycolor">(Outplay)</span></h3>
+	<p>Drafted Castaways may earn points for their fantasy tribe in the following ways each episode:</p>
+	<!--
+	<p class="definition"><b>Play Hidden Idol (5/-5):</b><br />
+	If a player's Survivor plays a Hidden Immunity Idol during tribal council, and it saves them from elimination, that player is awarded 5 points. This value is not doubled because the Survivor no longer possesses the idol. If they are voted out without playing their Idol they lose 5 points.</p>
+	-->
+	<div class="row row-cols-1 row-cols-sm-2">
+										<div class="col">
+						<p class="description">Win the Marooning Challenge (1 point)</p>
+			<p class="definition">A castaway on a tribe that wins the Marooning Challenge earns 1 point.</p>
+		</div>
+									<div class="col">
+						<p class="description">Win the Supply Challenge (1 point)</p>
+			<p class="definition">A castaway who wins the Supply Challenge, and all castaways on their tribe, earns 1 point.</p>
+		</div>
+									<div class="col">
+						<p class="description">Win a Tribe Reward Challenge (2 points)</p>
+			<p class="definition">A castaway on a tribe or group that wins a Reward Challenge earns 2 points.
+<br><span class="italic">A “group” typically applies after the merge when castaways temporarily team up for a challenge.</span></p>
+		</div>
+									<div class="col">
+						<p class="description">Win a Tribe Immunity Challenge (3 points)</p>
+			<p class="definition">A castaway on a tribe or group that wins an Immunity Challenge earns 3 points.
+<br><span class="italic">A “group” typically applies after the merge.</span></p>
+		</div>
+									<div class="col">
+						<p class="description">Win an Individual Reward Challenge (1 point)</p>
+			<p class="definition">A castaway who wins an Individual Reward Challenge earns 1 point. If the winning castaway selects additional castaways to join the reward, those castaways also earns 1 point.</p>
+		</div>
+									<div class="col">
+						<p class="description">Win an Individual Immunity Challenge (2 points)</p>
+			<p class="definition">A castaway who wins an Individual Immunity Challenge earns 2 points.</p>
+		</div>
+									<div class="col">
+						<p class="description">Win a Journey Challenge (1 point)</p>
+			<p class="definition">A castaway on a Journey who wins a challenge earns 1 point.</p>
+		</div>
+									<div class="col">
+						<p class="description">Win the Fire Making Challenge (2 points)</p>
+			<p class="definition">The castaway who wins the Final Four Fire Making Challenge earns 2 points.</p>
+		</div>
+														<div class="col changedrule">
+						<p class="description">Read Tree Mail (1 point)</p>
+			<p class="definition">A castaway who reads Tree Mail or a similar Game Message aloud earns 1 point.
+<br><span class="italic">Limit: once per episode per castaway.</span>
+</p>
+		</div>
+									<div class="col">
+						<p class="description">Strategize at the Water Well (1 point)</p>
+			<p class="definition">A castaway shown discussing game strategy at the water well earns 1 point.
+<br><span class="italic">Limit: once per episode per castaway.</span></p>
+		</div>
+														<div class="col changedrule">
+						<p class="description">Make Fire at Camp (1 point)</p>
+			<p class="definition">A castaway who makes or assists in making fire at camp earns 1 point.
+<br><span class="italic">Limit: once per episode per castaway.</span>
+</p>
+		</div>
+									<div class="col">
+						<p class="description">Find Food (1 point)</p>
+			<p class="definition">A castaway who finds or provides food for themselves or the tribe earns 1 point.
+Examples include fish, crab, coconuts, fruit, insects, or similar food sources.
+<br><span class="italic">Limit: once per episode per castaway.</span></p>
+		</div>
+									<div class="col">
+						<p class="description">Go to Exile Island (1 point)</p>
+			<p class="definition">A castaway who goes to Exile Island earns 1 point.</p>
+		</div>
+									<div class="col">
+						<p class="description">Go on a Journey (1 point)</p>
+			<p class="definition">A castaway who goes on a Journey earns 1 point.
+<br><span class="italic">Limit: once per episode per castaway.</span></p>
+		</div>
+									<div class="col">
+						<p class="description">Merge (2 points)</p>
+			<p class="definition">A castaway who joins the merged tribe at the merge earns 2 points.
+<br><span class="italic">Limit: once per season.</span>
+</p>
+		</div>
+									<div class="col">
+						<p class="description">Survivor Auction (1 point)</p>
+			<p class="definition">A castaway who attends the Survivor Auction earns 1 point.</p>
+		</div>
+									<div class="col">
+						<p class="description">Love from Home (1 point)</p>
+			<p class="definition">A castaway who gains love from home earns 1 point. (This may include special visits, letters, or video messages)</p>
+		</div>
+									<div class="col">
+						<p class="description">Find a Clue to an Idol or Advantage (1 point)</p>
+			<p class="definition">A castaway who finds the starting clue to an immunity idol or advantage earns 1 point.</p>
+		</div>
+									<div class="col">
+						<p class="description">Play an Idol or Advantage (2 points)</p>
+			<p class="definition">A castaway who plays an immunity idol or advantage during the game earns 2 points.
+Examples include, but are not limited to: Extra Vote, Steal a Vote, and Knowledge Is Power.
+</p>
+		</div>
+									<div class="col">
+						<p class="description">Gain an Immunity Idol (1 point)</p>
+			<p class="definition">The castaway who first gains an immunity idol earns 1 point.</p>
+		</div>
+									<div class="col">
+						<p class="description">Gain an Advantage (1 point)</p>
+			<p class="definition">The castaway who first gains an advantage earns 1 point. Immunity Idols are not counted as Advantages.</p>
+		</div>
+														<div class="col changedrule">
+						<p class="description">Play Shot in the Dark (1 point)</p>
+			<p class="definition">A castaway who plays their Shot in the Dark at Tribal Council earns 1 point.</p>
+		</div>
+		</div>
+			<div>
+			<p class="description">Castaway Out of Game (0-13 points)</p>
+		<p class="definition">Once a castaway leaves the game — by being voted out, quitting, or being removed for medical or production reasons — they will continue to earn 1 point for each subsequent episode they are out of the game. This includes the episode in which they leave the game.</p>
+		</div>
+
+	<hr class="bamboo">
+	<h3>Scoring Sole Survivor Points <span class="outlastcolor">(Outlast)</span></h3>
+			<div>
+						<p class="description">Pick Winner of Survivor (0-13 points)</p>
+			<p class="definition">Each player selects one castaway as their predicted season winner. Players may change their winner pick at any time between episodes.</p>
+			<p class="definition">To earn points, a player must have the eventual winner selected going into the final episode. Points are then awarded based on the number of consecutive episodes leading up to and including the final episode in which the player had the winner correctly picked.</p>
+			<p class="definition">Players earn 1 point per consecutive episode the correct winner was selected. The streak must include the final episode.</p>
+			<p class="ruleexample fw-light"><span class="medium">Example:</span> Player Maria selects Castaway A as the predicted winner before Episode 1. Before Episode 9, Player Maria changes her winner pick to Castaway B. Castaway B is later voted out during Episode 10. Before Episode 11, Player Maria switches her pick back to Castaway A and does not change her prediction for the remainder of the season. At the end of the season, Castaway A wins the game. Because Player Maria had Castaway A selected for Episodes 11, 12, and 13, she earns 3 points total (1 point per episode). Player Maria does not receive points for Episodes 1–8 because her winner streak was broken when she selected Castaway B for Episodes 9 and 10.</p>
+			</div>
+
+	<hr class="bamboo">
+	<div>
+		<h3>Tie-breaker</h3>
+		<p>If there is a tie between players, tie breaking rules are in order as follows:</p>
+		<ol>
+			<li>The player with more Vote points wins.</li>
+			<li>The player with more Survivor points wins.</li>
+			<li>The player with more Sole + Out points wins.</li>
+			<li>In the case the game is still tied, it remains tied.</li>
+		</ol>
+	</div>
+
+	<hr class="bamboo">
+	<div>
+		<h3>Scoring Policy</h3>
+		<p>All scoring decisions are determined at the sole discretion of Fantasy Survivor Game (FSG).</p>
+		<p>Only the episode which airs on television will be used to determine scoring. TV spots, ads, social media posts, or any other media—written or visual—will not be considered when scoring.</p>
+		<p>In the event of unclear footage, unaired events, rule ambiguities, unusual twists, production changes, or unforeseen circumstances within the show, FSG reserves the right to interpret, clarify, adjust, or amend scoring to best reflect the intent of the game.</p>
+		<p>FSG decisions are final. No scoring changes will be made after results for an episode have been finalized, except to correct clear errors or omissions.</p>
+		<p>By participating, all players acknowledge that rulings may be required to address situations not explicitly covered in these rules and agree to abide by FSG’s determinations.</p>
+		<p>We reserve the right to modify, update, or amend these rules as necessary in response to changes, twists, or new elements introduced in the official Survivor television series.</p>
+		<p>Fantasy Survivor is an unofficial fan experience and is not affiliated with or endorsed by the creators or producers of Survivor.</p>
+	</div>
+</div>
+
+				<div id="footer">
+		<hr class="bamboo">
+		<div class="container">
+			<div class="row">
+				<div class="col-6 col-md-3">
+					<div class="row">
+						<div class="col d-flex flex-column">
+							<a href="/login.html">Login</a>
+							<a href="/register.html">Register</a>
+							<a href="/howto.html">How to Play</a>
+							<a href="/rules.html">Rules</a>
+							<a href="/faq.html">FAQ</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-6 col-md-9">
+					<div class="row row-cols-1 row-cols-md-3">
+						<div class="col d-flex flex-column">
+							<a href="/survivors/season/51">Survivors</a>
+							<a href="/episode-recap/season/51">Episodes</a>
+						</div>
+						<div class="col d-flex flex-column">
+							<a href="/contact.html">Contact &amp; Support</a>
+							<a href="https://www.facebook.com/fantasysurvivor" target="_blank">Facebook</a>
+						</div>
+						<div class="col d-flex flex-column">
+							<a href="https://ko-fi.com/A712L9F" target="_blank" id="donate-footer-link"><img src="/images/kofi-donate-button.png" alt="Donate at ko-fi.com"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="text-center">
+				<img id="footer-logo" src="/images/logos/fantasy-survivor-logo-white.png" alt="Fantasy Survivor Game logo in solid white" title="Fantasy Survivor Game">
+			</div>
+		</div>
+	</div>
+	<div id="bottom-bar">
+		<div class="container">
+			<p class="text-center p-3 mb-0">© FantasySurvivorGame.com. This site is not affiliated with, associated, authorized, endorsed by, or officially connected in any way with SURVIVOR, CBS, SEG, or any of its affiliates. Images used are the property of their respective trademark holders.</p>
+		</div>
+	</div>
+	<script>
+		document.getElementById('donate-footer-link').addEventListener('click', function() {
+			const formData = new FormData();
+			formData.set('t', 'donate-footer-loggedout');
+			const url = '/ajax-track.php';
+			navigator.sendBeacon(url, formData);
+		});
+	</script>
+		<!-- Google tag (gtag.js) -->
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TZKHXFDDMF"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-TZKHXFDDMF');
+	</script>
+
+
+</body></html>
