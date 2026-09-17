@@ -1,0 +1,43 @@
+{
+  "season": 51,
+  "title": "Survivor 51 (\"The Open Era\")",
+  "network": "CBS",
+  "premiere_date": "2026-09-23",
+  "premiere_window_et": "20:00-22:00",
+  "regular_slot": "Wednesday 20:00-21:30 ET (from 2026-09-30)",
+  "projected_finale": "2026-12-16",
+  "cast_size": 21,
+  "starting_tribes": [
+    {"name": "Savu", "color": "purple", "confidence": "medium"},
+    {"name": "Toka", "color": "yellow", "confidence": "medium"}
+  ],
+  "notes": [
+    "First season to start with 21 players; first two-tribe start since Winners at War.",
+    "21 into 2 tribes is uneven (11/10) - CBS has not published the rosters, so a premiere-night twist that redistributes players is plausible.",
+    "Jeff Probst has billed the season as 'the open era': any past twist or advantage can return at any time, in any order.",
+    "Tribe assignments are UNKNOWN until the premiere. Every castaway below has tribe=null. Fill them in after episode 1."
+  ],
+  "cast": [
+    {"id": "jelly",    "name": "Angelica \"Jelly\" Loblack", "age": 29, "occupation": "Sociology professor",            "home": "Garland, TX -> Bloomington, IN",        "tribe": null},
+    {"id": "brady",    "name": "Brady Booker",               "age": 27, "occupation": "Professional wrestler",          "home": "USA",                                    "tribe": null},
+    {"id": "ori",      "name": "Ori Jean-Charles",           "age": 27, "occupation": "Personal trainer",               "home": "Spring Valley, NY",                      "tribe": null},
+    {"id": "ana",      "name": "Ana Sani",                   "age": 34, "occupation": "Voice actor",                    "home": "Toronto, ON",                            "tribe": null},
+    {"id": "eric",     "name": "Eric Macksoud",              "age": 34, "occupation": "Mental health counselor",        "home": "Lincoln, RI -> Windsor Locks, CT",       "tribe": null},
+    {"id": "patt",     "name": "Patt Cannaday",              "age": 33, "occupation": "Navy attorney / federal prosecutor", "home": "Washington, DC",                     "tribe": null},
+    {"id": "devin",    "name": "Devin Way",                  "age": 33, "occupation": "Actor",                          "home": "Lufkin, TX",                             "tribe": null},
+    {"id": "linnea",   "name": "Linnea Capobianco",          "age": 25, "occupation": "Entrepreneur",                   "home": "Kearny, NJ",                             "tribe": null},
+    {"id": "rob",      "name": "Rob Antonson",               "age": 40, "occupation": "Airline gate agent",             "home": "Cumberland, RI",                         "tribe": null},
+    {"id": "kristin",  "name": "Kristin Flickinger",         "age": 49, "occupation": "Crisis management",              "home": "Ketchum, ID -> Santa Barbara, CA",       "tribe": null},
+    {"id": "mike",     "name": "Mike Pinsky",                "age": 32, "occupation": "Asst. director, baseball ops",   "home": "New York, NY",                           "tribe": null},
+    {"id": "cristian", "name": "Cristian Chavez",            "age": 25, "occupation": "Human resources",                "home": "Salt Lake City, UT",                     "tribe": null},
+    {"id": "kilby",    "name": "Danny \"Kilby\" Kilby",      "age": 30, "occupation": "Game designer",                  "home": "Mount Forest, ON",                       "tribe": null},
+    {"id": "lewis",    "name": "Lewis Kelly",                "age": 28, "occupation": "Farmer",                         "home": "Ireland -> Puerto Rico",                 "tribe": null},
+    {"id": "an",       "name": "An \"Thien An\" Nguyen",     "age": 24, "occupation": "Medical student",                "home": "Fort Worth, TX",                         "tribe": null},
+    {"id": "aaliyah",  "name": "Aaliyah Puglia",             "age": 24, "occupation": "Chef",                           "home": "Gloucester City, NJ -> Providence, RI",  "tribe": null},
+    {"id": "sharonda", "name": "Sharonda Cox",               "age": 34, "occupation": "OB-GYN resident physician",      "home": "Pompano Beach, FL -> KY",                "tribe": null},
+    {"id": "jenna",    "name": "Jenna Doore",                "age": 30, "occupation": "Wedding photographer",           "home": "Toledo, OH",                             "tribe": null},
+    {"id": "alexis",   "name": "Alexis Levine",              "age": 34, "occupation": "Criminal defense attorney",      "home": "Atlanta, GA",                            "tribe": null},
+    {"id": "carter",   "name": "Carter Krull",               "age": 24, "occupation": "Livestock farmer",               "home": "Sioux Falls, SD",                        "tribe": null},
+    {"id": "maggie",   "name": "Maggie Nestor",              "age": 40, "occupation": "Farmer",                         "home": "West Virginia",                          "tribe": null}
+  ]
+}

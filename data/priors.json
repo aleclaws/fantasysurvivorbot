@@ -1,0 +1,38 @@
+{
+  "_comment": [
+    "Per-castaway prior features. All values 0..1 unless noted.",
+    "phys    = physical/challenge value. High phys lowers pre-merge boot risk, RAISES post-merge risk.",
+    "social  = read-people / bond-building proxy. High social lowers boot risk everywhere.",
+    "threat  = perceived strategic or winner threat. Mildly lowers pre-merge risk, raises post-merge risk.",
+    "These are SUBJECTIVE pre-season priors from bio data only (age + occupation). They are weak.",
+    "Episode edit data overwrites them - see docs/PLAYBOOK.md. Do not treat them as knowledge."
+  ],
+  "features": {
+    "jelly":    {"phys": 0.45, "social": 0.80, "threat": 0.70},
+    "brady":    {"phys": 0.95, "social": 0.55, "threat": 0.60},
+    "ori":      {"phys": 0.90, "social": 0.60, "threat": 0.55},
+    "ana":      {"phys": 0.40, "social": 0.75, "threat": 0.50},
+    "eric":     {"phys": 0.50, "social": 0.85, "threat": 0.55},
+    "patt":     {"phys": 0.60, "social": 0.65, "threat": 0.70},
+    "devin":    {"phys": 0.55, "social": 0.80, "threat": 0.60},
+    "linnea":   {"phys": 0.45, "social": 0.70, "threat": 0.50},
+    "rob":      {"phys": 0.40, "social": 0.65, "threat": 0.35},
+    "kristin":  {"phys": 0.30, "social": 0.70, "threat": 0.40},
+    "mike":     {"phys": 0.55, "social": 0.60, "threat": 0.65},
+    "cristian": {"phys": 0.50, "social": 0.70, "threat": 0.45},
+    "kilby":    {"phys": 0.45, "social": 0.55, "threat": 0.60},
+    "lewis":    {"phys": 0.80, "social": 0.60, "threat": 0.45},
+    "an":       {"phys": 0.45, "social": 0.60, "threat": 0.50},
+    "aaliyah":  {"phys": 0.55, "social": 0.60, "threat": 0.45},
+    "sharonda": {"phys": 0.50, "social": 0.75, "threat": 0.50},
+    "jenna":    {"phys": 0.45, "social": 0.70, "threat": 0.45},
+    "alexis":   {"phys": 0.45, "social": 0.70, "threat": 0.65},
+    "carter":   {"phys": 0.85, "social": 0.55, "threat": 0.45},
+    "maggie":   {"phys": 0.65, "social": 0.60, "threat": 0.35}
+  },
+  "weights": {
+    "_comment": "Hazard weights. Positive weight => feature RAISES boot risk.",
+    "premerge": {"age": 1.10, "phys": -1.20, "social": -0.90, "threat": -0.25, "edit": 1.40},
+    "postmerge": {"age": 0.35, "phys": 0.55, "social": -1.00, "threat": 0.95, "edit": 1.40}
+  }
+}

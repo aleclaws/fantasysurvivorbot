@@ -1,0 +1,37 @@
+{
+  "_comment": [
+    "Scoring constants. CONFIRM THESE AGAINST fantasysurvivorgame.com/rules.html.",
+    "The site is unreachable from the machine that built this repo (egress policy),",
+    "so the vote block is reconstructed from the site's indexed rules text and the",
+    "draft block is a documented GUESS patterned on the common format.",
+    "Every number here is read from this file at run time - correct a value and",
+    "every recommendation updates. Nothing is hard-coded in the source.",
+    "confidence: high = quoted from the site's own rules text, low = assumed."
+  ],
+  "vote": {
+    "confidence": "high",
+    "budget_per_tribe": 10,
+    "max_per_castaway": 10,
+    "points_awarded": "points you assigned to the castaway voted out",
+    "resets_each_episode": true,
+    "deadline": "before the episode airs on the US East coast"
+  },
+  "draft": {
+    "confidence": "low",
+    "roster_size": 4,
+    "survive_week_premerge": 1,
+    "survive_week_postmerge": 3,
+    "tribe_immunity_win": 3,
+    "tribe_reward_win": 2,
+    "individual_immunity_win": 3,
+    "individual_reward_win": 1,
+    "find_idol": 2,
+    "play_idol_correctly": 1
+  },
+  "sole_survivor": {
+    "confidence": "low",
+    "first": 30,
+    "second": 20,
+    "third": 10
+  }
+}

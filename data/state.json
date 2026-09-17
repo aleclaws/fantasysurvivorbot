@@ -1,0 +1,21 @@
+{
+  "_comment": [
+    "Live game state. This is the ONLY file that changes week to week.",
+    "episode      = the episode about to air (picks are for this one).",
+    "merged       = true once one tribe remains. Set it explicitly; never infer it.",
+    "tribes       = player id -> tribe name. Fill in after the premiere.",
+    "eliminated   = player ids already voted out, in boot order.",
+    "edit         = player id -> -1..1 doom signal from the latest episode.",
+    "idols        = player ids known to hold an idol or immunity advantage.",
+    "my_draft     = the castaways on my fantasy roster.",
+    "my_mvp       = my sole-survivor pick."
+  ],
+  "episode": 1,
+  "merged": false,
+  "tribes": {},
+  "eliminated": [],
+  "edit": {},
+  "idols": [],
+  "my_draft": [],
+  "my_mvp": null
+}

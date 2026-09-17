@@ -1,0 +1,18 @@
+{
+  "_comment": [
+    "My league. Update my_score/opponent_scores from the site standings each week.",
+    "opponent_scores may be left empty; then num_opponents players are assumed tied with me.",
+    "field_sharpness controls how herd-like the other players are:",
+    "  1.0 = they hold my exact read, 2.5 = typical (they pile onto the obvious boot),",
+    "  5.0 = near-unanimous consensus. Raise it once you can see their picks."
+  ],
+  "league_name": "Survivor 51 league",
+  "group_code": "411E-3E80-5B0C",
+  "join_url": "https://www.fantasysurvivorgame.com/group-join.html?groupcode=411E-3E80-5B0C",
+  "my_name": "",
+  "num_opponents": 9,
+  "my_score": 0,
+  "opponent_scores": [],
+  "field_sharpness": 2.5,
+  "field_all_in_fraction": 0.7
+}
