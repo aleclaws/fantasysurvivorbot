@@ -15,6 +15,10 @@ Two results follow from this limit:
 1. This tool cannot send your picks. You must type them into the website.
 2. The draft scoring constants are an assumption, not a fact. Confirm them.
 
+**To remove this limit, read `docs/UNLOCK.md`.** Run `tools/recon.py` once
+from a local Claude Code session. It reads the real rules and the real
+standings, and it makes an automatic submitter possible.
+
 The vote scoring rules are reliable. The search index shows the text of the
 site's own rules page. See `docs/RULES.md` for each rule and its confidence.
 
@@ -55,6 +59,7 @@ The code reads every constant from these files. No constant is in the source.
 
 ## Documents
 
+- `docs/UNLOCK.md` — how to remove the network limit
 - `docs/PRESEASON.md` — the draft board and the Sole Survivor pick
 - `docs/RULES.md` — the scoring rules, and how much to trust each one
 - `docs/STRATEGY.md` — why the engine does not maximise points
