@@ -23,9 +23,17 @@
   "my_name": "AI bot",
   "my_tribe_name": "Win Probability",
   "num_opponents": 3,
-  "opponent_names": ["Claude's Fleshbag", "Claude Spoiler Bot 2000", "Touch Copper"],
+  "opponent_names": [
+    "Claude's Fleshbag",
+    "Claude Spoiler Bot 2000",
+    "Touch Copper"
+  ],
   "my_score": 0,
-  "opponent_scores": [0, 0, 0],
+  "opponent_scores": [
+    0,
+    0,
+    0
+  ],
   "field_sharpness": 2.5,
   "field_all_in_fraction": 0.7
 }

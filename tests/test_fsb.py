@@ -217,6 +217,16 @@ class TestDraft(unittest.TestCase):
         rows = draft_board(self.s, n=800)
         self.assertNotEqual(rows[0][0], "kristin")
 
+    def test_default_sims_are_high_enough_to_match_a_high_precision_run(self):
+        # Regression guard: tools/submit.py's cmd_draft calls draft_board(Season())
+        # with no explicit n, so it must use the same simulation count as
+        # everything else that documents/submits an order. A low default (this
+        # broke once at n=4000) lets Monte Carlo noise flip the order of
+        # near-tied castaways between what gets shown and what gets submitted.
+        default_order = [cid for cid, _pts, _p in draft_board(self.s)]
+        high_n_order = [cid for cid, _pts, _p in draft_board(self.s, n=8000)]
+        self.assertEqual(default_order, high_n_order)
+
     def test_board_scores_stay_positive_and_bounded(self):
         # An early elimination still banks out-of-game trickle points under
         # the real rule (data/scoring.json outplay.out_of_game), so nobody's

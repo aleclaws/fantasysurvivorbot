@@ -25,7 +25,7 @@ def load_scoring() -> dict:
         return json.load(fh)
 
 
-def simulate_placements(season: Season, n: int = 4000, seed: int = 51,
+def simulate_placements(season: Season, n: int = 8000, seed: int = 51,
                         merge_at: int = 12) -> Dict[str, dict]:
     """Run the season forward `n` times and record how everyone finishes.
 
@@ -76,7 +76,7 @@ def simulate_placements(season: Season, n: int = 4000, seed: int = 51,
     return out
 
 
-def draft_board(season: Season, n: int = 4000,
+def draft_board(season: Season, n: int = 8000,
                 seed: int = 51) -> List[Tuple[str, float, dict]]:
     """Expected season points per castaway, highest first.
 
@@ -143,7 +143,7 @@ def draft_board(season: Season, n: int = 4000,
     return rows
 
 
-def mvp_pick(season: Season, roster: List[str], n: int = 4000,
+def mvp_pick(season: Season, roster: List[str], n: int = 8000,
              seed: int = 51) -> Tuple[str, dict]:
     """Sole-survivor pick: the castaway most likely to actually win.
 
