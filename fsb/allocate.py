@@ -139,7 +139,7 @@ class Scenarios:
     noisy instead of merely herd-like keeps the edge honest.
     """
 
-    def __init__(self, season: Season, league: dict, n: int = 4000,
+    def __init__(self, season: Season, league: dict, n: int = 8000,
                  seed: int = 51) -> None:
         self.season = season
         self.league = league
@@ -243,7 +243,7 @@ def expected_points(alloc: Alloc, probs: Dict[str, float]) -> float:
     return sum(probs.get(k, 0.0) * v for k, v in alloc.items())
 
 
-def optimise(season: Season, league: dict, sims: int = 4000, seed: int = 51,
+def optimise(season: Season, league: dict, sims: int = 8000, seed: int = 51,
              rounds: int = 2) -> Tuple[Dict[str, Alloc], dict]:
     """Best allocation per tribe, by coordinate ascent on P(win)."""
     probs = season.boot_probabilities()
