@@ -15,7 +15,16 @@
     "'league activity'): Claude's Fleshbag -> Carter, Claude Spoiler Bot 2000 ->",
     "Thien An, Touch Copper -> Jenna. The engine does not use this - the vote",
     "simulation only models weekly vote points, not the Sole Survivor pick -",
-    "but it means none of them currently hold Eric, our pick."
+    "but it means none of them currently hold Eric, our pick.",
+    "",
+    "PROVISIONAL: the user confirmed on 2026-09-18 that not everyone who will",
+    "join this league has signed up yet. num_opponents/opponent_scores/",
+    "opponent_names below are a snapshot, not a final count. The site exposes",
+    "no 'pending invites' count - group-join is just a shareable code, so",
+    "there is no way to know in advance how many more will join. The only",
+    "real signal is re-running 'python3 tools/submit.py standings', which",
+    "rebuilds these three fields from however many rows actually exist each",
+    "time - new joiners are picked up automatically, no code change needed."
   ],
   "league_name": "identos",
   "group_code": "411E-3E80-5B0C",

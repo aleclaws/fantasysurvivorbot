@@ -139,8 +139,18 @@ roster pick still added points that week.
 A local session signed in with a real account (`malcolm.laws+ai@gmail.com`)
 on 2026-09-17, joined the league "identos" (group code 411E-3E80-5B0C, 3
 opponents, all tied at 0 before episode 1), and read the real draft,
-sole-survivor, and vote pages. See `docs/UNLOCK.md` for exactly how. The
-draft preference order, Sole Survivor pick, and episode 1's vote were all
+sole-survivor, and vote pages. See `docs/UNLOCK.md` for exactly how.
+
+**The 3-opponent count is provisional, not final.** The user confirmed on
+2026-09-18 that not everyone who will join this league has signed up yet.
+The site gives no way to see pending invites - `invite.html` only shows
+the shareable group code, nothing about who has it or when they'll use it.
+`python3 tools/submit.py standings` re-reads the real membership each time
+it runs and rebuilds `data/league.json` from however many rows actually
+exist, so new joiners get picked up automatically. Re-run it before every
+weekly decision, not just once.
+
+The draft preference order, Sole Survivor pick, and episode 1's vote were all
 submitted through `tools/submit.py` and verified against a fresh read of
 the site.
 
