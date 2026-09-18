@@ -85,6 +85,55 @@ def parse_vote_fields(html: str) -> Dict[int, Tuple[str, str]]:
     return {int(sid): (ep, tribe) for ep, tribe, sid in VOTE_FIELD_RE.findall(html)}
 
 
+TRIBE_HEADER_RE = re.compile(
+    r'<span class="tribename"[^>]*>([^<]*)</span>.*?id="pointsLeft(\d+)-(\d+)"',
+    re.S)
+
+
+def parse_vote_tribes(html: str) -> Dict[str, str]:
+    """tribe_index -> tribe name, from each tribe's header on the vote page.
+
+    Before the tribes are revealed the site shows one tribe named "Unknown"
+    holding the whole cast.
+    """
+    return {tribe: name.strip() for name, _ep, tribe in TRIBE_HEADER_RE.findall(html)}
+
+
+def site_vote_view(html: str, engine_of: Dict[int, str]) -> Tuple[Dict[str, str], List[str]]:
+    """What the live vote page says about this week, in engine terms.
+
+    Returns (engine_id -> tribe name for every castaway with a vote field,
+    ordered list of distinct tribe names). A castaway with no vote field
+    this week cannot be voted for - out of the game, whatever state.json
+    says.
+    """
+    fields = parse_vote_fields(html)
+    names = parse_vote_tribes(html)
+    tribes = {engine_of[sid]: names.get(t, f"tribe {t}")
+              for sid, (_ep, t) in fields.items() if sid in engine_of}
+    return tribes, sorted(set(tribes.values()))
+
+
+def apply_site_view(season, tribes: Dict[str, str]) -> List[str]:
+    """Make the engine agree with the live vote page before it allocates.
+
+    The site's vote page is ground truth for who can be voted for and which
+    pools the 10-point budgets apply to. Relying on state.json alone fails
+    two ways that cost real points: a boot the research step missed leaves
+    points on someone with no vote field (the whole submission then fails),
+    and missing tribes make the engine spend 10 points where the site
+    allows 10 per tribe. Returns the castaways the engine had alive but the
+    site does not.
+    """
+    stale = [c.id for c in season.alive() if c.id not in tribes]
+    for cid in stale:
+        season.cast[cid].out = True
+    if len(set(tribes.values())) > 1:
+        for cid, name in tribes.items():
+            season.cast[cid].tribe = name
+    return stale
+
+
 def parse_draft_picklist(html: str) -> List[int]:
     """The site_survivor_ids currently saved in the picklist, in order.
 
@@ -353,24 +402,52 @@ def cmd_standings(args) -> None:
         pw.stop()
 
 
+def _persist_tribes(tribes: Dict[str, str]) -> None:
+    """Record real tribe membership in state.json when the site shows it."""
+    path = DATA / "state.json"
+    with open(path, encoding="utf-8") as fh:
+        state = json.load(fh)
+    if state.get("tribes") == tribes:
+        return
+    state["tribes"] = tribes
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(state, fh, indent=2)
+        fh.write("\n")
+    print("  state.json tribes updated from the site's vote page")
+
+
 def cmd_vote(args) -> None:
     from fsb.allocate import optimise
     from fsb.model import Season
     with open(DATA / "league.json", encoding="utf-8") as fh:
         league = json.load(fh)
     site_ids = load_site_ids()
-    season = Season()
-    alloc, _diag = optimise(season, league, sims=args.sims or 4000)
-    by_site_id: Dict[int, int] = {}
-    for _tribe, a in alloc.items():
-        for cid, pts in a.items():
-            if pts and cid in site_ids:
-                by_site_id[site_ids[cid]] = pts
     pw, browser, page = _make_page()
     try:
+        page.goto(f"{BASE}/vote.html", wait_until="domcontentloaded", timeout=20000)
+        page.wait_for_timeout(800)
+        tribes, names = site_vote_view(page.content(), site_ids_to_engine_ids())
+        if not tribes:
+            raise SubmitError("the vote page has no vote fields - voting is closed")
+        season = Season()
+        stale = apply_site_view(season, tribes)
+        if stale:
+            print(f"  WARNING: no vote field for {', '.join(stale)} - treated as "
+                  f"out for this vote. Record the boot in data/state.json.")
+        if len(names) > 1:
+            _persist_tribes(tribes)
+        print(f"  site vote pools: {', '.join(names)}")
+
+        kwargs = {"sims": args.sims} if args.sims else {}
+        alloc, _diag = optimise(season, league, **kwargs)
+        by_site_id: Dict[int, int] = {}
+        for _tribe, a in alloc.items():
+            for cid, pts in a.items():
+                if pts and cid in site_ids:
+                    by_site_id[site_ids[cid]] = pts
         submit_vote(page, season.episode, by_site_id)
-        print(f"confirmed: episode {season.episode} vote saved "
-              f"({len(by_site_id)} castaways)")
+        print(f"confirmed: vote saved ({len(by_site_id)} castaways, "
+              f"{sum(by_site_id.values())} points)")
     finally:
         browser.close()
         pw.stop()

@@ -59,22 +59,21 @@
       "individual_reward_win": "the winner AND any castaway they choose to bring also earn this"
     },
     "out_of_game": {
-      "confidence": "conflicting - see conflict note",
+      "confidence": "high",
       "per_episode": 1,
       "cap_episodes": 13,
-      "conflict": [
-        "rules.html says: 'Once a castaway leaves the game... they will continue to",
-        "earn 1 point for each subsequent episode they are out of the game', 0-13 points.",
-        "faq.html says: 'What happens when my drafted survivor gets voted out? The",
-        "survivor will stop earning you points.' These two site pages disagree.",
-        "This file uses the rules.html number, because that page is titled the",
-        "official rules and is the more specific of the two. Not independently",
-        "confirmed. Verify against a real scored episode before trusting it."
+      "resolution": [
+        "rules.html says a castaway who leaves keeps earning 1 point per episode,",
+        "including the episode they leave (0-13). faq.html says a drafted survivor",
+        "'will stop earning you points'. The standings page settles it: it has an",
+        "'Out' column titled 'Extra points gained for Survivors voted out', and its",
+        "markup comments 'Extra points earned by both survivors being out of game'",
+        "(data/site/standings.html). The FAQ answer is stale."
       ]
     },
-    "roster_size": 3,
-    "roster_size_confidence": "high - read directly from the account's own draft.html on 2026-09-17: exactly 3 pick slots ('Draft Order' shows three placeholders). Question 1 resolved.",
-    "roster_mechanic": "not a direct pick. You submit a full preference order over all 21 castaways; the site auto-drafts (snake order across the league) at draft time and autofills any unranked spots. See tools/submit.py.",
+    "roster_size": 2,
+    "roster_size_confidence": "high - howto-draft.html: 'Each player will draft 2 Survivors', and the standings markup says 'both survivors'. CORRECTED 2026-09-18: an earlier version of this file said 3, inferred from the three empty drop-slots on draft.html; js/draft-helper.js shows those are UI placeholders ('a maximum of 3 and a minimum of 1'), not roster slots.",
+    "roster_mechanic": "exclusive snake draft over two rounds, draft order random, run automatically at the draft time (howto-draft.html). You submit a preference order over all 21 castaways; at each of your turns the site takes the highest-ranked castaway still available. Ranking by your own value is optimal here: you cannot influence what others take, and values add.",
     "roster_editable_during_season": null,
     "roster_editable_confidence": "still unknown - the preference order can clearly be resubmitted before draft time (tools/submit.py verified this), but whether the 3 actually-drafted castaways can be swapped out after Sep 23 8:00 PM EDT is unconfirmed. Question 2, still open until after the draft."
   },

@@ -88,32 +88,36 @@ edit signals change, not only once before the premiere.
 - A player may join up to 3 leagues.
 - You cannot leave a league once it has drafted.
 
-## Conflicting — needs a real scored episode to resolve
+## Out-of-game points — resolved
 
-**Out-of-game points.** The rules page says a castaway keeps earning your
-draft roster 1 point per episode after they are voted out, up to 13 points
-total ("Castaway Out of Game (0-13 points)"). The FAQ page says the
-opposite: "The survivor will stop earning you points" once voted out.
+The rules page says a castaway keeps earning 1 point per episode after
+they leave, including the episode they leave, up to 13. The FAQ says a
+drafted survivor "will stop earning you points". The standings page
+settles it: it has an **Out** column titled "Extra points gained for
+Survivors voted out", and its markup comments "Extra points earned by both
+survivors being out of game". The FAQ answer is stale.
 
-`data/scoring.json` currently uses the rules-page number, because that page
-is titled the official rules and is the more specific source. Treat it as
-unconfirmed until a scored episode shows which page is right. If you can
-see your own score breakdown after episode 1, check whether an eliminated
-roster pick still added points that week.
+This changes draft strategy. An early boot still banks about 13 points, so
+an episode in the game is worth only its gameplay points minus the 1 point
+the castaway would earn anyway once out. That margin is large before the
+merge (tribe challenge points go to every tribe member) and small after
+it. Draft value is mostly "reaches the merge", and the gap between the top
+ten draft picks is about 2 points. The weekly vote, where one correct
+all-in is worth 10, is where this league is decided.
 
 ## Open questions — status after signing in
 
-1. **Roster size.** Resolved: **3**. `draft.html`'s own "Draft Order" list
-   shows exactly 3 pick slots. `data/scoring.json` -> `outplay.roster_size`.
-   The draft itself is a preference order over all 21 castaways, not a
-   direct pick - the site auto-drafts (snake order across the league) at
-   draft time (Sep 23, 8:00 PM EDT) and autofills any unranked spots.
+1. **Roster size.** Resolved: **2**. `howto-draft.html`: "Each player will
+   draft 2 Survivors." Exclusive snake draft over two rounds, draft order
+   random, run automatically at the draft time (Sep 23, 8:00 PM EDT) from
+   each player's preference order. **Correction:** an earlier version of
+   this file said 3. That was inferred from the three empty drop-slots on
+   `draft.html`, which `js/draft-helper.js` shows are only UI placeholders.
 2. **Can the roster be edited during the season, or is the draft final?**
-   Still open. The preference *order* can clearly be resubmitted before
-   draft time (confirmed - `tools/submit.py` overwrote it and re-read it
-   back). Whether the 3 castaways actually assigned can be swapped out
-   *after* the draft happens is unconfirmed - the FAQ's "cannot leave a
-   league once drafted" is a different question from this one.
+   Still open. The preference *order* can be changed "at any time until the
+   draft begins" (`howto-draft.html`, and confirmed - `tools/submit.py`
+   overwrote it and read it back). Nothing on the site says the 2 drafted
+   castaways can be swapped afterwards.
 3. Resolved — see Outlast above. The bonus does not pay for second or
    third; it is a streak, not a placement payout.
 4. Resolved — the deadline is "before the episode airs on the US East

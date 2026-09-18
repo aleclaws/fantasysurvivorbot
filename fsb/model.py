@@ -75,6 +75,7 @@ class Season:
         self.meta = meta
         self.state = state
         self.weights = priors["weights"]
+        self.draft_model = priors.get("draft_model", {})
         feats = priors["features"]
         self.cast: Dict[str, Castaway] = {}
         for row in meta["cast"]:

@@ -108,6 +108,51 @@ class TestParseStandings(unittest.TestCase):
                          {"Touch Copper", "Claude Spoiler Bot 2000", "Claude's Fleshbag"})
 
 
+class TestSiteVoteView(unittest.TestCase):
+    TWO_TRIBES = (
+        '<span class="tribename" style="color: #7a3">Savu</span>'
+        '<div id="pointsLeft2-1">10</div>'
+        '<input id="votenum2-1-541" name="votenum2-1-541">'
+        '<input id="votenum2-1-548" name="votenum2-1-548">'
+        '<span class="tribename" style="color: #ec0">Toka</span>'
+        '<div id="pointsLeft2-2">10</div>'
+        '<input id="votenum2-2-553" name="votenum2-2-553">'
+    )
+
+    def test_pre_reveal_page_is_one_unknown_pool(self):
+        self.assertEqual(submit.parse_vote_tribes(_read("vote.html")),
+                         {"1": "Unknown"})
+        tribes, names = submit.site_vote_view(
+            _read("vote.html"), submit.site_ids_to_engine_ids())
+        self.assertEqual(len(tribes), 21)
+        self.assertEqual(names, ["Unknown"])
+
+    def test_reads_real_tribe_names_per_pool(self):
+        tribes, names = submit.site_vote_view(
+            self.TWO_TRIBES, submit.site_ids_to_engine_ids())
+        self.assertEqual(names, ["Savu", "Toka"])
+        self.assertEqual(tribes, {"brady": "Savu", "kristin": "Savu", "ori": "Toka"})
+
+    def test_engine_adopts_the_sites_pools_and_drops_the_unvotable(self):
+        from fsb.model import Season
+        s = Season()
+        tribes, _ = submit.site_vote_view(
+            self.TWO_TRIBES, submit.site_ids_to_engine_ids())
+        stale = submit.apply_site_view(s, tribes)
+        self.assertEqual(sorted(c.id for c in s.alive()), ["brady", "kristin", "ori"])
+        self.assertEqual(len(stale), 18)
+        self.assertEqual(set(s.tribes()), {"Savu", "Toka"})
+
+    def test_one_pool_does_not_overwrite_tribes(self):
+        from fsb.model import Season
+        s = Season()
+        tribes, _ = submit.site_vote_view(
+            _read("vote.html"), submit.site_ids_to_engine_ids())
+        stale = submit.apply_site_view(s, tribes)
+        self.assertEqual(stale, [])
+        self.assertTrue(all(c.tribe is None for c in s.alive()))
+
+
 class _FakePage:
     """Just enough of the Playwright Page interface to drive submit_vote /
     verify_vote against an in-memory field store, seeded from the real

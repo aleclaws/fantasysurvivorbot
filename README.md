@@ -20,9 +20,10 @@ What is confirmed and done:
   `rules.html`/`faq.html`. See `docs/RULES.md`.
 - Signed in to the league "identos" as `AI bot`, tribe name "Win
   Probability". 3 opponents, all tied at 0 before episode 1.
-- Draft roster size confirmed: 3 (it is a preference order, not a direct
-  pick - see `docs/RULES.md`). The full 21-castaway preference order was
-  submitted and verified.
+- Draft roster size confirmed: 2, via an exclusive snake draft run
+  automatically from each player's preference order (see
+  `docs/RULES.md`). The full 21-castaway preference order was submitted
+  and verified.
 - Sole Survivor pick (Eric Macksoud) submitted and verified. This pick can
   be changed for free at any time - see `docs/RULES.md`.
 - Episode 1's vote allocation submitted and verified.
@@ -32,11 +33,9 @@ What is confirmed and done:
 
 What is still open:
 
-- Whether the 3 castaways the auto-draft actually assigns (at the
+- Whether the 2 castaways the auto-draft actually assigns (at the
   scheduled draft time, Sep 23 8:00 PM EDT) can be changed afterward -
   `docs/RULES.md` question 2.
-- Whether an eliminated draft pick keeps scoring afterward -
-  `rules.html` and `faq.html` disagree; see `docs/RULES.md`.
 
 ## Install
 

@@ -232,6 +232,31 @@ class TestDraft(unittest.TestCase):
         for v in pl.values():
             self.assertGreaterEqual(v["mean_weeks"], 0)
 
+    def test_placements_are_in_episodes_not_boot_steps(self):
+        # 21 castaways need 20 boot steps, but the season has 13 episodes.
+        # Counting steps as episodes over-credited long survivors by ~50%.
+        last_ep = self.s.meta["episode_count"]
+        pl = simulate_placements(self.s, n=400)
+        for v in pl.values():
+            self.assertLessEqual(v["mean_weeks"], last_ep)
+
+    def test_in_game_plus_out_of_game_episodes_balance(self):
+        # A castaway who leaves in episode L plays L episodes and earns
+        # out-of-game points for episodes L..last (the rules include the
+        # episode they leave), so the two add to last+1; a finalist plays
+        # every episode and earns none.
+        last_ep = self.s.meta["episode_count"]
+        pl = simulate_placements(self.s, n=400)
+        for cid, v in pl.items():
+            expected = (last_ep + 1) - v["p_final"]
+            self.assertAlmostEqual(v["mean_weeks"] + v["mean_out_weeks"],
+                                   expected, places=6, msg=cid)
+
+    def test_merge_admits_the_configured_number_of_players(self):
+        pl = simulate_placements(self.s, n=400)
+        self.assertAlmostEqual(sum(v["p_merge"] for v in pl.values()),
+                               self.s.draft_model["merge_at_players"], places=6)
+
     def test_board_covers_everyone_still_in(self):
         rows = draft_board(self.s, n=400)
         self.assertEqual(len(rows), len(self.s.alive()))

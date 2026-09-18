@@ -54,11 +54,8 @@ else's session, and this environment allowed it. From there:
 
 ## What is still open
 
-- Whether the 3 castaways the site actually assigns at draft time (Sep 23,
+- Whether the 2 castaways the site actually assigns at draft time (Sep 23,
   8:00 PM EDT) can be edited afterward - `docs/RULES.md` question 2.
-- Whether an eliminated draft pick keeps scoring - `rules.html` and
-  `faq.html` disagree; `data/scoring.json` documents the conflict and
-  currently trusts the more specific page.
 
 ## Credential handling
 

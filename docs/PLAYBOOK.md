@@ -18,7 +18,7 @@ and how to do any of it by hand if you need to.
    counted back from the final, and you may change it at any time for free.
    Re-run this whenever the standings or edit signals move — see
    `docs/RULES.md`. `my_draft` in `data/state.json` stays empty until the
-   site's auto-draft actually assigns the 3 roster slots on Sep 23.
+   site's auto-draft actually assigns the 2 roster slots on Sep 23.
 
 ## After each episode
 

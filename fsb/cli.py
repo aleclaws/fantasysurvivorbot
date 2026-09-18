@@ -47,7 +47,7 @@ def cmd_picks(args) -> None:
     season, league = Season(), _league()
     if args.sims:
         league = dict(league)
-    alloc, diag = optimise(season, league, sims=args.sims or 4000)
+    alloc, diag = optimise(season, league, **({"sims": args.sims} if args.sims else {}))
     probs = diag["boot_probabilities"]
 
     print(f"EPISODE {season.episode} - point allocation")
@@ -79,7 +79,7 @@ def cmd_picks(args) -> None:
 
 def cmd_board(args) -> None:
     season = Season()
-    rows = draft_board(season, n=args.sims or 4000)
+    rows = draft_board(season, **({"n": args.sims} if args.sims else {}))
     print(f"{'castaway':32s} {'age':>3s} {'E[pts]':>7s} {'P(win)':>7s} "
           f"{'P(top3)':>8s} {'weeks':>6s}")
     for cid, pts, p in rows:
@@ -94,7 +94,7 @@ def cmd_board(args) -> None:
 def cmd_mvp(args) -> None:
     season, state = Season(), _state()
     roster = args.roster or state.get("my_draft") or []
-    pick, stats = mvp_pick(season, roster, n=args.sims or 4000)
+    pick, stats = mvp_pick(season, roster, **({"n": args.sims} if args.sims else {}))
     scope = "my roster" if roster else "the whole cast"
     print(f"MVP / sole-survivor pick from {scope}: {season.cast[pick].name}")
     print(f"  P(win)   {stats['p_win']:.3f}")

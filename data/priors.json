@@ -47,6 +47,37 @@
     "carter":   {"phys": 0.85, "social": 0.55, "threat": 0.45, "preseason_buzz": -0.05},
     "maggie":   {"phys": 0.65, "social": 0.60, "threat": 0.35, "preseason_buzz": 0.15}
   },
+  "draft_model": {
+    "_comment": [
+      "Season-shape and event-frequency ASSUMPTIONS the draft board needs to turn the",
+      "site's per-action point values (scoring.json) into expected points. None of these",
+      "are on the site. All are confidence: low. Calibrate them from the standings",
+      "'Survivor' column once episodes 1-2 are scored: that column is exactly the",
+      "points each player's two drafted castaways earned, so it measures these rates."
+    ],
+    "confidence": "low",
+    "finalists": 3,
+    "merge_at_players": 12,
+    "own_phys_tribe_tilt": 0.10,
+    "tribe_reward_fraction": 0.5,
+    "individual_reward_fraction": 0.5,
+    "reward_companions": 2,
+    "camp_points_per_episode": 6,
+    "advantage_points_per_episode": 3,
+    "auction_prob": 0.3,
+    "love_from_home_prob": 0.9,
+    "love_from_home_window": 3,
+    "fire_making_prob": 0.9,
+    "_notes": {
+      "finalists": "new-era seasons end in a final 3; the 'open era' could change this",
+      "merge_at_players": "new-era merges happen at about 12-13 players left",
+      "own_phys_tribe_tilt": "a castaway is 1 of ~10 on a tribe, so their own physicality moves the tribe's win chance only a little; tribe challenge points go to EVERY member",
+      "tribe_reward_fraction": "share of pre-merge episodes with a separately scored tribe reward; new-era seasons often combine or skip rewards",
+      "reward_companions": "individual reward winners usually bring 1-2 others; the rules pay each companion 1 point",
+      "camp_points_per_episode": "tree mail + water well + fire + food, summed over the whole cast per episode",
+      "advantage_points_per_episode": "clue/idol/advantage/journey points over the whole cast per episode; 'every past twist returns' in the open era"
+    }
+  },
   "weights": {
     "_comment": "Hazard weights. Positive weight => feature RAISES boot risk.",
     "premerge": {"age": 1.10, "phys": -1.20, "social": -0.90, "threat": -0.25, "edit": 1.40, "preseason_buzz": 0.40},
