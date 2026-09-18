@@ -128,6 +128,30 @@ def _draw(rng: random.Random, weights: Dict[str, float]) -> str:
 
 # ---------------------------------------------------------------- scenarios
 
+def effective_opponent_scores(league: dict) -> List[float]:
+    """Opponent scores to simulate against, padded to any known future
+    minimum league size.
+
+    league.json's opponent_scores reflects who has actually joined right
+    now - tools/submit.py standings rebuilds it from the real site every
+    time it runs, so it is always honest about the current signup count,
+    nothing more. expected_min_opponents is a separate, user-reported
+    estimate of the eventual league size that sync does not touch, so it
+    survives being overwritten while real signups are still trickling in.
+    Padding with my_score assumes an unseen opponent starts exactly level,
+    the same fallback already used when opponent_scores is empty outright.
+    """
+    scores = list(league.get("opponent_scores") or [])
+    if not scores:
+        scores = [float(league.get("my_score", 0))] * int(
+            league.get("num_opponents", 9))
+    minimum = int(league.get("expected_min_opponents", 0))
+    if len(scores) < minimum:
+        scores = scores + [float(league.get("my_score", 0))] * (
+            minimum - len(scores))
+    return scores
+
+
 class Scenarios:
     """Pre-drawn futures: who goes home when, and what the field scored.
 
@@ -153,10 +177,7 @@ class Scenarios:
         all_in = float(league.get("field_all_in_fraction", 0.7))
         noise = float(league.get("field_noise", 0.6))
 
-        opp_scores = list(league.get("opponent_scores") or [])
-        if not opp_scores:
-            opp_scores = [float(league.get("my_score", 0))] * int(
-                league.get("num_opponents", 9))
+        opp_scores = effective_opponent_scores(league)
         self.n_opp = len(opp_scores)
 
         self.boot_now: List[str] = []

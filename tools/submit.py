@@ -184,25 +184,53 @@ def verify_draft_preferences(page, ordered_site_ids: List[int]) -> None:
 
 
 def submit_vote(page, episode: int, allocation_by_site_id: Dict[int, int]) -> None:
-    """Set every castaway's vote value and force an immediate save.
+    """Replace this episode's whole vote with exactly allocation_by_site_id.
 
     Discovers each castaway's real (episode, tribe) field suffix from the
     live page instead of assuming tribe index 1, so this keeps working after
     a tribe swap changes how many vote pools there are.
+
+    Zeroes EVERY field first, in one pass, before setting any target value,
+    in two ways this actually matters:
+
+    1. A previous submission's leftover points on a castaway dropped from
+       this one would otherwise stay live and eat into the per-tribe
+       budget - found exactly this way, resubmitting a smaller allocation
+       over a larger one.
+    2. The site's own JS (capInputAtMaximum, in js/vote-helper.js) clamps
+       each field against the running total at the moment ITS OWN input
+       event fires - not the final total. Setting fields to their targets
+       in one pass, in whatever order they happen to be discovered in, can
+       transiently push the running total over budget before a same-pass
+       decrease lands, and get silently clamped - found exactly this way
+       too, when a target increase landed before an unrelated decrease.
+       Zeroing everything first means every field starts that second pass
+       at 0, so the running total during it is always a subset sum of the
+       final allocation - never more than the final total, whatever order
+       the fields are set in.
     """
     page.goto(f"{BASE}/vote.html", wait_until="domcontentloaded", timeout=20000)
     page.wait_for_timeout(800)
     fields = parse_vote_fields(page.content())
 
-    for site_id, points in allocation_by_site_id.items():
+    for site_id in allocation_by_site_id:
         if site_id not in fields:
             raise SubmitError(f"no vote field found for survivor {site_id} "
                                f"(episode {episode}) - voting may be closed")
-        ep, tribe = fields[site_id]
+
+    def _set(site_id: int, ep: str, tribe: str, points: int) -> None:
         page.evaluate(
             "([sel, val]) => { const el = document.getElementById(sel); "
             "el.value = val; el.dispatchEvent(new Event('input', {bubbles: true})); }",
             [f"votenum{ep}-{tribe}-{site_id}", str(points)])
+
+    for site_id, (ep, tribe) in fields.items():
+        _set(site_id, ep, tribe, 0)
+    page.wait_for_timeout(150)
+    for site_id, (ep, tribe) in fields.items():
+        points = allocation_by_site_id.get(site_id, 0)
+        if points:
+            _set(site_id, ep, tribe, points)
     page.wait_for_timeout(300)
     page.evaluate("window.submitVotes()")
     page.wait_for_timeout(1500)
@@ -210,15 +238,23 @@ def submit_vote(page, episode: int, allocation_by_site_id: Dict[int, int]) -> No
 
 
 def verify_vote(page, episode: int, allocation_by_site_id: Dict[int, int]) -> None:
+    """Confirm the site's saved vote is EXACTLY allocation_by_site_id.
+
+    Checks every castaway with a vote field this episode, not just the ones
+    in allocation_by_site_id - a nonzero leftover on a dropped castaway is
+    as much a failed submission as a wrong number on an intended one.
+    """
     page.goto(f"{BASE}/vote.html", wait_until="domcontentloaded", timeout=20000)
     page.wait_for_timeout(800)
-    for site_id, points in allocation_by_site_id.items():
+    fields = parse_vote_fields(page.content())
+    for site_id, (ep, _tribe) in fields.items():
+        expected = allocation_by_site_id.get(site_id, 0)
         got = page.eval_on_selector(
-            f'input[name^="votenum{episode}-"][name$="-{site_id}"]',
+            f'input[name^="votenum{ep}-"][name$="-{site_id}"]',
             "el => el.value")
-        if int(got or 0) != points:
+        if int(got or 0) != expected:
             raise SubmitError(
-                f"vote for survivor {site_id} did not stick: sent {points}, "
+                f"vote for survivor {site_id} did not stick: sent {expected}, "
                 f"site now shows {got!r}")
 
 

@@ -13,8 +13,8 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from fsb.allocate import (candidate_allocations, optimise, win_probability,
-                          Scenarios)
+from fsb.allocate import (candidate_allocations, effective_opponent_scores,
+                          optimise, win_probability, Scenarios)
 from fsb.draft import draft_board, mvp_pick, simulate_placements
 from fsb.model import Season, age_risk
 
@@ -106,6 +106,31 @@ class TestModel(unittest.TestCase):
         self.assertLess(pre[athlete], pre[weak])
         self.assertGreater(post[athlete] / pre[athlete],
                            post[weak] / pre[weak])
+
+
+class TestEffectiveOpponentScores(unittest.TestCase):
+    def test_pads_up_to_expected_min_without_touching_real_rows(self):
+        # 3 real, known opponents but a league known to grow to 6 - the
+        # padding should add exactly 3 more, tied at my_score, without
+        # disturbing the 3 real entries.
+        lg = {"opponent_scores": [10, 5, 0], "my_score": 20,
+              "expected_min_opponents": 6}
+        scores = effective_opponent_scores(lg)
+        self.assertEqual(scores, [10, 5, 0, 20, 20, 20])
+
+    def test_does_nothing_once_real_count_reaches_the_minimum(self):
+        lg = {"opponent_scores": [1, 2, 3, 4, 5, 6], "my_score": 0,
+              "expected_min_opponents": 6}
+        self.assertEqual(effective_opponent_scores(lg), [1, 2, 3, 4, 5, 6])
+
+    def test_falls_back_to_num_opponents_when_scores_are_empty(self):
+        lg = {"num_opponents": 4, "my_score": 7, "expected_min_opponents": 6}
+        scores = effective_opponent_scores(lg)
+        self.assertEqual(scores, [7.0] * 6)
+
+    def test_ignored_when_not_set(self):
+        lg = {"opponent_scores": [0, 0, 0], "my_score": 0}
+        self.assertEqual(effective_opponent_scores(lg), [0, 0, 0])
 
 
 class TestAllocation(unittest.TestCase):

@@ -108,6 +108,70 @@ class TestParseStandings(unittest.TestCase):
                          {"Touch Copper", "Claude Spoiler Bot 2000", "Claude's Fleshbag"})
 
 
+class _FakePage:
+    """Just enough of the Playwright Page interface to drive submit_vote /
+    verify_vote against an in-memory field store, seeded from the real
+    vote.html fixture's 21 fields (episode 1, tribe 1).
+
+    Reproduces js/vote-helper.js's capInputAtMaximum: every field write is
+    clamped against the LIVE running total across all fields in the same
+    (episode, tribe) pool at that exact moment, budget 10 - not against the
+    caller's intended final total. This is what actually caught the live
+    bug: setting fields to their targets in discovery order let an increase
+    land before an unrelated decrease, transiently exceeding budget and
+    getting silently clamped.
+    """
+
+    BUDGET = 10
+
+    def __init__(self, initial_values):
+        self._values = dict(initial_values)  # site_id -> str value
+        self._html = _read("vote.html")
+
+    def goto(self, *a, **k):
+        pass
+
+    def wait_for_timeout(self, *a, **k):
+        pass
+
+    def content(self):
+        return self._html
+
+    def evaluate(self, script, arg=None):
+        if isinstance(arg, list):
+            sel, val = arg
+            site_id = int(sel.rsplit("-", 1)[1])
+            others = sum(int(v or 0) for k, v in self._values.items()
+                        if k != site_id)
+            clamped = min(int(val), self.BUDGET - others)
+            self._values[site_id] = str(max(0, clamped))
+        # window.submitVotes() call: nothing to simulate, values already set.
+
+    def eval_on_selector(self, selector, script):
+        tail = selector.rsplit("-", 1)[1]
+        site_id = int(tail.rstrip('"]'))
+        return self._values.get(site_id, "")
+
+
+class TestSubmitVoteReplacesRatherThanMerges(unittest.TestCase):
+    def test_dropped_castaways_get_zeroed_not_left_stale(self):
+        # Reproduces the exact bug found live: a prior submission had
+        # points on rob/maggie/an (555/551/538); resubmitting a fresh
+        # all-in on kristin (548) must zero the other three, not just add
+        # 10 on top of their leftover values.
+        page = _FakePage({555: "1", 551: "1", 538: "1", 548: "0"})
+        submit.submit_vote(page, 1, {548: 10})
+        self.assertEqual(page._values[548], "10")
+        self.assertEqual(page._values[555], "0")
+        self.assertEqual(page._values[551], "0")
+        self.assertEqual(page._values[538], "0")
+
+    def test_verify_fails_if_a_dropped_castaway_is_left_nonzero(self):
+        page = _FakePage({555: "1", 548: "10"})  # 555 never got cleared
+        with self.assertRaises(submit.SubmitError):
+            submit.verify_vote(page, 1, {548: 10})
+
+
 class TestSoleSurvivorConfirmation(unittest.TestCase):
     def test_recognises_the_sites_own_confirmation_text(self):
         self.assertTrue(submit.parse_sole_survivor_confirmation(
