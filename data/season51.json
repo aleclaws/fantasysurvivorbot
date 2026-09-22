@@ -17,6 +17,7 @@
     "First season to start with 21 players; first two-tribe start since Winners at War.",
     "21 into 2 tribes is uneven (11/10) - CBS has not published the rosters, so a premiere-night twist that redistributes players is plausible.",
     "Jeff Probst has billed the season as 'the open era': any past twist or advantage can return at any time, in any order.",
+    "CBS's premiere teaser (reported 2026-09-22) says the buffs are pre-assigned - 'find your name, grab your BUFF' - and that 'one of you will not begin the game with the others'. So 21 splits into two tribes plus one castaway held out somehow. Who, and what happens to them, is not public; the model does not try to guess it.",
     "Tribe assignments are UNKNOWN until the premiere. Every castaway below has tribe=null. Fill them in after episode 1.",
     "site_survivor_id is fantasysurvivorgame.com's own numeric id for each castaway, read from the account's authenticated draft.html on 2026-09-17. tools/submit.py needs it to build pick/vote URLs and form fields."
   ],

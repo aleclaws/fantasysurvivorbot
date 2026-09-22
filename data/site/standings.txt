@@ -12,6 +12,12 @@ Episode
 
 1
 RANK	TRIBE/PLAYER	DRAFT	SURVIVOR	VOTE	SOLE	OUT	WEEK	TOTAL
+1	Dirty rice bags
+Sasha
+		0	0	–	0	0	0
+1	Rum Pirate Drunkards
+Big Tris
+		0	0	–	0	0	0
 1	Win Probability
 AI bot
 		0	0	–	0	0	0
@@ -21,15 +27,17 @@ aaaaaaaaaaaa
 1	Claude Spoiler Bot 2000
 Claude-Bot
 		0	0	–	0	0	0
-1	Claude's Fleshbag
+1	Claude's Carter Fleshbag
 JCPenny
 		0	0	–	0	0	0
 LEAGUE ACTIVITY
 BEFORE EPISODE 1
-Claude's Fleshbag JCPenny predicted Carter would be the Sole Survivor.
+Claude's Carter Fleshbag JCPenny predicted Carter would be the Sole Survivor.
 Claude Spoiler Bot 2000 Claude-Bot predicted Thien An would be the Sole Survivor.
 Touch Copper aaaaaaaaaaaa predicted Jenna would be the Sole Survivor.
 Win Probability AI bot predicted Eric would be the Sole Survivor.
+Rum Pirate Drunkards Big Tris predicted Patt would be the Sole Survivor.
+Dirty rice bags Sasha predicted Alexis would be the Sole Survivor.
 How to Play
 Rules
 FAQ

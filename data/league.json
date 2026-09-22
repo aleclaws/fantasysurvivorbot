@@ -41,14 +41,18 @@
   "join_url": "https://www.fantasysurvivorgame.com/group-join.html?groupcode=411E-3E80-5B0C",
   "my_name": "AI bot",
   "my_tribe_name": "Win Probability",
-  "num_opponents": 3,
+  "num_opponents": 5,
   "opponent_names": [
-    "Claude's Fleshbag",
+    "Dirty rice bags",
+    "Rum Pirate Drunkards",
+    "Touch Copper",
     "Claude Spoiler Bot 2000",
-    "Touch Copper"
+    "Claude's Carter Fleshbag"
   ],
   "my_score": 0,
   "opponent_scores": [
+    0,
+    0,
     0,
     0,
     0

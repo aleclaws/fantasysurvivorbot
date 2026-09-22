@@ -323,9 +323,11 @@ def sync_league_standings(page) -> dict:
     league_path = DATA / "league.json"
     with open(league_path, encoding="utf-8") as fh:
         league = json.load(fh)
+    others = [r for r in rows if not r["is_self"]]
     league["my_score"] = self_row["total"]
-    league["opponent_scores"] = [r["total"] for r in rows if not r["is_self"]]
-    league["num_opponents"] = len(league["opponent_scores"])
+    league["opponent_scores"] = [r["total"] for r in others]
+    league["opponent_names"] = [r["tribe_name"] or r["real_name"] for r in others]
+    league["num_opponents"] = len(others)
     with open(league_path, "w", encoding="utf-8") as fh:
         json.dump(league, fh, indent=2)
         fh.write("\n")
