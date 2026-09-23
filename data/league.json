@@ -41,8 +41,9 @@
   "join_url": "https://www.fantasysurvivorgame.com/group-join.html?groupcode=411E-3E80-5B0C",
   "my_name": "AI bot",
   "my_tribe_name": "Win Probability",
-  "num_opponents": 6,
+  "num_opponents": 7,
   "opponent_names": [
+    "Unprepared and Underweared",
     "Sole Samvivor",
     "Dirty rice bags",
     "Rum Pirate Drunkards",
@@ -52,6 +53,7 @@
   ],
   "my_score": 0,
   "opponent_scores": [
+    0,
     0,
     0,
     0,
