@@ -152,6 +152,28 @@ def parse_sole_survivor_confirmation(body_text: str) -> bool:
     return "chosen as Sole Survivor" in body_text
 
 
+SOLE_PICK_RE = re.compile(r"SOLE SURVIVOR PICK\s*\n+\s*([^\n]+)")
+
+
+def parse_profile_sole_pick(body_text: str) -> str:
+    """The Sole Survivor pick the profile page currently shows.
+
+    The site only flashes "<name> chosen as Sole Survivor" when setting a
+    first pick, not when changing one, so a submission that worked fine read
+    as a failure. The saved pick on the profile is the real state.
+    """
+    m = SOLE_PICK_RE.search(body_text)
+    return m.group(1).strip() if m else ""
+
+
+def load_display_names() -> Dict[str, str]:
+    """engine castaway id -> the name the site shows for them."""
+    with open(DATA / "season51.json", encoding="utf-8") as fh:
+        meta = json.load(fh)
+    return {row["id"]: row.get("site_display_name", row["name"])
+            for row in meta["cast"]}
+
+
 ROW_RE = re.compile(r'<tr( id="leaderboard-self")?[^>]*>(.*?)</tr>', re.S)
 TRIBENAME_RE = re.compile(r'<span class="player-tribename">([^<]*)</span>')
 REALNAME_RE = re.compile(r'<span class="player-realname">([^<]*)</span>')
@@ -202,12 +224,21 @@ def login(page, email: str, password: str) -> None:
         raise SubmitError("login failed - check FSG_EMAIL / FSG_PASSWORD")
 
 
-def submit_sole_survivor(page, site_id: int) -> None:
+def submit_sole_survivor(page, site_id: int, expect_name: str = "") -> None:
     page.goto(f"{BASE}/sole-survivor.html?solesurvivor={site_id}",
               wait_until="domcontentloaded", timeout=20000)
     page.wait_for_timeout(1000)
-    if not parse_sole_survivor_confirmation(page.inner_text("body")):
-        raise SubmitError("sole survivor pick was not confirmed by the site")
+    if not expect_name:
+        if not parse_sole_survivor_confirmation(page.inner_text("body")):
+            raise SubmitError("sole survivor pick was not confirmed by the site")
+        return
+    page.goto(f"{BASE}/profile.html", wait_until="domcontentloaded", timeout=20000)
+    page.wait_for_timeout(800)
+    shown = parse_profile_sole_pick(page.inner_text("body"))
+    if shown.strip().upper() != expect_name.strip().upper():
+        raise SubmitError(
+            f"sole survivor pick did not stick: sent {expect_name!r}, "
+            f"profile now shows {shown!r}")
 
 
 def submit_draft_preferences(page, ordered_site_ids: List[int]) -> None:
@@ -369,9 +400,10 @@ def cmd_sole_survivor(args) -> None:
     cid = args.who if args.who in site_ids else None
     if cid is None:
         raise SystemExit(f"{args.who!r} is not a known castaway id")
+    expect = load_display_names().get(cid, "")
     pw, browser, page = _make_page()
     try:
-        submit_sole_survivor(page, site_ids[cid])
+        submit_sole_survivor(page, site_ids[cid], expect)
         print(f"confirmed: {cid} set as Sole Survivor pick")
     finally:
         browser.close()

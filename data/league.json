@@ -43,25 +43,38 @@
   "my_tribe_name": "Win Probability",
   "num_opponents": 7,
   "opponent_names": [
-    "Unprepared and Underweared",
-    "Sole Samvivor",
-    "Dirty rice bags",
-    "Rum Pirate Drunkards",
-    "Touch Copper",
     "Claude Spoiler Bot 2000",
-    "Claude's Carter Fleshbag"
+    "Sole Samvivor",
+    "Unprepared and Underweared",
+    "Dirty rice bags",
+    "Claude's Carter Fleshbag",
+    "Touch Copper",
+    "Rum Pirate Drunkards"
   ],
-  "my_score": 0,
+  "my_score": 2,
   "opponent_scores": [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+    12,
+    11,
+    9,
+    8,
+    4,
+    2,
+    1
   ],
   "expected_min_opponents": 6,
-  "field_sharpness": 2.5,
-  "field_all_in_fraction": 0.7
+  "field_sharpness": 1.8,
+  "field_all_in_fraction": 0.5,
+  "field_noise": 0.8,
+  "_field_evidence": [
+    "Calibrated from real episode 1 results (data/site/standings.html), 2026-09-24.",
+    "Vote points scored by the 8 players: 6, 5, and zero for the other six (me included).",
+    "Two readings follow. The field is NOT herd-like: nobody piled onto one obvious",
+    "name hard enough to take the full 10, and the castaway who actually went was not",
+    "the consensus pre-season pick. And the field is NOT accurate: three quarters of",
+    "it scored nothing. So sharpness drops 2.5 -> 1.8, all-in 0.7 -> 0.5 (both of the",
+    "players who scored spread their points rather than going all in), and noise rises",
+    "0.6 -> 0.8. Net effect: against a field this noisy, being right is worth more than",
+    "being different, so the optimiser should sit closer to the true favourite.",
+    "One episode is thin evidence - revisit these after episode 2 and 3."
+  ]
 }

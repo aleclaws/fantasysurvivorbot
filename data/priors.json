@@ -72,6 +72,8 @@
     "reward_companions": 2,
     "camp_points_per_episode": 6,
     "advantage_points_per_episode": 3,
+    "idol_play_success": 0.55,
+    "idol_expires_at_players": 5,
     "auction_prob": 0.3,
     "love_from_home_prob": 0.9,
     "love_from_home_window": 3,
@@ -83,7 +85,9 @@
       "tribe_reward_fraction": "share of pre-merge episodes with a separately scored tribe reward; new-era seasons often combine or skip rewards",
       "reward_companions": "individual reward winners usually bring 1-2 others; the rules pay each companion 1 point",
       "camp_points_per_episode": "tree mail + water well + fire + food, summed over the whole cast per episode",
-      "advantage_points_per_episode": "clue/idol/advantage/journey points over the whole cast per episode; 'every past twist returns' in the open era"
+      "advantage_points_per_episode": "clue/idol/advantage/journey points over the whole cast per episode; 'every past twist returns' in the open era",
+      "idol_play_success": "an idol saves its holder ONCE, and only if they read the vote right and actually play it. The season simulation consumes it on first use instead of treating it as season-long protection, which made a holder nearly unbootable",
+      "idol_expires_at_players": "idols stop being playable near the end; S51's first idol was reported as playable through the final 5"
     }
   },
   "weights": {

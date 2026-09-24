@@ -20,7 +20,62 @@
 <body>
 	
 
-					
+																									
+	<script>
+		var alertBoxTimeOutID = null;
+		var manuallyClosed = false;
+		function fadeAlertBox() {
+			window.clearTimeout(alertBoxTimeOutID);
+			let el = document.getElementById('alertbar');
+			if (!el.classList.contains('inactive')) {
+				el.classList.add('inactive');
+			}
+			document.getElementById('alertbarclosebtn').style.display = 'none';
+		}
+		function pauseAlertBox() {
+			if (!manuallyClosed) {
+				window.clearTimeout(alertBoxTimeOutID);
+				var el = document.getElementById('alertbar');
+				if (el.classList.contains('inactive')) {
+					el.classList.remove('inactive');
+				}
+				document.getElementById('alertbarclosebtn').style.display = 'inline-block';
+			}
+		}
+		function resumeAlertBox() {
+			if (!manuallyClosed) {
+							}
+		}
+		function closeAlertBox() {
+			manuallyClosed = true;
+			fadeAlertBox();
+						return false;
+		}
+		// replaces jQuery $(document).ready()
+		var ready = (callback) => {
+			if (document.readyState != 'loading') {
+				callback();
+			} else {
+				document.addEventListener('DOMContentLoaded', callback);
+			}
+		}
+		ready(() => {
+			resumeAlertBox();
+			// we hide the close button by default -- but we'll show if they have Javascript enabled
+			document.getElementById('alertbarclosebtn').style.display = 'inline-block';
+		});
+	</script>
+	<div id="alertbar" class="container-fluid sticky-top notice" onmouseover="pauseAlertBox();" onmouseout="resumeAlertBox();">
+		<div class="container">
+			<div class="row align-items-center">
+				<div id="alert-message" class="col">
+					You still need to vote for the upcoming episode! <a class="bold" href="/vote.html">Vote Now</a>				</div>
+				<div class="col-auto ps-0">
+					<a id="alertbarclosebtn" onclick="return closeAlertBox();" href="" style="display: inline-block;"><i class="bi bi-x-lg"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
 				<div class="container-fluid px-0">
 		<nav class="row container mx-auto px-0">
 			<ul class="navbar nav-fsg-underline px-2 mb-0" aira-role="menu">
@@ -30,7 +85,7 @@
 					<input type="radio" id="navbar-toggle-reset-radio" name="navbar-radio-group" checked="">
 				</li>
 				<li class="p-2 p-sm-3">
-					<a href="https://fantasysurvivorgame.myshopify.com/" id="shop-link-nav" class="btn-link-secondary text-decoration-none text-uppercase">Shop</a>
+					<a href="/shop.html?t=nav" id="shop-link-nav" class="btn-link-secondary text-decoration-none text-uppercase">Shop</a>
 				</li>
 				<li id="navbar-groupname" class="p-2">
 					<input type="radio" id="navbar-toggle-groupmenu-radio" name="navbar-radio-group">
@@ -91,70 +146,17 @@
 			const url = '/ajax-track.php';
 			navigator.sendBeacon(url, formData);
 		});
-		document.getElementById('shop-link-nav').addEventListener('click', function() {
-			const formData = new FormData();
-			formData.set('t', 'shop-nav');
-			const url = '/ajax-track.php';
-			navigator.sendBeacon(url, formData);
-		});
 	</script>
 	
-						
-	<div id="header" class="container-fluid setup-bg">
-		<div class="row">
-			<div class="col">
-				<h1 class="pgheadTitle text-center">Season 51 Setup</h1>
-				<h6 class="pgheadSeason text-center">For identos</h6>			</div>
+				<div id="header" class="container-fluid vote-bg">
+			<div class="row">
+				<div class="col px-0">
+					<h1 class="pghead">Vote Episode 2</h1>
+				</div>
+			</div>
+			<div class="row headertexture">
+			</div>
 		</div>
-	</div>
-<!-- 	START	 -->
-<div class="container-fluid parchBG mb-5">
-	<div id="seasonsetup" class="row justify-content-evenly mx-auto">
-<!-- 	JOIN GROUP	 -->
-		<div class="col-2 px-0 px-sm-2 px-md-4">
-			<a href="group-start.html#header" class="setupLbl">
-																					<img class="img-fluid" src="images/steps/step-group-green-icon.png">
-				<div class="text-center pt-2">JOIN<br>GROUP</div>
-			</a>
-		</div>
-<!-- 	INVITE FRIENDS	 -->
-		<div class="col-2 px-0 px-sm-2 px-md-4">
-			<a href="invite.html#header" class="setupLbl">
-																					<img class="img-fluid" src="images/steps/step-invite-green-icon.png">
-				<div class="text-center pt-2">INVITE<br>OTHERS</div>
-			</a>
-		</div>
-<!-- 	NAME TRIBE	 -->
-		<div class="col-2 px-0 px-sm-2 px-md-4">
-			<a href="draft-info.html#header" class="setupLbl">
-																					<img class="img-fluid" src="images/steps/step-name-red-icon.png">
-				<div class="text-center pt-2">NAME<br>TRIBE</div>
-			</a>
-		</div>
-<!-- 	DRAFT	 -->
-		<div class="col-2 px-0 px-sm-2 px-md-4">
-			<a href="draft.html#header" class="setupLbl">
-																					<img class="img-fluid" src="images/steps/step-draft-red-icon.png">
-				<div class="text-center pt-2">DRAFT<br>TRIBE</div>
-			</a>
-		</div>
-<!-- 	SOLE PICK	 -->
-		<div class="col-2 px-0 px-sm-2 px-md-4">
-			<a href="sole-survivor.html#header" class="setupLbl">
-																					<img class="img-fluid" src="images/steps/step-sole-red-icon.png">
-				<div class="text-center pt-2">PICK<br>WINNER</div>
-			</a>
-		</div>
-<!-- 	VOTE	 -->
-		<div class="col-2 px-0 px-sm-2 px-md-4">
-			<a href="vote.html#header" class="setupLbl">
-																														<img class="img-fluid" src="images/steps/step-vote-blue-icon.png">
-				<div class="text-center pt-2">VOTE<br>NOW</div>
-			</a>
-		</div>
-<!-- 	END	 -->
-	</div>
-</div>
 		<!--Vote Block Code Area-->
 		<div class="container-md">
 			<div class="row">
@@ -169,22 +171,22 @@
 						<form action="vote.html" method="post" id="voteform">
 									
 
-	<input type="hidden" name="includes-episode1" id="includes-episode1" value="1">
-		<div class="container-fluid container-lg sticky-top mt-4" style="background-color: var(--fsg-bg);">
+	<input type="hidden" name="includes-episode2" id="includes-episode2" value="2">
+			<div class="container-fluid container-lg sticky-top mt-4" style="background-color: var(--fsg-bg);">
 		<div class="row">
 			<div class="col px-0 z-2" style="position: relative; top: 6px; margin-top: -13px;">
 				<img src="images/bamboo-divider-1320.png" class="rounded-1 img-fluid object-fit-cover" style="height: 13px;">
 			</div>
 		</div>
 		<div class="px-0 px-sm-2">
-			<div class="row" style="height: 60px; background-color: #cec2b7; border-bottom: 5px; border-bottom-style: solid; border-bottom-color: #00B7C9;">
+			<div class="row" style="height: 60px; background-color: #cec2b7; border-bottom: 5px; border-bottom-style: solid; border-bottom-color: #FDB515;">
 				<div class="col-auto ps-4 d-none d-sm-block voteflag">
-						<img class="flag" src="/images/51/tribeflags/tribe1flag.png" alt="Flag for the Unknown tribe" title="Unknown">
+						<img class="flag" src="/images/51/tribeflags/tribe2flag.png" alt="Flag for the Toka tribe" title="Toka">
 				</div>
 				<div class="col">
 					<div class="row align-items-center" style="min-height: 50px;">
-						<div class="col fs-2 survivorfont" style="overflow: hidden; white-space: nowrap;">
-								<span class="tribename" style="color: #00B7C9;">Unknown</span>
+						<div class="col fs-2 survivorfont text-stroke" style="overflow: hidden; white-space: nowrap;">
+								<span class="tribename" style="color: #FDB515;">Toka</span>
 						</div>
 						<div class="col-auto col-sm-2 d-block d-sm-none text-end lh-1 fs-6 survivorfont">
 							PTS<br>LEFT
@@ -192,16 +194,16 @@
 						<div class="col-auto col-sm-2 d-none d-sm-block text-end lh-1 fs-6 survivorfont">
 							POINTS<br>REMAIN
 						</div>
-						<div class="col-auto display-5 survivorfont" id="pointsLeft1-1" style="padding-left: 0px; padding-top: 0px;">
+						<div class="col-auto display-5 survivorfont" id="pointsLeft2-2" style="padding-left: 0px; padding-top: 0px;">
 							10
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-																					</div>
+																													</div>
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-536">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-538">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -209,99 +211,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/aaliyahSOLE.jpg" title="Aaliyah Puglia" alt="Survivor cast photo of Aaliyah Puglia" style="border-color: #00B7C9;">
-		</div>
-			</div>
-			<div class="col-auto px-0">
-				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
-					AALIYAH
-				</div>
-								<div class="d-none d-md-block">
-					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=536" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=536" title="How likely is this survivor to go home?">10</a></div>
-											</div>
-				</div>
-								<div class="col-auto d-block d-md-none">
-					<div class="input-group align-content-center">
-						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Aaliyah" value="" maxlength="3" id="votenum1-1-536" name="votenum1-1-536" data-last-value="0">
-						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-auto text-center d-none d-md-block">
-				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-536" style="line-height: .75em;">0</div>
-			</div>
-		</div>
-	</div>
-																							
-
-	<div class="container-fluid container-lg votewrap" id="votewrap1-537">
-		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
-			<div class="col-auto voteimgwrap">
-								
-
-
-						
-<div class="survivor-circle-img">
-	<img src="/images/51/thumbs/alexisSOLE.jpg" title="Alexis Levine" alt="Survivor cast photo of Alexis Levine" style="border-color: #00B7C9;">
-		</div>
-			</div>
-			<div class="col-auto px-0">
-				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
-					ALEXIS
-				</div>
-								<div class="d-none d-md-block">
-					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=537" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=537" title="How likely is this survivor to go home?">10</a></div>
-											</div>
-				</div>
-								<div class="col-auto d-block d-md-none">
-					<div class="input-group align-content-center">
-						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Alexis" value="" maxlength="3" id="votenum1-1-537" name="votenum1-1-537" data-last-value="0">
-						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-auto text-center d-none d-md-block">
-				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-537" style="line-height: .75em;">0</div>
-			</div>
-		</div>
-	</div>
-																							
-
-	<div class="container-fluid container-lg votewrap" id="votewrap1-538">
-		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
-			<div class="col-auto voteimgwrap">
-								
-
-
-						
-<div class="survivor-circle-img">
-	<img src="/images/51/thumbs/thien%20anSOLE.jpg" title="An &quot;Thien An&quot; Nguyen" alt="Survivor cast photo of An &quot;Thien An&quot; Nguyen" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/thien%20anSOLE.jpg" title="An &quot;Thien An&quot; Nguyen" alt="Survivor cast photo of An &quot;Thien An&quot; Nguyen" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -310,36 +220,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=538" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=538" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=538" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=538" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Thien An" value="" maxlength="3" id="votenum1-1-538" name="votenum1-1-538" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Thien An" value="" maxlength="3" id="votenum2-2-538" name="votenum2-2-538" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-538" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-538" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
-																							
+																											
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-539">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-540">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -347,53 +257,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/anaSOLE.jpg" title="Ana Sani" alt="Survivor cast photo of Ana Sani" style="border-color: #00B7C9;">
-		</div>
-			</div>
-			<div class="col-auto px-0">
-				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
-					ANA
-				</div>
-								<div class="d-none d-md-block">
-					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=539" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=539" title="How likely is this survivor to go home?">10</a></div>
-											</div>
-				</div>
-								<div class="col-auto d-block d-md-none">
-					<div class="input-group align-content-center">
-						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Ana" value="" maxlength="3" id="votenum1-1-539" name="votenum1-1-539" data-last-value="0">
-						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-auto text-center d-none d-md-block">
-				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-539" style="line-height: .75em;">0</div>
-			</div>
-		</div>
-	</div>
-																							
-
-	<div class="container-fluid container-lg votewrap" id="votewrap1-540">
-		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
-			<div class="col-auto voteimgwrap">
-								
-
-
-						
-<div class="survivor-circle-img">
-	<img src="/images/51/thumbs/jellySOLE.jpg" title="Angelica &quot;Jelly&quot; Loblack" alt="Survivor cast photo of Angelica &quot;Jelly&quot; Loblack" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/jellySOLE.jpg" title="Angelica &quot;Jelly&quot; Loblack" alt="Survivor cast photo of Angelica &quot;Jelly&quot; Loblack" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -402,36 +266,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=540" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=540" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=540" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Jelly" value="" maxlength="3" id="votenum1-1-540" name="votenum1-1-540" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Jelly" value="" maxlength="3" id="votenum2-2-540" name="votenum2-2-540" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-540" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-540" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
 																							
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-541">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-541">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -439,7 +303,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/bradySOLE.jpg" title="Brady Booker" alt="Survivor cast photo of Brady Booker" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/bradySOLE.jpg" title="Brady Booker" alt="Survivor cast photo of Brady Booker" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -448,36 +312,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=541" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=541" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=541" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=541" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Brady" value="" maxlength="3" id="votenum1-1-541" name="votenum1-1-541" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Brady" value="" maxlength="3" id="votenum2-2-541" name="votenum2-2-541" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-541" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-541" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
-																							
+																															
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-542">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-544">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -485,99 +349,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/carterSOLE.jpg" title="Carter Krull" alt="Survivor cast photo of Carter Krull" style="border-color: #00B7C9;">
-		</div>
-			</div>
-			<div class="col-auto px-0">
-				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
-					CARTER
-				</div>
-								<div class="d-none d-md-block">
-					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=542" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=542" title="How likely is this survivor to go home?">10</a></div>
-											</div>
-				</div>
-								<div class="col-auto d-block d-md-none">
-					<div class="input-group align-content-center">
-						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Carter" value="" maxlength="3" id="votenum1-1-542" name="votenum1-1-542" data-last-value="0">
-						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-auto text-center d-none d-md-block">
-				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-542" style="line-height: .75em;">0</div>
-			</div>
-		</div>
-	</div>
-																							
-
-	<div class="container-fluid container-lg votewrap" id="votewrap1-543">
-		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
-			<div class="col-auto voteimgwrap">
-								
-
-
-						
-<div class="survivor-circle-img">
-	<img src="/images/51/thumbs/cristianSOLE.jpg" title="Cristian Chavez" alt="Survivor cast photo of Cristian Chavez" style="border-color: #00B7C9;">
-		</div>
-			</div>
-			<div class="col-auto px-0">
-				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
-					CRISTIAN
-				</div>
-								<div class="d-none d-md-block">
-					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=543" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=543" title="How likely is this survivor to go home?">10</a></div>
-											</div>
-				</div>
-								<div class="col-auto d-block d-md-none">
-					<div class="input-group align-content-center">
-						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Cristian" value="" maxlength="3" id="votenum1-1-543" name="votenum1-1-543" data-last-value="0">
-						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-auto text-center d-none d-md-block">
-				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-543" style="line-height: .75em;">0</div>
-			</div>
-		</div>
-	</div>
-																							
-
-	<div class="container-fluid container-lg votewrap" id="votewrap1-544">
-		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
-			<div class="col-auto voteimgwrap">
-								
-
-
-						
-<div class="survivor-circle-img">
-	<img src="/images/51/thumbs/kilbySOLE.jpg" title="Danny Kilby" alt="Survivor cast photo of Danny Kilby" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/kilbySOLE.jpg" title="Danny Kilby" alt="Survivor cast photo of Danny Kilby" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -586,36 +358,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=544" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=544" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=544" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=544" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Kilby" value="" maxlength="3" id="votenum1-1-544" name="votenum1-1-544" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Kilby" value="" maxlength="3" id="votenum2-2-544" name="votenum2-2-544" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-544" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-544" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
 																							
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-545">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-545">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -623,7 +395,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/devinSOLE.jpg" title="Devin Way" alt="Survivor cast photo of Devin Way" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/devinSOLE.jpg" title="Devin Way" alt="Survivor cast photo of Devin Way" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -632,36 +404,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=545" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=545" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=545" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=545" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Devin" value="" maxlength="3" id="votenum1-1-545" name="votenum1-1-545" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Devin" value="" maxlength="3" id="votenum2-2-545" name="votenum2-2-545" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-545" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-545" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
-																							
+																											
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-546">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-547">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -669,53 +441,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/ericSOLE.jpg" title="Eric Macksoud" alt="Survivor cast photo of Eric Macksoud" style="border-color: #00B7C9;">
-		</div>
-			</div>
-			<div class="col-auto px-0">
-				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
-					ERIC
-				</div>
-								<div class="d-none d-md-block">
-					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=546" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=546" title="How likely is this survivor to go home?">10</a></div>
-											</div>
-				</div>
-								<div class="col-auto d-block d-md-none">
-					<div class="input-group align-content-center">
-						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Eric" value="" maxlength="3" id="votenum1-1-546" name="votenum1-1-546" data-last-value="0">
-						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-auto text-center d-none d-md-block">
-				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-546" style="line-height: .75em;">0</div>
-			</div>
-		</div>
-	</div>
-																							
-
-	<div class="container-fluid container-lg votewrap" id="votewrap1-547">
-		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
-			<div class="col-auto voteimgwrap">
-								
-
-
-						
-<div class="survivor-circle-img">
-	<img src="/images/51/thumbs/jennaSOLE.jpg" title="Jenna Doore" alt="Survivor cast photo of Jenna Doore" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/jennaSOLE.jpg" title="Jenna Doore" alt="Survivor cast photo of Jenna Doore" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -724,36 +450,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=547" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=547" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=547" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=547" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Jenna" value="" maxlength="3" id="votenum1-1-547" name="votenum1-1-547" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Jenna" value="" maxlength="3" id="votenum2-2-547" name="votenum2-2-547" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-547" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-547" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
-																							
+																											
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-548">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-549">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -761,53 +487,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/kristinSOLE.jpg" title="Kristin Flickinger" alt="Survivor cast photo of Kristin Flickinger" style="border-color: #00B7C9;">
-		</div>
-			</div>
-			<div class="col-auto px-0">
-				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
-					KRISTIN
-				</div>
-								<div class="d-none d-md-block">
-					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=548" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=548" title="How likely is this survivor to go home?">10</a></div>
-											</div>
-				</div>
-								<div class="col-auto d-block d-md-none">
-					<div class="input-group align-content-center">
-						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Kristin" value="" maxlength="3" id="votenum1-1-548" name="votenum1-1-548" data-last-value="0">
-						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-auto text-center d-none d-md-block">
-				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-548" style="line-height: .75em;">0</div>
-			</div>
-		</div>
-	</div>
-																							
-
-	<div class="container-fluid container-lg votewrap" id="votewrap1-549">
-		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
-			<div class="col-auto voteimgwrap">
-								
-
-
-						
-<div class="survivor-circle-img">
-	<img src="/images/51/thumbs/lewisSOLE.jpg" title="Lewis Kelly" alt="Survivor cast photo of Lewis Kelly" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/lewisSOLE.jpg" title="Lewis Kelly" alt="Survivor cast photo of Lewis Kelly" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -816,36 +496,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=549" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=549" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=549" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=549" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Lewis" value="" maxlength="3" id="votenum1-1-549" name="votenum1-1-549" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Lewis" value="" maxlength="3" id="votenum2-2-549" name="votenum2-2-549" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-549" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-549" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
-																							
+																											
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-550">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-551">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -853,53 +533,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/linneaSOLE.jpg" title="Linnea Capobianco" alt="Survivor cast photo of Linnea Capobianco" style="border-color: #00B7C9;">
-		</div>
-			</div>
-			<div class="col-auto px-0">
-				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
-					LINNEA
-				</div>
-								<div class="d-none d-md-block">
-					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=550" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=550" title="How likely is this survivor to go home?">10</a></div>
-											</div>
-				</div>
-								<div class="col-auto d-block d-md-none">
-					<div class="input-group align-content-center">
-						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Linnea" value="" maxlength="3" id="votenum1-1-550" name="votenum1-1-550" data-last-value="0">
-						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-auto text-center d-none d-md-block">
-				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-550" style="line-height: .75em;">0</div>
-			</div>
-		</div>
-	</div>
-																							
-
-	<div class="container-fluid container-lg votewrap" id="votewrap1-551">
-		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
-			<div class="col-auto voteimgwrap">
-								
-
-
-						
-<div class="survivor-circle-img">
-	<img src="/images/51/thumbs/maggieSOLE.jpg" title="Maggie Nestor" alt="Survivor cast photo of Maggie Nestor" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/maggieSOLE.jpg" title="Maggie Nestor" alt="Survivor cast photo of Maggie Nestor" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -908,36 +542,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=551" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=551" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=551" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=551" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Maggie" value="" maxlength="3" id="votenum1-1-551" name="votenum1-1-551" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Maggie" value="" maxlength="3" id="votenum2-2-551" name="votenum2-2-551" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-551" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-551" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
 																							
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-552">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-552">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -945,7 +579,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/mikeSOLE.jpg" title="Mike Pinsky" alt="Survivor cast photo of Mike Pinsky" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/mikeSOLE.jpg" title="Mike Pinsky" alt="Survivor cast photo of Mike Pinsky" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -954,36 +588,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=552" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=552" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=552" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=552" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Mike" value="" maxlength="3" id="votenum1-1-552" name="votenum1-1-552" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Mike" value="" maxlength="3" id="votenum2-2-552" name="votenum2-2-552" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-552" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-552" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
-																							
+																											
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-553">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-554">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -991,53 +625,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/oriSOLE.jpg" title="Ori Jean-Charles" alt="Survivor cast photo of Ori Jean-Charles" style="border-color: #00B7C9;">
-		</div>
-			</div>
-			<div class="col-auto px-0">
-				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
-					ORI
-				</div>
-								<div class="d-none d-md-block">
-					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=553" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=553" title="How likely is this survivor to go home?">10</a></div>
-											</div>
-				</div>
-								<div class="col-auto d-block d-md-none">
-					<div class="input-group align-content-center">
-						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Ori" value="" maxlength="3" id="votenum1-1-553" name="votenum1-1-553" data-last-value="0">
-						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-auto text-center d-none d-md-block">
-				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-553" style="line-height: .75em;">0</div>
-			</div>
-		</div>
-	</div>
-																							
-
-	<div class="container-fluid container-lg votewrap" id="votewrap1-554">
-		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
-			<div class="col-auto voteimgwrap">
-								
-
-
-						
-<div class="survivor-circle-img">
-	<img src="/images/51/thumbs/pattSOLE.jpg" title="Patt Cannaday" alt="Survivor cast photo of Patt Cannaday" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/pattSOLE.jpg" title="Patt Cannaday" alt="Survivor cast photo of Patt Cannaday" style="border-color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -1046,36 +634,66 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=554" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=554" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=554" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=554" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Patt" value="" maxlength="3" id="votenum1-1-554" name="votenum1-1-554" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Patt" value="" maxlength="3" id="votenum2-2-554" name="votenum2-2-554" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-554" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-554" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
-																							
+													<div style="height: 40px;"></div>
+			<div class="container-fluid container-lg sticky-top mt-4" style="background-color: var(--fsg-bg);">
+		<div class="row">
+			<div class="col px-0 z-2" style="position: relative; top: 6px; margin-top: -13px;">
+				<img src="images/bamboo-divider-1320.png" class="rounded-1 img-fluid object-fit-cover" style="height: 13px;">
+			</div>
+		</div>
+		<div class="px-0 px-sm-2">
+			<div class="row" style="height: 60px; background-color: #cec2b7; border-bottom: 5px; border-bottom-style: solid; border-bottom-color: #7E479C;">
+				<div class="col-auto ps-4 d-none d-sm-block voteflag">
+						<img class="flag" src="/images/51/tribeflags/tribe3flag.png" alt="Flag for the Savu tribe" title="Savu">
+				</div>
+				<div class="col">
+					<div class="row align-items-center" style="min-height: 50px;">
+						<div class="col fs-2 survivorfont text-stroke" style="overflow: hidden; white-space: nowrap;">
+								<span class="tribename" style="color: #7E479C;">Savu</span>
+						</div>
+						<div class="col-auto col-sm-2 d-block d-sm-none text-end lh-1 fs-6 survivorfont">
+							PTS<br>LEFT
+						</div>
+						<div class="col-auto col-sm-2 d-none d-sm-block text-end lh-1 fs-6 survivorfont">
+							POINTS<br>REMAIN
+						</div>
+						<div class="col-auto display-5 survivorfont" id="pointsLeft2-3" style="padding-left: 0px; padding-top: 0px;">
+							10
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+																									</div>
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-555">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-537">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -1083,7 +701,375 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/robSOLE.jpg" title="Rob Antonson" alt="Survivor cast photo of Rob Antonson" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/alexisSOLE.jpg" title="Alexis Levine" alt="Survivor cast photo of Alexis Levine" style="border-color: #7E479C;">
+		</div>
+			</div>
+			<div class="col-auto px-0">
+				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
+					ALEXIS
+				</div>
+								<div class="d-none d-md-block">
+					<div class="rating">
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=537" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=537" title="How likely is this survivor to go home?">10</a></div>
+											</div>
+				</div>
+								<div class="col-auto d-block d-md-none">
+					<div class="input-group align-content-center">
+						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Alexis" value="" maxlength="3" id="votenum2-3-537" name="votenum2-3-537" data-last-value="0">
+						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-auto text-center d-none d-md-block">
+				<div class="fs-6 survivorfont">GUESS</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-537" style="line-height: .75em;">0</div>
+			</div>
+		</div>
+	</div>
+																											
+
+	<div class="container-fluid container-lg votewrap" id="votewrap2-539">
+		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
+			<div class="col-auto voteimgwrap">
+								
+
+
+						
+<div class="survivor-circle-img">
+	<img src="/images/51/thumbs/anaSOLE.jpg" title="Ana Sani" alt="Survivor cast photo of Ana Sani" style="border-color: #7E479C;">
+		</div>
+			</div>
+			<div class="col-auto px-0">
+				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
+					ANA
+				</div>
+								<div class="d-none d-md-block">
+					<div class="rating">
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=539" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=539" title="How likely is this survivor to go home?">10</a></div>
+											</div>
+				</div>
+								<div class="col-auto d-block d-md-none">
+					<div class="input-group align-content-center">
+						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Ana" value="" maxlength="3" id="votenum2-3-539" name="votenum2-3-539" data-last-value="0">
+						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-auto text-center d-none d-md-block">
+				<div class="fs-6 survivorfont">GUESS</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-539" style="line-height: .75em;">0</div>
+			</div>
+		</div>
+	</div>
+																															
+
+	<div class="container-fluid container-lg votewrap" id="votewrap2-542">
+		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
+			<div class="col-auto voteimgwrap">
+								
+
+
+						
+<div class="survivor-circle-img">
+	<img src="/images/51/thumbs/carterSOLE.jpg" title="Carter Krull" alt="Survivor cast photo of Carter Krull" style="border-color: #7E479C;">
+		</div>
+			</div>
+			<div class="col-auto px-0">
+				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
+					CARTER
+				</div>
+								<div class="d-none d-md-block">
+					<div class="rating">
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=542" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=542" title="How likely is this survivor to go home?">10</a></div>
+											</div>
+				</div>
+								<div class="col-auto d-block d-md-none">
+					<div class="input-group align-content-center">
+						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Carter" value="" maxlength="3" id="votenum2-3-542" name="votenum2-3-542" data-last-value="0">
+						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-auto text-center d-none d-md-block">
+				<div class="fs-6 survivorfont">GUESS</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-542" style="line-height: .75em;">0</div>
+			</div>
+		</div>
+	</div>
+																							
+
+	<div class="container-fluid container-lg votewrap" id="votewrap2-543">
+		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
+			<div class="col-auto voteimgwrap">
+								
+
+
+						
+<div class="survivor-circle-img">
+	<img src="/images/51/thumbs/cristianSOLE.jpg" title="Cristian Chavez" alt="Survivor cast photo of Cristian Chavez" style="border-color: #7E479C;">
+		</div>
+			</div>
+			<div class="col-auto px-0">
+				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
+					CRISTIAN
+				</div>
+								<div class="d-none d-md-block">
+					<div class="rating">
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=543" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=543" title="How likely is this survivor to go home?">10</a></div>
+											</div>
+				</div>
+								<div class="col-auto d-block d-md-none">
+					<div class="input-group align-content-center">
+						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Cristian" value="" maxlength="3" id="votenum2-3-543" name="votenum2-3-543" data-last-value="0">
+						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-auto text-center d-none d-md-block">
+				<div class="fs-6 survivorfont">GUESS</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-543" style="line-height: .75em;">0</div>
+			</div>
+		</div>
+	</div>
+																															
+
+	<div class="container-fluid container-lg votewrap" id="votewrap2-546">
+		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
+			<div class="col-auto voteimgwrap">
+								
+
+
+						
+<div class="survivor-circle-img">
+	<img src="/images/51/thumbs/ericSOLE.jpg" title="Eric Macksoud" alt="Survivor cast photo of Eric Macksoud" style="border-color: #7E479C;">
+		</div>
+			</div>
+			<div class="col-auto px-0">
+				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
+					ERIC
+				</div>
+								<div class="d-none d-md-block">
+					<div class="rating">
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=546" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">10</a></div>
+											</div>
+				</div>
+								<div class="col-auto d-block d-md-none">
+					<div class="input-group align-content-center">
+						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Eric" value="" maxlength="3" id="votenum2-3-546" name="votenum2-3-546" data-last-value="0">
+						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-auto text-center d-none d-md-block">
+				<div class="fs-6 survivorfont">GUESS</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-546" style="line-height: .75em;">0</div>
+			</div>
+		</div>
+	</div>
+																											
+
+	<div class="container-fluid container-lg votewrap" id="votewrap2-548">
+		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
+			<div class="col-auto voteimgwrap">
+								
+
+
+						
+<div class="survivor-circle-img">
+	<img src="/images/51/thumbs/kristinSOLE.jpg" title="Kristin Flickinger" alt="Survivor cast photo of Kristin Flickinger" style="border-color: #7E479C;">
+		</div>
+			</div>
+			<div class="col-auto px-0">
+				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
+					KRISTIN
+				</div>
+								<div class="d-none d-md-block">
+					<div class="rating">
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=548" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=548" title="How likely is this survivor to go home?">10</a></div>
+											</div>
+				</div>
+								<div class="col-auto d-block d-md-none">
+					<div class="input-group align-content-center">
+						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Kristin" value="" maxlength="3" id="votenum2-3-548" name="votenum2-3-548" data-last-value="0">
+						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-auto text-center d-none d-md-block">
+				<div class="fs-6 survivorfont">GUESS</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-548" style="line-height: .75em;">0</div>
+			</div>
+		</div>
+	</div>
+																											
+
+	<div class="container-fluid container-lg votewrap" id="votewrap2-550">
+		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
+			<div class="col-auto voteimgwrap">
+								
+
+
+						
+<div class="survivor-circle-img">
+	<img src="/images/51/thumbs/linneaSOLE.jpg" title="Linnea Capobianco" alt="Survivor cast photo of Linnea Capobianco" style="border-color: #7E479C;">
+		</div>
+			</div>
+			<div class="col-auto px-0">
+				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
+					LINNEA
+				</div>
+								<div class="d-none d-md-block">
+					<div class="rating">
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=550" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=550" title="How likely is this survivor to go home?">10</a></div>
+											</div>
+				</div>
+								<div class="col-auto d-block d-md-none">
+					<div class="input-group align-content-center">
+						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Linnea" value="" maxlength="3" id="votenum2-3-550" name="votenum2-3-550" data-last-value="0">
+						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-auto text-center d-none d-md-block">
+				<div class="fs-6 survivorfont">GUESS</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-550" style="line-height: .75em;">0</div>
+			</div>
+		</div>
+	</div>
+																															
+
+	<div class="container-fluid container-lg votewrap" id="votewrap2-553">
+		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
+			<div class="col-auto voteimgwrap">
+								
+
+
+						
+<div class="survivor-circle-img">
+	<img src="/images/51/thumbs/oriSOLE.jpg" title="Ori Jean-Charles" alt="Survivor cast photo of Ori Jean-Charles" style="border-color: #7E479C;">
+		</div>
+			</div>
+			<div class="col-auto px-0">
+				<div class="fs-3 mb-2 survivorname survivorfont lh-1">
+					ORI
+				</div>
+								<div class="d-none d-md-block">
+					<div class="rating">
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=553" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=553" title="How likely is this survivor to go home?">10</a></div>
+											</div>
+				</div>
+								<div class="col-auto d-block d-md-none">
+					<div class="input-group align-content-center">
+						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Ori" value="" maxlength="3" id="votenum2-3-553" name="votenum2-3-553" data-last-value="0">
+						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-auto text-center d-none d-md-block">
+				<div class="fs-6 survivorfont">GUESS</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-553" style="line-height: .75em;">0</div>
+			</div>
+		</div>
+	</div>
+																											
+
+	<div class="container-fluid container-lg votewrap" id="votewrap2-555">
+		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
+			<div class="col-auto voteimgwrap">
+								
+
+
+						
+<div class="survivor-circle-img">
+	<img src="/images/51/thumbs/robSOLE.jpg" title="Rob Antonson" alt="Survivor cast photo of Rob Antonson" style="border-color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -1092,36 +1078,36 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=555" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=555" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=555" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=555" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Rob" value="" maxlength="3" id="votenum1-1-555" name="votenum1-1-555" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Rob" value="" maxlength="3" id="votenum2-3-555" name="votenum2-3-555" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-555" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-555" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
 																							
 
-	<div class="container-fluid container-lg votewrap" id="votewrap1-556">
+	<div class="container-fluid container-lg votewrap" id="votewrap2-556">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
 			<div class="col-auto voteimgwrap">
 								
@@ -1129,7 +1115,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/sharondaSOLE.jpg" title="Sharonda Cox" alt="Survivor cast photo of Sharonda Cox" style="border-color: #00B7C9;">
+	<img src="/images/51/thumbs/sharondaSOLE.jpg" title="Sharonda Cox" alt="Survivor cast photo of Sharonda Cox" style="border-color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -1138,30 +1124,30 @@
 				</div>
 								<div class="d-none d-md-block">
 					<div class="rating">
-						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=1&amp;survivor=556" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=1&amp;survivor=556" title="How likely is this survivor to go home?">10</a></div>
+						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=556" title="Cancel Vote">Cancel Vote</a></div>
+												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=556" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Sharonda" value="" maxlength="3" id="votenum1-1-556" name="votenum1-1-556" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Sharonda" value="" maxlength="3" id="votenum2-3-556" name="votenum2-3-556" data-last-value="0">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox1-556" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-556" style="line-height: .75em;">0</div>
 			</div>
 		</div>
 	</div>
@@ -1183,7 +1169,7 @@
 					
 		<script>
 			'use strict';
-			var timeLeft = 526804;
+			var timeLeft = 539432;
 			var numberOfVotes = 10;
 		</script>
 

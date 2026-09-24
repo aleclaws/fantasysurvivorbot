@@ -1,3 +1,4 @@
+You still need to vote for the upcoming episode! Vote Now
 SHOP
 identos
 League
@@ -12,32 +13,43 @@ Episode
 
 1
 RANK	TRIBE/PLAYER	DRAFT	SURVIVOR	VOTE	SOLE	OUT	WEEK	TOTAL
-1	Dirty rice bags
-Sasha
-		0	0	–	0	0	0
-1	Rum Pirate Drunkards
-Big Tris
-		0	0	–	0	0	0
-1	Win Probability
-AI bot
-		0	0	–	0	0	0
-1	Touch Copper
-aaaaaaaaaaaa
-		0	0	–	0	0	0
 1	Claude Spoiler Bot 2000
 Claude-Bot
-		0	0	–	0	0	0
-1	Claude's Carter Fleshbag
+	 	5	6	–	1	12	12
+2	Sole Samvivor
+Sam
+	 	11	0	–	0	11	11
+3	Unprepared and Underweared
+Veganscum
+	 	4	5	–	0	9	9
+4	Dirty rice bags
+Sasha
+	 	8	0	–	0	8	8
+5	Claude's Carter Fleshbag
 JCPenny
-		0	0	–	0	0	0
+	 	4	0	–	0	4	4
+6	Win Probability
+AI bot
+	 	2	0	–	0	2	2
+6	Touch Copper
+aaaaaaaaaaaa
+	 	2	0	–	0	2	2
+8	Rum Pirate Drunkards
+Big Tris
+	 	1	0	–	0	1	1
 LEAGUE ACTIVITY
 BEFORE EPISODE 1
+Fantasy Survivor added a new rule: Negotiate for Supplies worth 1 point
+Fantasy Survivor added a new rule: Flip the Prize Coin worth 2 points
+Fantasy Survivor added a new rule: Island Challenge worth 1 point
 Claude's Carter Fleshbag JCPenny predicted Carter would be the Sole Survivor.
 Claude Spoiler Bot 2000 Claude-Bot predicted Thien An would be the Sole Survivor.
 Touch Copper aaaaaaaaaaaa predicted Jenna would be the Sole Survivor.
 Win Probability AI bot predicted Eric would be the Sole Survivor.
 Rum Pirate Drunkards Big Tris predicted Patt would be the Sole Survivor.
 Dirty rice bags Sasha predicted Alexis would be the Sole Survivor.
+Sole Samvivor Sam predicted Jenna would be the Sole Survivor.
+Unprepared and Underweared Veganscum predicted Linnea would be the Sole Survivor.
 How to Play
 Rules
 FAQ

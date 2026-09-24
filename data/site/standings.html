@@ -20,7 +20,62 @@
 <body>
 	
 
-										
+																									
+	<script>
+		var alertBoxTimeOutID = null;
+		var manuallyClosed = false;
+		function fadeAlertBox() {
+			window.clearTimeout(alertBoxTimeOutID);
+			let el = document.getElementById('alertbar');
+			if (!el.classList.contains('inactive')) {
+				el.classList.add('inactive');
+			}
+			document.getElementById('alertbarclosebtn').style.display = 'none';
+		}
+		function pauseAlertBox() {
+			if (!manuallyClosed) {
+				window.clearTimeout(alertBoxTimeOutID);
+				var el = document.getElementById('alertbar');
+				if (el.classList.contains('inactive')) {
+					el.classList.remove('inactive');
+				}
+				document.getElementById('alertbarclosebtn').style.display = 'inline-block';
+			}
+		}
+		function resumeAlertBox() {
+			if (!manuallyClosed) {
+							}
+		}
+		function closeAlertBox() {
+			manuallyClosed = true;
+			fadeAlertBox();
+						return false;
+		}
+		// replaces jQuery $(document).ready()
+		var ready = (callback) => {
+			if (document.readyState != 'loading') {
+				callback();
+			} else {
+				document.addEventListener('DOMContentLoaded', callback);
+			}
+		}
+		ready(() => {
+			resumeAlertBox();
+			// we hide the close button by default -- but we'll show if they have Javascript enabled
+			document.getElementById('alertbarclosebtn').style.display = 'inline-block';
+		});
+	</script>
+	<div id="alertbar" class="container-fluid sticky-top notice" onmouseover="pauseAlertBox();" onmouseout="resumeAlertBox();">
+		<div class="container">
+			<div class="row align-items-center">
+				<div id="alert-message" class="col">
+					You still need to vote for the upcoming episode! <a class="bold" href="/vote.html">Vote Now</a>				</div>
+				<div class="col-auto ps-0">
+					<a id="alertbarclosebtn" onclick="return closeAlertBox();" href="" style="display: inline-block;"><i class="bi bi-x-lg"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
 				<div class="container-fluid px-0">
 		<nav class="row container mx-auto px-0">
 			<ul class="navbar nav-fsg-underline px-2 mb-0" aira-role="menu">
@@ -108,7 +163,7 @@
 		<p class="epilabel"><span class="d-none d-sm-block">Episode</span><span class="d-sm-none">Epi</span></p>
 		<nav aria-label="Episode navigation">
 			<ul class="pagination mt-2 mb-1">
-								<li class="page-item"><a class="page-link" href="?episode=1">1</a></li>
+								<li class="page-item selected-episode"><a class="page-link" href="?episode=1">1</a></li>
 							</ul>
 		</nav>
 	</div>
@@ -123,99 +178,72 @@
 	<tbody>
 									<tr>
 				<td class="rank">1</td>
-				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=437139">
-	<span class="player-tribename">Dirty rice bags</span>
-	<span class="player-realname">Sasha</span>
-</a>
-</td>
-									<td style="min-width: 91px;">
-										</td>
-					<!--Total survivor points from all players draft picks-->
-					<td class="points">0</td>
-								<!--Points from guessing vote correctly-->
-				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
-														<td>
-																										–
-											</td>
-																		<!--Extra points earned by both survivors being out of game-->
-					<td class="points">0</td>
-								<td class="points">0</td>
-				<td class="points">0</td>
-			</tr>
-								<tr>
-				<td class="rank">1</td>
-				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=436198">
-	<span class="player-tribename">Rum Pirate Drunkards</span>
-	<span class="player-realname">Big Tris</span>
-</a>
-</td>
-									<td style="min-width: 91px;">
-										</td>
-					<!--Total survivor points from all players draft picks-->
-					<td class="points">0</td>
-								<!--Points from guessing vote correctly-->
-				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
-														<td>
-																										–
-											</td>
-																		<!--Extra points earned by both survivors being out of game-->
-					<td class="points">0</td>
-								<td class="points">0</td>
-				<td class="points">0</td>
-			</tr>
-								<tr id="leaderboard-self">
-				<td class="rank">1</td>
-				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=426696">
-	<span class="player-tribename">Win Probability</span>
-	<span class="player-realname">AI bot</span>
-</a>
-</td>
-									<td style="min-width: 91px;">
-										</td>
-					<!--Total survivor points from all players draft picks-->
-					<td class="points">0</td>
-								<!--Points from guessing vote correctly-->
-				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
-														<td>
-																										–
-											</td>
-																		<!--Extra points earned by both survivors being out of game-->
-					<td class="points">0</td>
-								<td class="points">0</td>
-				<td class="points">0</td>
-			</tr>
-								<tr>
-				<td class="rank">1</td>
-				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=426633">
-	<span class="player-tribename">Touch Copper</span>
-	<span class="player-realname">aaaaaaaaaaaa</span>
-</a>
-</td>
-									<td style="min-width: 91px;">
-										</td>
-					<!--Total survivor points from all players draft picks-->
-					<td class="points">0</td>
-								<!--Points from guessing vote correctly-->
-				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
-														<td>
-																										–
-											</td>
-																		<!--Extra points earned by both survivors being out of game-->
-					<td class="points">0</td>
-								<td class="points">0</td>
-				<td class="points">0</td>
-			</tr>
-								<tr>
-				<td class="rank">1</td>
 				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=424093">
 	<span class="player-tribename">Claude Spoiler Bot 2000</span>
 	<span class="player-realname">Claude-Bot</span>
 </a>
 </td>
 									<td style="min-width: 91px;">
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/536-Aaliyah">
+	<img src="/images/51/thumbs/aaliyahSOLE.jpg" title="Aaliyah Puglia" alt="Survivor cast photo of Aaliyah Puglia" style="border-color: var(--fsg-text-tertiary);">
+			</a>
+</div>
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/537-Alexis">
+	<img src="/images/51/thumbs/alexisSOLE.jpg" title="Alexis Levine" alt="Survivor cast photo of Alexis Levine" style="border-color: #7E479C;">
+			</a>
+</div>
 										</td>
 					<!--Total survivor points from all players draft picks-->
-					<td class="points">0</td>
+					<td class="points">5</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">6</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																										–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">1</td>
+								<td class="points">12</td>
+				<td class="points">12</td>
+			</tr>
+								<tr>
+				<td class="rank">2</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=442951">
+	<span class="player-tribename">Sole Samvivor</span>
+	<span class="player-realname">Sam</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/548-Kristin">
+	<img src="/images/51/thumbs/kristinSOLE.jpg" title="Kristin Flickinger" alt="Survivor cast photo of Kristin Flickinger" style="border-color: #7E479C;">
+			</a>
+</div>
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/546-Eric">
+	<img src="/images/51/thumbs/ericSOLE.jpg" title="Eric Macksoud" alt="Survivor cast photo of Eric Macksoud" style="border-color: #7E479C;">
+			</a>
+</div>
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">11</td>
 								<!--Points from guessing vote correctly-->
 				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
 														<td>
@@ -223,20 +251,116 @@
 											</td>
 																		<!--Extra points earned by both survivors being out of game-->
 					<td class="points">0</td>
-								<td class="points">0</td>
-				<td class="points">0</td>
+								<td class="points">11</td>
+				<td class="points">11</td>
 			</tr>
 								<tr>
-				<td class="rank">1</td>
+				<td class="rank">3</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=449174">
+	<span class="player-tribename">Unprepared and Underweared</span>
+	<span class="player-realname">Veganscum</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/545-Devin">
+	<img src="/images/51/thumbs/devinSOLE.jpg" title="Devin Way" alt="Survivor cast photo of Devin Way" style="border-color: #FDB515;">
+			</a>
+</div>
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/550-Linnea">
+	<img src="/images/51/thumbs/linneaSOLE.jpg" title="Linnea Capobianco" alt="Survivor cast photo of Linnea Capobianco" style="border-color: #7E479C;">
+			</a>
+</div>
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">4</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">5</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																										–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">0</td>
+								<td class="points">9</td>
+				<td class="points">9</td>
+			</tr>
+								<tr>
+				<td class="rank">4</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=437139">
+	<span class="player-tribename">Dirty rice bags</span>
+	<span class="player-realname">Sasha</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/553-Ori">
+	<img src="/images/51/thumbs/oriSOLE.jpg" title="Ori Jean-Charles" alt="Survivor cast photo of Ori Jean-Charles" style="border-color: #7E479C;">
+			</a>
+</div>
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/556-Sharonda">
+	<img src="/images/51/thumbs/sharondaSOLE.jpg" title="Sharonda Cox" alt="Survivor cast photo of Sharonda Cox" style="border-color: #7E479C;">
+			</a>
+</div>
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">8</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																										–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">0</td>
+								<td class="points">8</td>
+				<td class="points">8</td>
+			</tr>
+								<tr>
+				<td class="rank">5</td>
 				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=424043">
 	<span class="player-tribename">Claude's Carter Fleshbag</span>
 	<span class="player-realname">JCPenny</span>
 </a>
 </td>
 									<td style="min-width: 91px;">
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/542-Carter">
+	<img src="/images/51/thumbs/carterSOLE.jpg" title="Carter Krull" alt="Survivor cast photo of Carter Krull" style="border-color: #7E479C;">
+			</a>
+</div>
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/538-Thien An">
+	<img src="/images/51/thumbs/thien%20anSOLE.jpg" title="An &quot;Thien An&quot; Nguyen" alt="Survivor cast photo of An &quot;Thien An&quot; Nguyen" style="border-color: #FDB515;">
+			</a>
+</div>
 										</td>
 					<!--Total survivor points from all players draft picks-->
-					<td class="points">0</td>
+					<td class="points">4</td>
 								<!--Points from guessing vote correctly-->
 				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
 														<td>
@@ -244,8 +368,125 @@
 											</td>
 																		<!--Extra points earned by both survivors being out of game-->
 					<td class="points">0</td>
-								<td class="points">0</td>
-				<td class="points">0</td>
+								<td class="points">4</td>
+				<td class="points">4</td>
+			</tr>
+								<tr id="leaderboard-self">
+				<td class="rank">6</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=426696">
+	<span class="player-tribename">Win Probability</span>
+	<span class="player-realname">AI bot</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/549-Lewis">
+	<img src="/images/51/thumbs/lewisSOLE.jpg" title="Lewis Kelly" alt="Survivor cast photo of Lewis Kelly" style="border-color: #FDB515;">
+			</a>
+</div>
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/554-Patt">
+	<img src="/images/51/thumbs/pattSOLE.jpg" title="Patt Cannaday" alt="Survivor cast photo of Patt Cannaday" style="border-color: #FDB515;">
+			</a>
+</div>
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">2</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																										–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">0</td>
+								<td class="points">2</td>
+				<td class="points">2</td>
+			</tr>
+								<tr>
+				<td class="rank">6</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=426633">
+	<span class="player-tribename">Touch Copper</span>
+	<span class="player-realname">aaaaaaaaaaaa</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/547-Jenna">
+	<img src="/images/51/thumbs/jennaSOLE.jpg" title="Jenna Doore" alt="Survivor cast photo of Jenna Doore" style="border-color: #FDB515;">
+			</a>
+</div>
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/552-Mike">
+	<img src="/images/51/thumbs/mikeSOLE.jpg" title="Mike Pinsky" alt="Survivor cast photo of Mike Pinsky" style="border-color: #FDB515;">
+			</a>
+</div>
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">2</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																										–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">0</td>
+								<td class="points">2</td>
+				<td class="points">2</td>
+			</tr>
+								<tr>
+				<td class="rank">8</td>
+				<td class="tribe SurvInfo"><a class="player-profilelink" href="/profile.html?player=436198">
+	<span class="player-tribename">Rum Pirate Drunkards</span>
+	<span class="player-realname">Big Tris</span>
+</a>
+</td>
+									<td style="min-width: 91px;">
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/541-Brady">
+	<img src="/images/51/thumbs/bradySOLE.jpg" title="Brady Booker" alt="Survivor cast photo of Brady Booker" style="border-color: #FDB515;">
+			</a>
+</div>
+											
+
+
+									
+<div class="survivor-circle-img">
+	<a href="/survivors/544-Kilby">
+	<img src="/images/51/thumbs/kilbySOLE.jpg" title="Danny Kilby" alt="Survivor cast photo of Danny Kilby" style="border-color: #FDB515;">
+			</a>
+</div>
+										</td>
+					<!--Total survivor points from all players draft picks-->
+					<td class="points">1</td>
+								<!--Points from guessing vote correctly-->
+				<td class="points">0</td>				<!--Sole Thumb/Sole Points-->
+														<td>
+																										–
+											</td>
+																		<!--Extra points earned by both survivors being out of game-->
+					<td class="points">0</td>
+								<td class="points">1</td>
+				<td class="points">1</td>
 			</tr>
 				</tbody>
 	</table>
@@ -253,7 +494,7 @@
 
 <div class="container">
 	<h4 class="text-center xspace mb-1">League Activity</h4>
-															<div class="row">
+																								<div class="row">
 				<div class="col">
 					<div class="hr-container">
 						<hr class="line-with-text">
@@ -263,7 +504,13 @@
 			</div>
 			<div class="col col-md-9 col-lg-7 m-auto">
 				<ol class="mt-3 list-unstyled">
-										
+																												<li class="feedrule">			<span class="feedadmin btn-link-danger">Fantasy Survivor</span>
+	 added a new rule: <span class="bold">Negotiate for Supplies</span> worth <span class="bold">1</span> point</li>
+																																				<li class="feedrule">			<span class="feedadmin btn-link-danger">Fantasy Survivor</span>
+	 added a new rule: <span class="bold">Flip the Prize Coin</span> worth <span class="bold">2</span> points</li>
+																																				<li class="feedrule">			<span class="feedadmin btn-link-danger">Fantasy Survivor</span>
+	 added a new rule: <span class="bold">Island Challenge</span> worth <span class="bold">1</span> point</li>
+																		
 																																										<li><a class="player-profilelink" href="/profile.html?player=424043">
 	<span class="player-tribename">Claude's Carter Fleshbag</span>
 	<span class="player-realname">JCPenny</span>
@@ -294,6 +541,16 @@
 	<span class="player-realname">Sasha</span>
 </a>
  predicted <span class="feedsurvivor"><a href="/survivors/537-Alexis"><span class="survivorname" title="Alexis Levine">Alexis</span></a></span> would be the Sole Survivor.</li>
+																																																			<li><a class="player-profilelink" href="/profile.html?player=442951">
+	<span class="player-tribename">Sole Samvivor</span>
+	<span class="player-realname">Sam</span>
+</a>
+ predicted <span class="feedsurvivor"><a href="/survivors/547-Jenna"><span class="survivorname" title="Jenna Doore">Jenna</span></a></span> would be the Sole Survivor.</li>
+																																																			<li><a class="player-profilelink" href="/profile.html?player=449174">
+	<span class="player-tribename">Unprepared and Underweared</span>
+	<span class="player-realname">Veganscum</span>
+</a>
+ predicted <span class="feedsurvivor"><a href="/survivors/550-Linnea"><span class="survivorname" title="Linnea Capobianco">Linnea</span></a></span> would be the Sole Survivor.</li>
 																										
 				</ol>
 			</div>

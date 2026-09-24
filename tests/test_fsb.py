@@ -19,6 +19,22 @@ from fsb.draft import draft_board, mvp_pick, simulate_placements
 from fsb.model import Season, age_risk
 
 
+def preseason() -> Season:
+    """A Season frozen at the pre-season state, independent of state.json.
+
+    data/state.json advances every week - tribes fill in, castaways go out -
+    and tools/weekly_submit.sh gates its push on these tests passing. Engine
+    invariants must therefore not be pinned to whatever week it happens to be,
+    or the automation stops pushing every time the season moves on.
+    """
+    s = Season()
+    for c in s.cast.values():
+        c.out, c.tribe, c.edit, c.idol, c.placement = False, None, 0.0, False, None
+    s.apply_state({"episode": 1, "merged": False, "tribes": {},
+                   "eliminated": [], "edit": {}, "idols": []})
+    return s
+
+
 def league(**over):
     base = {"league_name": "t", "num_opponents": 9, "my_score": 0,
             "opponent_scores": [], "field_sharpness": 2.5,
@@ -43,7 +59,7 @@ class TestAgeRisk(unittest.TestCase):
 
 class TestModel(unittest.TestCase):
     def setUp(self):
-        self.s = Season()
+        self.s = preseason()
 
     def test_boot_probabilities_form_a_distribution(self):
         p = self.s.boot_probabilities()
@@ -54,11 +70,11 @@ class TestModel(unittest.TestCase):
         # Pre-season every tribe field is null, so the whole cast sits in one
         # bucket.  Inferring the merge from that would price episode one as a
         # post-merge tribal and invert every hazard.
-        self.assertFalse(self.s.state.get("tribes"))
+        self.assertEqual(list(self.s.tribes()), ["UNASSIGNED"])
         self.assertFalse(self.s.merged())
 
     def test_eliminated_players_leave_the_pool(self):
-        s = Season()
+        s = preseason()
         s.apply_state({"episode": 2, "merged": False,
                        "eliminated": ["kristin"], "tribes": {}, "edit": {},
                        "idols": []})
@@ -66,11 +82,11 @@ class TestModel(unittest.TestCase):
         self.assertEqual(len(s.alive()), 20)
 
     def test_doom_edit_raises_risk_and_idol_lowers_it(self):
-        base = Season().boot_probabilities()["mike"]
-        doomed = Season()
+        base = preseason().boot_probabilities()["mike"]
+        doomed = preseason()
         doomed.apply_state({"edit": {"mike": 1.0}})
         self.assertGreater(doomed.boot_probabilities()["mike"], base)
-        safe = Season()
+        safe = preseason()
         safe.apply_state({"idols": ["mike"]})
         self.assertLess(safe.boot_probabilities()["mike"], base)
 
@@ -79,7 +95,7 @@ class TestModel(unittest.TestCase):
         # (preseason_buzz=+0.30); aaliyah is the cited primary winner pick
         # (preseason_buzz=-0.30). A real edit signal should be able to
         # override that cheaply, since it carries more weight and range.
-        s = Season()
+        s = preseason()
         self.assertGreater(s.cast["linnea"].preseason_buzz, 0)
         self.assertLess(s.cast["aaliyah"].preseason_buzz, 0)
         buzzed_up = s.hazard(s.cast["linnea"], postmerge=False)
@@ -88,7 +104,7 @@ class TestModel(unittest.TestCase):
         self.assertLess(overridden, buzzed_up)
 
     def test_two_tribes_split_the_probability_mass(self):
-        s = Season()
+        s = preseason()
         ids = list(s.cast)
         tribes = {c: ("Savu" if i % 2 else "Toka") for i, c in enumerate(ids)}
         s.apply_state({"tribes": tribes})
@@ -98,7 +114,7 @@ class TestModel(unittest.TestCase):
 
     def test_physicality_flips_sign_at_the_merge(self):
         # Pre-merge an athlete is protected; post-merge they are the target.
-        s = Season()
+        s = preseason()
         live = [c.id for c in s.alive()]
         pre = s.step_probabilities(live, postmerge=False)
         post = s.step_probabilities(live, postmerge=True)
@@ -135,7 +151,7 @@ class TestEffectiveOpponentScores(unittest.TestCase):
 
 class TestAllocation(unittest.TestCase):
     def setUp(self):
-        self.s = Season()
+        self.s = preseason()
         self.probs = self.s.boot_probabilities()
 
     def test_candidates_always_spend_the_whole_budget(self):
@@ -151,7 +167,7 @@ class TestAllocation(unittest.TestCase):
             self.assertTrue(all(v <= 10 for v in a.values()))
 
     def test_budget_is_per_tribe_not_per_episode(self):
-        s = Season()
+        s = preseason()
         ids = list(s.cast)
         s.apply_state({"tribes": {c: ("Savu" if i % 2 else "Toka")
                                   for i, c in enumerate(ids)}})
@@ -172,7 +188,7 @@ class TestAllocation(unittest.TestCase):
         recoverable only by scoring where the field is not.  The engine has to
         stop maximising points and start buying variance.
         """
-        s = Season()
+        s = preseason()
         gone = [c.id for c in s.alive()][:15]
         s.apply_state({"episode": 16, "merged": True, "eliminated": gone,
                        "tribes": {}, "edit": {}, "idols": []})
@@ -193,7 +209,7 @@ class TestAllocation(unittest.TestCase):
         falls back to collecting points, which is also the safe behaviour if
         the standings I fed it turn out to be wrong.
         """
-        s = Season()
+        s = preseason()
         gone = [c.id for c in s.alive()][:15]
         s.apply_state({"episode": 16, "merged": True, "eliminated": gone,
                        "tribes": {}, "edit": {}, "idols": []})
@@ -205,7 +221,7 @@ class TestAllocation(unittest.TestCase):
                                 d["expected_points_if_ev_max"] - 1e-9)
 
     def test_comfortable_lead_does_not_gamble(self):
-        s = Season()
+        s = preseason()
         gone = [c.id for c in s.alive()][:15]
         s.apply_state({"episode": 16, "merged": True, "eliminated": gone,
                        "tribes": {}, "edit": {}, "idols": []})
@@ -223,7 +239,7 @@ class TestAllocation(unittest.TestCase):
 
 class TestDraft(unittest.TestCase):
     def setUp(self):
-        self.s = Season()
+        self.s = preseason()
 
     def test_placements_are_probabilities(self):
         pl = simulate_placements(self.s, n=400)
@@ -246,11 +262,25 @@ class TestDraft(unittest.TestCase):
         # episode they leave), so the two add to last+1; a finalist plays
         # every episode and earns none.
         last_ep = self.s.meta["episode_count"]
+        span = last_ep - self.s.episode + 2
         pl = simulate_placements(self.s, n=400)
         for cid, v in pl.items():
-            expected = (last_ep + 1) - v["p_final"]
+            expected = span - v["p_final"]
             self.assertAlmostEqual(v["mean_weeks"] + v["mean_out_weeks"],
                                    expected, places=6, msg=cid)
+
+    def test_an_idol_saves_once_and_is_not_season_long_immunity(self):
+        # An idol is single-use. Folded into the hazard it was re-applied at
+        # every future tribal, compounding into near-immunity: the holder's
+        # P(win) jumped ~7x and nearly took over the Sole Survivor pick.
+        # One save is worth well under one extra episode in expectation.
+        plain = simulate_placements(self.s, n=600)["mike"]
+        with_idol = preseason()
+        with_idol.apply_state({"idols": ["mike"]})
+        idol = simulate_placements(with_idol, n=600)["mike"]
+        self.assertGreater(idol["mean_weeks"], plain["mean_weeks"])
+        self.assertLess(idol["mean_weeks"] - plain["mean_weeks"], 2.0)
+        self.assertLess(idol["p_win"], 4 * plain["p_win"])
 
     def test_merge_admits_the_configured_number_of_players(self):
         pl = simulate_placements(self.s, n=400)

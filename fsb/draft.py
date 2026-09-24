@@ -73,22 +73,37 @@ def simulate_placements(season: Season, n: int = 8000,
             "late", "out")
     stats = {cid: dict.fromkeys(keys, 0.0) for cid in alive0}
 
+    idols0 = [c.id for c in season.alive() if c.idol]
+    play_ok = float(season.draft_model.get("idol_play_success", 0.55))
+    idol_floor = int(season.draft_model.get("idol_expires_at_players", 5))
+
+    def _draw(weights: Dict[str, float], skip: str = "") -> str:
+        pool = {k: v for k, v in weights.items() if k != skip}
+        total = sum(pool.values()) or 1.0
+        r = rng.random() * total
+        acc = 0.0
+        for k, v in pool.items():
+            acc += v
+            if r <= acc:
+                return k
+        return next(reversed(list(pool)))
+
     for _ in range(n):
         live = list(alive0)
         leave: Dict[str, int] = {}
+        holders = set(idols0)
         b = 0
         while len(live) > 1:
             post = merged or len(live) <= merge_at
-            weights = season.step_probabilities(live, postmerge=post)
-            total = sum(weights.values()) or 1.0
-            r = rng.random() * total
-            acc = 0.0
-            boot = live[-1]
-            for k, v in weights.items():
-                acc += v
-                if r <= acc:
-                    boot = k
-                    break
+            # Idols are handled here, not in the hazard: one saves its holder
+            # once and is then gone. Folded into the hazard instead, it would
+            # protect them at every tribal for the rest of the season.
+            weights = season.step_probabilities(live, post, ignore_idols=True)
+            boot = _draw(weights)
+            if boot in holders:
+                holders.discard(boot)
+                if rng.random() < play_ok and len(live) > idol_floor:
+                    boot = _draw(weights, skip=boot)
             b += 1
             if len(live) == 3:
                 stats[boot]["third"] += 1

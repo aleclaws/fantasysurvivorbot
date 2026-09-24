@@ -22,14 +22,49 @@
     "sole-survivor <id>' whenever a stronger candidate emerges - the site lets",
     "you change this pick for free; see docs/RULES.md."
   ],
-  "episode": 1,
+  "episode": 2,
   "merged": false,
-  "tribes": {},
-  "eliminated": [],
-  "edit": {},
-  "idols": [],
-  "my_draft": [],
-  "my_mvp": "eric",
+  "tribes": {
+    "rob": "Savu",
+    "kristin": "Savu",
+    "eric": "Savu",
+    "cristian": "Savu",
+    "sharonda": "Savu",
+    "ori": "Savu",
+    "linnea": "Savu",
+    "carter": "Savu",
+    "ana": "Savu",
+    "alexis": "Savu",
+    "lewis": "Toka",
+    "mike": "Toka",
+    "maggie": "Toka",
+    "jenna": "Toka",
+    "kilby": "Toka",
+    "patt": "Toka",
+    "devin": "Toka",
+    "brady": "Toka",
+    "jelly": "Toka",
+    "an": "Toka"
+  },
+  "eliminated": [
+    "aaliyah"
+  ],
+  "edit": {
+    "devin": 0.7,
+    "brady": 0.7,
+    "jenna": 0.5,
+    "jelly": 0.3,
+    "patt": -0.4,
+    "rob": -0.2
+  },
+  "idols": [
+    "rob"
+  ],
+  "my_draft": [
+    "lewis",
+    "patt"
+  ],
+  "my_mvp": "rob",
   "draft_preference_order": [
     "ori",
     "brady",

@@ -92,8 +92,10 @@ def cmd_board(args) -> None:
 
 
 def cmd_mvp(args) -> None:
-    season, state = Season(), _state()
-    roster = args.roster or state.get("my_draft") or []
+    # The Sole Survivor pick is independent of the draft - the site lets you
+    # name ANY castaway, and ours is not on our roster. Only --roster narrows it.
+    season = Season()
+    roster = args.roster or []
     pick, stats = mvp_pick(season, roster, **({"n": args.sims} if args.sims else {}))
     scope = "my roster" if roster else "the whole cast"
     print(f"MVP / sole-survivor pick from {scope}: {season.cast[pick].name}")

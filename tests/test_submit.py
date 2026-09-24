@@ -54,12 +54,14 @@ class TestBuildDraftActionURL(unittest.TestCase):
 
 
 class TestParseVoteFields(unittest.TestCase):
-    def test_finds_all_21_castaways_pre_tribe_reveal(self):
+    def test_finds_every_votable_castaway_in_one_episode(self):
+        # The fixture is a live snapshot - the votable cast shrinks each week -
+        # so assert the invariants: known castaways, all in the same episode.
         fields = submit.parse_vote_fields(_read("vote.html"))
-        self.assertEqual(len(fields), 21)
-        # Pre-tribe-reveal, the whole cast is one pool: episode 1, tribe 1.
-        self.assertEqual(fields[536], ("1", "1"))
-        self.assertEqual(fields[546], ("1", "1"))
+        known = submit.site_ids_to_engine_ids()
+        self.assertGreaterEqual(len(fields), 2)
+        self.assertTrue(set(fields) <= set(known))
+        self.assertEqual(len({ep for ep, _tribe in fields.values()}), 1)
 
     def test_survives_no_vote_fields_present(self):
         self.assertEqual(submit.parse_vote_fields("<html></html>"), {})
@@ -102,15 +104,39 @@ class TestParseStandings(unittest.TestCase):
         self.assertEqual(len(selves), 1)
         self.assertEqual(selves[0]["real_name"], "AI bot")
 
-    def test_everyone_is_tied_at_zero_pre_season(self):
+    def test_totals_parse_as_non_negative_numbers(self):
+        # The fixture is a live snapshot: scores change every scored episode,
+        # so assert the shape rather than a frozen scoreboard.
         rows = submit.parse_standings(_read("standings.html"))
-        self.assertTrue(all(r["total"] == 0 for r in rows))
+        self.assertTrue(all(isinstance(r["total"], int) and r["total"] >= 0
+                            for r in rows))
 
     def test_opponents_are_named_and_distinct(self):
         rows = submit.parse_standings(_read("standings.html"))
         names = [r["tribe_name"] for r in rows if not r["is_self"]]
         self.assertEqual(len(names), len(set(names)))
         self.assertIn("Touch Copper", names)
+
+
+class TestSolePickReadback(unittest.TestCase):
+    PROFILE = ("WIN PROBABILITY\nSEASON 51\n\nSOLE SURVIVOR PICK\n\nROB\n\n"
+               "Selected by 2.71% of players\n\n0/12\n\nBonus\nPts\n")
+
+    def test_reads_the_saved_pick_off_the_profile(self):
+        # The site only flashes "<name> chosen as Sole Survivor" when setting a
+        # FIRST pick. Verifying on that banner reported a successful change as
+        # a failure, so verification reads the saved pick instead.
+        self.assertEqual(submit.parse_profile_sole_pick(self.PROFILE), "ROB")
+
+    def test_missing_section_reads_as_empty_not_a_false_match(self):
+        self.assertEqual(submit.parse_profile_sole_pick("no pick here"), "")
+
+    def test_display_names_cover_the_cast_and_match_the_site(self):
+        names = submit.load_display_names()
+        self.assertEqual(len(names), 21)
+        # the one castaway whose site name is not just their engine id
+        self.assertEqual(names["an"], "Thien An")
+        self.assertEqual(names["rob"], "Rob")
 
 
 class TestSiteVoteView(unittest.TestCase):
@@ -124,13 +150,25 @@ class TestSiteVoteView(unittest.TestCase):
         '<input id="votenum2-2-553" name="votenum2-2-553">'
     )
 
-    def test_pre_reveal_page_is_one_unknown_pool(self):
-        self.assertEqual(submit.parse_vote_tribes(_read("vote.html")),
-                         {"1": "Unknown"})
+    ONE_POOL = (
+        '<span class="tribename">Unknown</span><div id="pointsLeft1-1">10</div>'
+        '<input id="votenum1-1-541" name="votenum1-1-541">'
+        '<input id="votenum1-1-553" name="votenum1-1-553">'
+    )
+
+    def test_reads_whatever_pools_the_live_page_shows(self):
         tribes, names = submit.site_vote_view(
             _read("vote.html"), submit.site_ids_to_engine_ids())
-        self.assertEqual(len(tribes), 21)
+        self.assertTrue(names)
+        self.assertEqual(len(tribes), len(submit.parse_vote_fields(_read("vote.html"))))
+        for name in names:
+            self.assertTrue(name.strip())
+
+    def test_before_the_reveal_the_whole_cast_is_one_pool(self):
+        tribes, names = submit.site_vote_view(
+            self.ONE_POOL, submit.site_ids_to_engine_ids())
         self.assertEqual(names, ["Unknown"])
+        self.assertEqual(tribes, {"brady": "Unknown", "ori": "Unknown"})
 
     def test_reads_real_tribe_names_per_pool(self):
         tribes, names = submit.site_vote_view(
@@ -141,21 +179,27 @@ class TestSiteVoteView(unittest.TestCase):
     def test_engine_adopts_the_sites_pools_and_drops_the_unvotable(self):
         from fsb.model import Season
         s = Season()
+        before = len(s.alive())
         tribes, _ = submit.site_vote_view(
             self.TWO_TRIBES, submit.site_ids_to_engine_ids())
         stale = submit.apply_site_view(s, tribes)
-        self.assertEqual(sorted(c.id for c in s.alive()), ["brady", "kristin", "ori"])
-        self.assertEqual(len(stale), 18)
+        self.assertEqual(sorted(c.id for c in s.alive()),
+                         ["brady", "kristin", "ori"])
+        self.assertEqual(len(stale), before - 3)
         self.assertEqual(set(s.tribes()), {"Savu", "Toka"})
 
     def test_one_pool_does_not_overwrite_tribes(self):
+        # A single "Unknown" pool carries no tribe information, so it must not
+        # stamp that placeholder over whatever tribes the engine already knows.
         from fsb.model import Season
         s = Season()
-        tribes, _ = submit.site_vote_view(
-            _read("vote.html"), submit.site_ids_to_engine_ids())
-        stale = submit.apply_site_view(s, tribes)
-        self.assertEqual(stale, [])
-        self.assertTrue(all(c.tribe is None for c in s.alive()))
+        for c in s.cast.values():
+            c.tribe = "Savu"
+        tribes, names = submit.site_vote_view(
+            self.ONE_POOL, submit.site_ids_to_engine_ids())
+        submit.apply_site_view(s, tribes)
+        self.assertEqual(names, ["Unknown"])
+        self.assertEqual({c.tribe for c in s.alive()}, {"Savu"})
 
 
 class _FakePage:

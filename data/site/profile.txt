@@ -1,3 +1,4 @@
+You still need to vote for the upcoming episode! Vote Now
 SHOP
 identos
 League
@@ -5,26 +6,58 @@ Tribe
 Vote
 Standings
 Castaways
-SEASON 51 SETUP
-FOR IDENTOS
-JOIN
-GROUP
-INVITE
-OTHERS
-NAME
+WIN PROBABILITY
+SEASON 51
+ EP. 1 HIGHLIGHTS 
+2
 TRIBE
-DRAFT
-TRIBE
-PICK
-WINNER
+PTS
+0
 VOTE
-NOW
-TRIBE NAME
+PTS
+2
+EP.
+PTS
+2
+TOTAL
+PTS
+6
+LEAGUE
+RANK
+View Score Details
+DRAFTED SURVIVORS
+LEWIS
+TOKA
+2
+EP.
+PTS
+2
+TOTAL
+PTS
+PATT
+TOKA
+0
+EP.
+PTS
+0
+TOTAL
+PTS
+WEEKLY VOTE
+Guess who will be voted out next episode.
+You have 10 vote points to use this week.
+Vote Now
+SOLE SURVIVOR PICK
 
-Give your Tribe a name. Creative names bring good luck. You can change this later.
+ERIC
 
-Tribe name is visible to all players.
-Continue 
+Selected by 2.13% of players
+
+1/13
+
+Bonus
+Pts
+
+Change Pick
 How to Play
 Rules
 FAQ

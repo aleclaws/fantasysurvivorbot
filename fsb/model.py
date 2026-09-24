@@ -129,7 +129,8 @@ class Season:
 
     # ---- hazards ------------------------------------------------------
 
-    def hazard(self, c: Castaway, postmerge: bool) -> float:
+    def hazard(self, c: Castaway, postmerge: bool,
+               ignore_idols: bool = False) -> float:
         w = self.weights["postmerge" if postmerge else "premerge"]
         h = (w["age"] * age_risk(c.age)
              + w["phys"] * c.phys
@@ -137,18 +138,21 @@ class Season:
              + w["threat"] * c.threat
              + w["edit"] * c.edit
              + w.get("preseason_buzz", 0.0) * c.preseason_buzz)
-        if c.idol:
+        if c.idol and not ignore_idols:
             # An idol in hand does not make you safe, but it moves the target.
+            # Callers simulating a whole season pass ignore_idols=True and
+            # consume the idol on first use instead: applied every round, this
+            # discount compounds into season-long immunity.
             h -= 0.9
         return h
 
-    def conditional_boot(self, pool: Iterable[Castaway],
-                         postmerge: bool) -> Dict[str, float]:
+    def conditional_boot(self, pool: Iterable[Castaway], postmerge: bool,
+                         ignore_idols: bool = False) -> Dict[str, float]:
         """P(player is the boot | this pool goes to tribal), via softmax."""
         pool = list(pool)
         if not pool:
             return {}
-        hs = {c.id: self.hazard(c, postmerge) for c in pool}
+        hs = {c.id: self.hazard(c, postmerge, ignore_idols) for c in pool}
         top = max(hs.values())
         exp = {k: math.exp(v - top) for k, v in hs.items()}
         total = sum(exp.values())
@@ -173,8 +177,8 @@ class Season:
         total = sum(exp.values())
         return {k: v / total for k, v in exp.items()}
 
-    def step_probabilities(self, alive_ids: Iterable[str],
-                           postmerge: bool) -> Dict[str, float]:
+    def step_probabilities(self, alive_ids: Iterable[str], postmerge: bool,
+                           ignore_idols: bool = False) -> Dict[str, float]:
         """P(boot this episode) over an arbitrary set of survivors.
 
         Used by the forward simulation, which needs to re-price the cast at
@@ -185,12 +189,12 @@ class Season:
         if not pool:
             return {}
         if postmerge:
-            return self.conditional_boot(pool, postmerge=True)
+            return self.conditional_boot(pool, True, ignore_idols)
         groups: Dict[str, List[Castaway]] = {}
         for c in pool:
             groups.setdefault(c.tribe or "UNASSIGNED", []).append(c)
         if len(groups) <= 1:
-            return self.conditional_boot(pool, postmerge=False)
+            return self.conditional_boot(pool, False, ignore_idols)
         strength = {n: sum(c.phys for c in m) / len(m) + 0.04 * len(m)
                     for n, m in groups.items()}
         top = max(-s for s in strength.values())
@@ -199,7 +203,8 @@ class Season:
         loss = {k: v / tot for k, v in exp.items()}
         out: Dict[str, float] = {}
         for name, members in groups.items():
-            for cid, pr in self.conditional_boot(members, False).items():
+            for cid, pr in self.conditional_boot(members, False,
+                                                  ignore_idols).items():
                 out[cid] = pr * loss[name]
         return out
 
