@@ -87,5 +87,24 @@
     "an",
     "rob",
     "kristin"
+  ],
+  "my_mvp_on_site": "eric",
+  "_mvp_desync": [
+    "ACTION REQUIRED. my_mvp and the site disagree.",
+    "data/site/standings.txt, captured 2026-09-27, says: 'Win Probability AI bot",
+    "predicted Eric would be the Sole Survivor.' So the site still holds ERIC.",
+    "my_mvp was changed to 'rob' in the episode 1 ingest (commit aaf6507) and was",
+    "never submitted. No sole-survivor confirmation appears in the submit log after",
+    "the Eric one on 2026-09-17.",
+    "Current engine numbers: Patt 0.158, Rob 0.158, Eric 0.082. So the live pick is",
+    "worth about half of either candidate.",
+    "Note that 'rob' was chosen while the idol bug (fixed in aaf6507) inflated idol",
+    "holders to P(win) 0.35. Re-run 'python3 -m fsb mvp' and take its answer rather",
+    "than trusting 'rob'.",
+    "The site allows free changes to this pick. Fix it from a local session:",
+    "  python3 -m fsb mvp",
+    "  python3 tools/submit.py sole-survivor <castaway-id>",
+    "  python3 tools/submit.py verify",
+    "Then set my_mvp and my_mvp_on_site to the same value and delete this note."
   ]
 }
