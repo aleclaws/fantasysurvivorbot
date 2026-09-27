@@ -48,7 +48,8 @@ def cmd_picks(args) -> None:
     if args.sims:
         league = dict(league)
     alloc, diag = optimise(season, league, **({"sims": args.sims} if args.sims else {}))
-    probs = diag["boot_probabilities"]
+    probs = diag["vote_probabilities"]
+    boots = diag["boot_probabilities"]
 
     print(f"EPISODE {season.episode} - point allocation")
     print(f"league: {league.get('league_name')}   "
@@ -59,8 +60,12 @@ def cmd_picks(args) -> None:
         print(f"  {tribe}  ({len(live)} left, 10 points to spend)")
         for cid, pts in sorted(a.items(), key=lambda kv: -kv[1]):
             if pts:
+                note = ""
+                if boots.get(cid, 0) - probs.get(cid, 0) > 1e-9:
+                    note = (f"  (leaves {boots[cid]:.3f}, but a quit or "
+                            f"evacuation pays nothing)")
                 print(f"     {pts:2d} -> {season.cast[cid].name:30s} "
-                      f"p(boot)={probs.get(cid, 0):.3f}")
+                      f"p(voted out)={probs.get(cid, 0):.3f}{note}")
         print()
 
     print(f"  P(win league)      {diag['win_probability']:.4f}")

@@ -53,7 +53,7 @@
     "devin": 0.7,
     "brady": 0.7,
     "jenna": 0.5,
-    "jelly": 0.3,
+    "jelly": 0.7,
     "patt": -0.4,
     "rob": -0.2
   },
@@ -106,5 +106,21 @@
     "  python3 tools/submit.py sole-survivor <castaway-id>",
     "  python3 tools/submit.py verify",
     "Then set my_mvp and my_mvp_on_site to the same value and delete this note."
+  ],
+  "medevac_risk": {
+    "brady": 0.5
+  },
+  "_medevac_note": [
+    "P(a departure is a quit/evacuation/removal rather than a vote), per castaway.",
+    "The rules are explicit (data/site/rules.txt line 30, faq.txt line 32): no vote",
+    "points are awarded for a castaway who quits, is medically evacuated, or is",
+    "removed by production. So points on such a departure score zero.",
+    "brady 0.5, for episode 2 only. The episode 2 preview ('Weaponized Honesty')",
+    "shows Brady cutting his finger with a machete, losing a lot of blood, with",
+    "medical called in. He is also in Toka's 6-vote majority, so his vote risk is",
+    "low - if Brady leaves this week it is more likely medical than a vote. Most",
+    "on-screen medical visits do NOT end in evacuation, and the same preview shows",
+    "a tribal council happening, so this is deliberately set at a coin flip rather",
+    "than higher. CLEAR THIS FIELD after episode 2 airs."
   ]
 }

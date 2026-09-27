@@ -14,7 +14,8 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from fsb.allocate import (candidate_allocations, effective_opponent_scores,
-                          optimise, win_probability, Scenarios)
+                          optimise, paired_gain, win_credits, win_probability,
+                          Scenarios)
 from fsb.draft import draft_board, mvp_pick, simulate_placements
 from fsb.model import Season, age_risk
 
@@ -182,11 +183,42 @@ class TestAllocation(unittest.TestCase):
                                 d["win_probability_if_ev_max"])
 
     def test_recoverable_deficit_late_buys_variance(self):
-        """Behind but still live, copying the field cannot close the gap.
+        """Behind but still live, against a field that has herded.
 
-        Roughly 50 points are left on the table, so a 25-point deficit is
-        recoverable only by scoring where the field is not.  The engine has to
-        stop maximising points and start buying variance.
+        Differentiation only pays when the field is actually concentrated, so
+        this pins a hard consensus (sharpness 5, all-in 0.95). The engine must
+        then leave the favourite the field is sitting on.
+        """
+        s = preseason()
+        gone = [c.id for c in s.alive()][:15]
+        s.apply_state({"episode": 16, "merged": True, "eliminated": gone,
+                       "tribes": {}, "edit": {}, "idols": []})
+        lg = league(my_score=95,
+                    opponent_scores=[120, 118, 112, 108, 105, 100, 98, 90, 85],
+                    field_sharpness=5.0, field_all_in_fraction=0.95,
+                    field_noise=0.3)
+        # Enough scenarios to resolve the effect: the gain here is real but
+        # worth under a thousandth of win probability, and 8000 draws cannot
+        # separate it from noise.
+        alloc, d = optimise(s, lg, sims=25000)
+        self.assertGreater(d["win_probability"], 0.0,
+                           "deficit must be live for this test to mean anything")
+        self.assertGreaterEqual(d["win_probability"],
+                                d["win_probability_if_ev_max"])
+        probs = d["vote_probabilities"]
+        favourite = max(probs, key=lambda k: probs[k])
+        spent = sum(a.get(favourite, 0) for a in alloc.values())
+        self.assertLess(spent, 10,
+                        "against a herded field, do not join the consensus")
+
+    def test_does_not_chase_differences_inside_the_noise(self):
+        """A deviation worth less than its own error bar must be refused.
+
+        With several candidates within a few points of each other, the gain
+        from leaving the favourite is smaller than the Monte Carlo standard
+        error. The engine used to accept those gaps - the threshold was 1/sims,
+        about 25 times too small - so the pick moved with the random seed and
+        skipped the genuine favourite. It must now sit still.
         """
         s = preseason()
         gone = [c.id for c in s.alive()][:15]
@@ -194,13 +226,40 @@ class TestAllocation(unittest.TestCase):
                        "tribes": {}, "edit": {}, "idols": []})
         lg = league(my_score=95,
                     opponent_scores=[120, 118, 112, 108, 105, 100, 98, 90, 85])
-        alloc, d = optimise(s, lg, sims=4000)
-        self.assertGreater(d["win_probability"], 0.0,
-                           "deficit must be live for this test to mean anything")
-        self.assertGreaterEqual(d["win_probability"],
-                                d["win_probability_if_ev_max"])
-        self.assertLess(d["expected_points"], d["expected_points_if_ev_max"],
-                        "buying variance should cost expected points")
+
+        # Six survivors within a few points of each other: the hardest case
+        # the engine meets, and the one that exposed the bug.
+        picks = set()
+        for seed in (51, 7, 123, 2026):
+            alloc, d = optimise(s, lg, sims=12000, seed=seed)
+            merged = {}
+            for a in alloc.values():
+                for k, v in a.items():
+                    merged[k] = merged.get(k, 0) + v
+            picks.add(tuple(sorted(merged.items())))
+        self.assertEqual(len(picks), 1,
+                         f"pick is unstable across seeds: {picks}")
+
+    def test_threshold_widens_with_the_number_of_bets(self):
+        from fsb.allocate import _threshold_z
+        self.assertLess(_threshold_z(2), _threshold_z(20))
+        self.assertGreater(_threshold_z(1), 1.6)
+
+    def test_paired_gain_reports_an_error_bar(self):
+        s = preseason()
+        lg = league()
+        probs = s.vote_probabilities()
+        sc = Scenarios(s, lg, n=1500, seed=3)
+        fav = max(probs, key=lambda k: probs[k])
+        base = win_credits({fav: 10}, sc, 0.0)
+        self.assertEqual(len(base), 1500)
+        gain, se = paired_gain({fav: 10}, base, sc, 0.0)
+        self.assertAlmostEqual(gain, 0.0, places=12,
+                               msg="an allocation cannot beat itself")
+        self.assertAlmostEqual(se, 0.0, places=12)
+        other = sorted(probs, key=lambda k: -probs[k])[3]
+        gain2, se2 = paired_gain({other: 10}, base, sc, 0.0)
+        self.assertGreater(se2, 0.0, "a real comparison must carry an error bar")
 
     def test_dead_position_still_banks_points(self):
         """When the win is gone, every allocation ties at zero.

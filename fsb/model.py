@@ -47,6 +47,11 @@ class Castaway:
     # this once the season starts, by weight and by typical magnitude.
     preseason_buzz: float = 0.0
     idol: bool = False
+    # P(a departure this episode is a quit, medical evacuation or production
+    # removal rather than a vote).  The league pays no vote points for those,
+    # so this discounts a castaway's value as a pick without pretending they
+    # are any more likely to survive.
+    medevac: float = 0.0
     out: bool = False
     placement: Optional[int] = None
 
@@ -103,6 +108,9 @@ class Season:
         for cid, val in (state.get("edit") or {}).items():
             if cid in self.cast:
                 self.cast[cid].edit = max(-1.0, min(1.0, float(val)))
+        for cid, val in (state.get("medevac_risk") or {}).items():
+            if cid in self.cast:
+                self.cast[cid].medevac = max(0.0, min(1.0, float(val)))
         for cid in (state.get("idols") or []):
             if cid in self.cast:
                 self.cast[cid].idol = True
@@ -221,3 +229,16 @@ class Season:
             for cid, p in cond.items():
                 out[cid] = p * loss.get(name, 0.0)
         return out
+
+    def vote_probabilities(self) -> Dict[str, float]:
+        """P(castaway is VOTED OUT this episode).
+
+        Distinct from boot probability, and it is the one that decides what a
+        pick is worth.  The rules say plainly that no vote points are awarded
+        for a castaway who quits, is medically evacuated, or is removed by
+        production, so points parked on a player who leaves by stretcher score
+        nothing at all.  These probabilities therefore do not sum to 1: the
+        missing mass is the chance that the week pays nobody.
+        """
+        return {cid: p * (1.0 - self.cast[cid].medevac)
+                for cid, p in self.boot_probabilities().items()}

@@ -32,11 +32,19 @@ from __future__ import annotations
 
 import math
 import random
+import statistics
 from typing import Dict, List, Optional, Sequence, Tuple
 
 from .model import Season
 
 Alloc = Dict[str, int]
+
+# Stands in for "somebody left, but nobody scored".  A quit, a medical
+# evacuation or a production removal ends a castaway's game and awards no vote
+# points to anyone, so the week must be simulated as a real departure that
+# pays out nothing.  No allocation can contain this key, so both my score and
+# the field's fall through to zero for that episode.
+VOID = "__no_vote_points__"
 
 
 # ---------------------------------------------------------------- candidates
@@ -163,7 +171,7 @@ class Scenarios:
     noisy instead of merely herd-like keeps the edge honest.
     """
 
-    def __init__(self, season: Season, league: dict, n: int = 8000,
+    def __init__(self, season: Season, league: dict, n: int = 16000,
                  seed: int = 51) -> None:
         self.season = season
         self.league = league
@@ -176,6 +184,7 @@ class Scenarios:
         sharp = float(league.get("field_sharpness", 2.5))
         all_in = float(league.get("field_all_in_fraction", 0.7))
         noise = float(league.get("field_noise", 0.6))
+        medevac = {c.id: c.medevac for c in season.alive()}
 
         opp_scores = effective_opponent_scores(league)
         self.n_opp = len(opp_scores)
@@ -192,10 +201,11 @@ class Scenarios:
             opps = list(opp_scores)
 
             boot = _draw(rng, weights)
-            self.boot_now.append(boot)
+            scoring = boot if rng.random() >= medevac.get(boot, 0.0) else VOID
+            self.boot_now.append(scoring)
             for j in range(self.n_opp):
-                opps[j] += self._field_points(rng, weights, misread[j], boot,
-                                              pools, sharp, all_in)
+                opps[j] += self._field_points(rng, weights, misread[j],
+                                              scoring, pools, sharp, all_in)
 
             # Remaining episodes.  Future-me plays the same differentiating
             # policy this optimiser recommends, not naive EV-max.  Modelling
@@ -206,12 +216,15 @@ class Scenarios:
             mine_future = 0.0
             while len(weights) > 2:
                 nxt = _draw(rng, weights)
-                if _best_response(weights, sharp, all_in) == nxt:
+                nxt_scoring = (nxt if rng.random() >= medevac.get(nxt, 0.0)
+                               else VOID)
+                if _best_response(weights, sharp, all_in) == nxt_scoring:
                     mine_future += 10.0
                 live = {"ALL": list(weights)}
                 for j in range(self.n_opp):
                     opps[j] += self._field_points(rng, weights, misread[j],
-                                                  nxt, live, sharp, all_in)
+                                                  nxt_scoring, live, sharp,
+                                                  all_in)
                 weights.pop(nxt, None)
 
             self.opp_totals.append(opps)
@@ -246,6 +259,69 @@ class Scenarios:
 
 # ---------------------------------------------------------------- objective
 
+def _threshold_z(n_positions: int) -> float:
+    """How many standard errors a challenger must clear to be believed.
+
+    Corrected for how many genuinely different bets were on offer, which is
+    the number of castaways in the pool - not the number of allocation vectors
+    built from them. Those vectors overlap heavily: 8@Maggie/2@Jenna and
+    7@Maggie/3@Jenna are the same bet at slightly different weights, and their
+    win-probability estimates move together. Correcting for all few hundred of
+    them as if they were independent tests sets the bar so high that a real
+    edge worth a quarter of the win probability gets thrown away.
+    """
+    alpha = 0.05 / max(1, n_positions)
+    return statistics.NormalDist().inv_cdf(1.0 - alpha)
+
+
+def win_credits(alloc: Alloc, sc: Scenarios,
+                my_score: float) -> List[float]:
+    """Per-scenario win credit: 1 for a win, a share of 1 for a tie, else 0.
+
+    Kept per scenario rather than averaged so that two candidates can be
+    compared as a paired sample.  Because every candidate is scored against
+    the same drawn futures, most scenarios give both of them the identical
+    result, and the paired difference is far better resolved than either
+    estimate on its own.
+    """
+    out: List[float] = []
+    for k in range(sc.n):
+        mine = my_score + alloc.get(sc.boot_now[k], 0) + sc.my_future[k]
+        opps = sc.opp_totals[k]
+        best = max(opps)
+        if mine > best:
+            out.append(1.0)
+        elif mine == best:
+            out.append(1.0 / (1 + sum(1 for o in opps if o == best)))
+        else:
+            out.append(0.0)
+    return out
+
+
+def paired_gain(cand: Alloc, incumbent_credits: List[float], sc: Scenarios,
+                my_score: float) -> Tuple[float, float]:
+    """Mean win-probability gain over the incumbent, and its standard error."""
+    n = sc.n
+    total = 0.0
+    total_sq = 0.0
+    for k in range(n):
+        mine = my_score + cand.get(sc.boot_now[k], 0) + sc.my_future[k]
+        opps = sc.opp_totals[k]
+        best = max(opps)
+        if mine > best:
+            credit = 1.0
+        elif mine == best:
+            credit = 1.0 / (1 + sum(1 for o in opps if o == best))
+        else:
+            credit = 0.0
+        d = credit - incumbent_credits[k]
+        total += d
+        total_sq += d * d
+    mean = total / n
+    var = max(0.0, (total_sq / n) - mean * mean)
+    return mean, math.sqrt(var / n)
+
+
 def win_probability(alloc: Alloc, sc: Scenarios, my_score: float) -> float:
     """P(I finish the season in first place) if I play `alloc` this week."""
     wins = 0.0
@@ -264,10 +340,21 @@ def expected_points(alloc: Alloc, probs: Dict[str, float]) -> float:
     return sum(probs.get(k, 0.0) * v for k, v in alloc.items())
 
 
-def optimise(season: Season, league: dict, sims: int = 8000, seed: int = 51,
+def optimise(season: Season, league: dict, sims: int = 16000, seed: int = 51,
              rounds: int = 2) -> Tuple[Dict[str, Alloc], dict]:
-    """Best allocation per tribe, by coordinate ascent on P(win)."""
-    probs = season.boot_probabilities()
+    """Best allocation per tribe, by coordinate ascent on P(win).
+
+    The default scenario count is set by the hardest decision of the season,
+    not the easiest. Pre-merge, with ten players on a tribe and one clear
+    favourite, the pick is stable on a few thousand draws. Late in the season
+    six survivors sit within a few points of each other, and at 8000 draws the
+    pick still moved with the random seed. 16000 holds steady there, and a
+    decision taken once a week can afford the extra seconds.
+    """
+    # Rank and price candidates on the chance of being VOTED OUT, not the
+    # chance of leaving. A castaway who is likely to go out on a stretcher
+    # keeps their departure risk but is worth nothing as a pick.
+    probs = season.vote_probabilities()
     sc = Scenarios(season, league, n=sims, seed=seed)
     my_score = float(league.get("my_score", 0))
     pools = Scenarios._pools(season)
@@ -288,32 +375,54 @@ def optimise(season: Season, league: dict, sims: int = 8000, seed: int = 51,
                 out[k] = out.get(k, 0) + v
         return out
 
-    # Lexicographic: maximise P(win), break ties on expected points.
+    # Accept a challenger only when it beats the incumbent by more than the
+    # noise, with the threshold widened for how many challengers were tried.
     #
-    # The tie-break earns its keep in two places.  In a dead-lost position
-    # every allocation scores P(win)=0 and the engine would otherwise freeze
-    # on whatever it started with, banking nothing; and because P(win) is a
-    # Monte Carlo estimate, candidates inside the noise floor are not really
-    # distinguishable, so preferring points among them avoids fitting noise.
-    tie_eps = 1.0 / max(sims, 1)
+    # Two bugs were fixed here. The threshold used to be 1/sims, about 25 times
+    # smaller than the real standard error, so on a tribe whose candidates sit
+    # within a couple of points of each other the pick moved with the random
+    # seed and skipped the genuine favourite. And acceptance used to be greedy
+    # over every candidate in turn: at a 5% error rate, a few hundred
+    # candidates yield a dozen false positives by chance, each one shifting the
+    # incumbent, so a chain of them could land on an allocation worse than the
+    # EV-max start. Now each pass scores every candidate against one fixed
+    # incumbent, takes only the single best, and applies a Bonferroni-corrected
+    # threshold for having gone looking.
+    def ev(alloc: Alloc) -> float:
+        return expected_points(alloc, probs)
 
-    def score(alloc: Alloc) -> Tuple[float, float]:
-        return win_probability(alloc, sc, my_score), expected_points(alloc, probs)
-
-    best_p, best_ev = score(merged_alloc())
+    best_credits = win_credits(merged_alloc(), sc, my_score)
     for _ in range(rounds):
         improved = False
         for name in pools:
+            incumbent = list(best_credits)
+            base_ev = ev(merged_alloc())
+            best_gain, best_se, best_cand, best_cand_ev = 0.0, 1.0, None, base_ev
             for cand in cands[name]:
-                p, ev = score(merged_alloc((name, cand)))
-                better = (p > best_p + tie_eps
-                          or (abs(p - best_p) <= tie_eps and ev > best_ev + 1e-9))
-                if better:
-                    best_p, best_ev, improved = max(p, best_p), ev, True
-                    current[name] = cand
+                merged = merged_alloc((name, cand))
+                gain, se = paired_gain(merged, incumbent, sc, my_score)
+                cand_ev = ev(merged)
+                if gain > best_gain or (gain == best_gain
+                                        and cand_ev > best_cand_ev):
+                    best_gain, best_se = gain, se
+                    best_cand, best_cand_ev = cand, cand_ev
+            if best_cand is None:
+                continue
+            z = _threshold_z(len(pools[name]))
+            take = best_gain > z * best_se
+            if not take and best_cand_ev > base_ev + 1e-9:
+                # Nothing beat the incumbent on win probability, so fall back
+                # to collecting points. This is what keeps a dead position from
+                # freezing on its starting guess and banking nothing.
+                take = True
+            if take:
+                current[name] = best_cand
+                best_credits = win_credits(merged_alloc(), sc, my_score)
+                improved = True
         if not improved:
             break
 
+    best_p = sum(best_credits) / sc.n
     final = merged_alloc()
     ev_alloc = {}
     for name, members in pools.items():
@@ -324,7 +433,8 @@ def optimise(season: Season, league: dict, sims: int = 8000, seed: int = 51,
         "win_probability_if_ev_max": win_probability(ev_alloc, sc, my_score),
         "expected_points": expected_points(final, probs),
         "expected_points_if_ev_max": expected_points(ev_alloc, probs),
-        "boot_probabilities": probs,
+        "vote_probabilities": probs,
+        "boot_probabilities": season.boot_probabilities(),
         "scenarios": sims,
         "opponents": sc.n_opp,
     }
