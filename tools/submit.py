@@ -174,6 +174,25 @@ def load_display_names() -> Dict[str, str]:
             for row in meta["cast"]}
 
 
+SCORED_ACTION_RE = re.compile(r"^(.{3,60}?)\s*\((\d+) points?\)\s*$", re.M)
+
+
+def parse_scored_actions(rules_text: str) -> Dict[str, int]:
+    """Every "<action> (N points)" line on the live rules page.
+
+    The site adds scoring rules DURING the season - the open era keeps
+    reviving old twists and each one gets priced - so the constants read
+    once before the premiere go stale. Three were added before episode 1
+    and went unnoticed for a week.
+    """
+    return {m.group(1).strip(): int(m.group(2))
+            for m in SCORED_ACTION_RE.finditer(rules_text)}
+
+
+def count_scored_actions(scoring: dict) -> int:
+    return len(scoring["outplay"]["actions"])
+
+
 ROW_RE = re.compile(r'<tr( id="leaderboard-self")?[^>]*>(.*?)</tr>', re.S)
 TRIBENAME_RE = re.compile(r'<span class="player-tribename">([^<]*)</span>')
 REALNAME_RE = re.compile(r'<span class="player-realname">([^<]*)</span>')
@@ -457,6 +476,25 @@ def cmd_draft(args) -> None:
         pw.stop()
 
 
+def cmd_rules_check(args) -> None:
+    """Warn when the live rules page prices more actions than we know about."""
+    pw, browser, page = _make_page()
+    try:
+        page.goto(f"{BASE}/rules.html", wait_until="domcontentloaded", timeout=25000)
+        page.wait_for_timeout(900)
+        live = parse_scored_actions(page.inner_text("body"))
+        with open(DATA / "scoring.json", encoding="utf-8") as fh:
+            known = count_scored_actions(json.load(fh))
+        print(f"  rules: site prices {len(live)} actions, scoring.json has {known}")
+        if len(live) > known:
+            raise SubmitError(
+                f"the site has added scoring rules ({len(live)} vs {known}) - "
+                f"re-read rules.html into data/scoring.json")
+    finally:
+        browser.close()
+        pw.stop()
+
+
 def cmd_standings(args) -> None:
     pw, browser, page = _make_page()
     try:
@@ -554,6 +592,9 @@ def main(argv=None) -> int:
 
     p = sub.add_parser("draft", help="submit the full draft preference order")
     p.set_defaults(func=cmd_draft)
+
+    p = sub.add_parser("rules-check", help="warn if the site added scoring rules")
+    p.set_defaults(func=cmd_rules_check)
 
     p = sub.add_parser("standings", help="read the real standings into league.json")
     p.set_defaults(func=cmd_standings)

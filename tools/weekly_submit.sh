@@ -30,6 +30,7 @@ set +a
 TESTS_OK=1
 python3 -m unittest discover -s tests || TESTS_OK=0
 
+python3 tools/submit.py rules-check || echo 'RULES CHANGED - see above'
 python3 tools/submit.py standings
 python3 tools/submit.py vote
 python3 tools/submit.py verify

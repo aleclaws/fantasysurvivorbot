@@ -33,6 +33,10 @@ SCORING CASTAWAY POINTS (OUTPLAY)
 
 Drafted Castaways may earn points for their fantasy tribe in the following ways each episode:
 
+Island Challenge (1 point)
+
+A Survivor who participates in an island challenge is awarded 1 point.
+
 Win the Marooning Challenge (1 point)
 
 A castaway on a tribe that wins the Marooning Challenge earns 1 point.
@@ -109,6 +113,10 @@ Love from Home (1 point)
 
 A castaway who gains love from home earns 1 point. (This may include special visits, letters, or video messages)
 
+Negotiate for Supplies (1 point)
+
+A castaway who negotiates for supplies earns 1 point.
+
 Find a Clue to an Idol or Advantage (1 point)
 
 A castaway who finds the starting clue to an immunity idol or advantage earns 1 point.
@@ -128,6 +136,10 @@ The castaway who first gains an advantage earns 1 point. Immunity Idols are not 
 Play Shot in the Dark (1 point)
 
 A castaway who plays their Shot in the Dark at Tribal Council earns 1 point.
+
+Flip the Prize Coin (2 points)
+
+The castaway who flips the prize coin earns 2 points.
 
 Castaway Out of Game (0-13 points)
 

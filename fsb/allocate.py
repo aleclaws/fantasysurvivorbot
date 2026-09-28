@@ -397,18 +397,25 @@ def optimise(season: Season, league: dict, sims: int = 16000, seed: int = 51,
         for name in pools:
             incumbent = list(best_credits)
             base_ev = ev(merged_alloc())
-            best_gain, best_se, best_cand, best_cand_ev = 0.0, 1.0, None, base_ev
+            z = _threshold_z(len(pools[name]))
+            scored = []
             for cand in cands[name]:
                 merged = merged_alloc((name, cand))
                 gain, se = paired_gain(merged, incumbent, sc, my_score)
-                cand_ev = ev(merged)
-                if gain > best_gain or (gain == best_gain
-                                        and cand_ev > best_cand_ev):
-                    best_gain, best_se = gain, se
-                    best_cand, best_cand_ev = cand, cand_ev
-            if best_cand is None:
+                scored.append((gain, se, ev(merged), cand))
+            scored = [s for s in scored if s[0] > 0.0]
+            if not scored:
                 continue
-            z = _threshold_z(len(pools[name]))
+            # Taking the single largest measured gain is itself a selection
+            # effect: among candidates whose true gains are equal, which one
+            # measures highest is noise, so the pick moved with the seed even
+            # though the acceptance test below is sound. Everything within an
+            # error bar of the leader is treated as tied, and the tie is broken
+            # on expected points, which do not depend on the draw.
+            top = max(scored, key=lambda s: s[0])
+            tied = [s for s in scored if s[0] >= top[0] - z * s[1]]
+            best_gain, best_se, best_cand_ev, best_cand = max(
+                tied, key=lambda s: (s[2], sorted(s[3].items())))
             take = best_gain > z * best_se
             if not take and best_cand_ev > base_ev + 1e-9:
                 # Nothing beat the incumbent on win probability, so fall back
