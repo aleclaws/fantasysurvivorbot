@@ -3,3 +3,4 @@ __pycache__/
 .venv/
 data/site/*.png
 .env
+tools/weekly_submit.log

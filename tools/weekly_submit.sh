@@ -10,7 +10,7 @@
 # Requires .env in the repo root (FSG_EMAIL, FSG_PASSWORD - gitignored,
 # never committed). See docs/PLAYBOOK.md.
 
-set -euo pipefail
+set -uo pipefail
 
 REPO="/Users/alec/fantasysurvivorbot"
 LOG="$REPO/tools/weekly_submit.log"
@@ -36,13 +36,19 @@ python3 tools/submit.py vote
 python3 tools/submit.py verify
 
 if [ "$TESTS_OK" = "1" ]; then
-	if ! git diff --quiet; then
+	# Scope the check to the files actually committed. Checking the whole
+	# tree meant the run's own log file made it look dirty, so the commit
+	# ran with nothing staged, failed, and set -e killed the script before
+	# the push - every week the picks did not change.
+	if ! git diff --quiet -- data/state.json data/league.json; then
 		git add data/state.json data/league.json
 		git commit -m "chore: weekly picks submitted ($(date +%Y-%m-%d))
 
 Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 		git pull --ff-only origin claude/sleepy-heisenberg-7mhgml
 		git push origin claude/sleepy-heisenberg-7mhgml
+	else
+		echo "no state change to commit"
 	fi
 else
 	echo "TESTS FAILED - picks were still submitted (deadline-bound), but nothing was pushed. Investigate before next Wednesday."
