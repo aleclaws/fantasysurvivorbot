@@ -20,7 +20,7 @@
 <body>
 	
 
-																									
+										
 	<script>
 		var alertBoxTimeOutID = null;
 		var manuallyClosed = false;
@@ -49,6 +49,8 @@
 		function closeAlertBox() {
 			manuallyClosed = true;
 			fadeAlertBox();
+							fetch('/alert-acknowledge.html?ajax=1', { method: 'GET' })
+					.catch(error => console.error('Acknowledge error:', error));
 						return false;
 		}
 		// replaces jQuery $(document).ready()
@@ -69,9 +71,9 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div id="alert-message" class="col">
-					You still need to vote for the upcoming episode! <a class="bold" href="/vote.html">Vote Now</a>				</div>
+					Note for Late signups: Draft runs again Wed. 8pm Eastern. 				</div>
 				<div class="col-auto ps-0">
-					<a id="alertbarclosebtn" onclick="return closeAlertBox();" href="" style="display: inline-block;"><i class="bi bi-x-lg"></i></a>
+					<a id="alertbarclosebtn" onclick="return closeAlertBox();" href="/alert-acknowledge.html?nextpage=vote" style="display: inline-block;"><i class="bi bi-x-lg"></i></a>
 				</div>
 			</div>
 		</div>
@@ -164,7 +166,7 @@
 				<div class="col text-end"><a class="text-decoration-none" href="vote.html?history=true">Voting History</a></div>
 			</div>
 			<div class="row">
-                                                                                                                                                                                                                <div class="text-center mt-3">Voting closes in <b>6</b> days.</div>
+                                                                                                                                                                                                                <div class="text-center mt-3">Voting closes in <b>2</b> days.</div>
                 			</div>
 		</div>
 
@@ -195,7 +197,7 @@
 							POINTS<br>REMAIN
 						</div>
 						<div class="col-auto display-5 survivorfont" id="pointsLeft2-2" style="padding-left: 0px; padding-top: 0px;">
-							10
+							0
 						</div>
 					</div>
 				</div>
@@ -211,7 +213,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/thien%20anSOLE.jpg" title="An &quot;Thien An&quot; Nguyen" alt="Survivor cast photo of An &quot;Thien An&quot; Nguyen" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/thien%20anSOLE.jpg" title="An &quot;Thien An&quot; Nguyen" alt="Survivor cast photo of An &quot;Thien An&quot; Nguyen" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -247,7 +249,7 @@
 			</div>
 		</div>
 	</div>
-																											
+																				
 
 	<div class="container-fluid container-lg votewrap" id="votewrap2-540">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
@@ -257,7 +259,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/jellySOLE.jpg" title="Angelica &quot;Jelly&quot; Loblack" alt="Survivor cast photo of Angelica &quot;Jelly&quot; Loblack" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/jellySOLE.jpg" title="Angelica &quot;Jelly&quot; Loblack" alt="Survivor cast photo of Angelica &quot;Jelly&quot; Loblack" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -267,29 +269,29 @@
 								<div class="d-none d-md-block">
 					<div class="rating">
 						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=540" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">10</a></div>
+												<div class="star on"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star on"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star on"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star on"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star on"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star on"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star on"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star on"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star on"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star on"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=540" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Jelly" value="" maxlength="3" id="votenum2-2-540" name="votenum2-2-540" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Jelly" value="10" maxlength="3" id="votenum2-2-540" name="votenum2-2-540" data-last-value="10">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox2-540" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-540" style="line-height: .75em;">10</div>
 			</div>
 		</div>
 	</div>
@@ -303,7 +305,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/bradySOLE.jpg" title="Brady Booker" alt="Survivor cast photo of Brady Booker" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/bradySOLE.jpg" title="Brady Booker" alt="Survivor cast photo of Brady Booker" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -349,7 +351,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/kilbySOLE.jpg" title="Danny Kilby" alt="Survivor cast photo of Danny Kilby" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/kilbySOLE.jpg" title="Danny Kilby" alt="Survivor cast photo of Danny Kilby" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -395,7 +397,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/devinSOLE.jpg" title="Devin Way" alt="Survivor cast photo of Devin Way" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/devinSOLE.jpg" title="Devin Way" alt="Survivor cast photo of Devin Way" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -441,7 +443,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/jennaSOLE.jpg" title="Jenna Doore" alt="Survivor cast photo of Jenna Doore" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/jennaSOLE.jpg" title="Jenna Doore" alt="Survivor cast photo of Jenna Doore" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -487,7 +489,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/lewisSOLE.jpg" title="Lewis Kelly" alt="Survivor cast photo of Lewis Kelly" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/lewisSOLE.jpg" title="Lewis Kelly" alt="Survivor cast photo of Lewis Kelly" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -533,7 +535,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/maggieSOLE.jpg" title="Maggie Nestor" alt="Survivor cast photo of Maggie Nestor" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/maggieSOLE.jpg" title="Maggie Nestor" alt="Survivor cast photo of Maggie Nestor" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -579,7 +581,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/mikeSOLE.jpg" title="Mike Pinsky" alt="Survivor cast photo of Mike Pinsky" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/mikeSOLE.jpg" title="Mike Pinsky" alt="Survivor cast photo of Mike Pinsky" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -625,7 +627,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/pattSOLE.jpg" title="Patt Cannaday" alt="Survivor cast photo of Patt Cannaday" style="border-color: #FDB515;">
+	<img src="/images/51/thumbs/pattSOLE.jpg" title="Patt Cannaday" alt="Survivor cast photo of Patt Cannaday" style="border-color: #FDB515; color: #FDB515;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -685,7 +687,7 @@
 							POINTS<br>REMAIN
 						</div>
 						<div class="col-auto display-5 survivorfont" id="pointsLeft2-3" style="padding-left: 0px; padding-top: 0px;">
-							10
+							0
 						</div>
 					</div>
 				</div>
@@ -701,7 +703,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/alexisSOLE.jpg" title="Alexis Levine" alt="Survivor cast photo of Alexis Levine" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/alexisSOLE.jpg" title="Alexis Levine" alt="Survivor cast photo of Alexis Levine" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -747,7 +749,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/anaSOLE.jpg" title="Ana Sani" alt="Survivor cast photo of Ana Sani" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/anaSOLE.jpg" title="Ana Sani" alt="Survivor cast photo of Ana Sani" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -793,7 +795,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/carterSOLE.jpg" title="Carter Krull" alt="Survivor cast photo of Carter Krull" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/carterSOLE.jpg" title="Carter Krull" alt="Survivor cast photo of Carter Krull" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -839,7 +841,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/cristianSOLE.jpg" title="Cristian Chavez" alt="Survivor cast photo of Cristian Chavez" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/cristianSOLE.jpg" title="Cristian Chavez" alt="Survivor cast photo of Cristian Chavez" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -875,7 +877,7 @@
 			</div>
 		</div>
 	</div>
-																															
+																								
 
 	<div class="container-fluid container-lg votewrap" id="votewrap2-546">
 		<div class="row flex-nowrap justify-content-center align-items-center mt-2">
@@ -885,7 +887,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/ericSOLE.jpg" title="Eric Macksoud" alt="Survivor cast photo of Eric Macksoud" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/ericSOLE.jpg" title="Eric Macksoud" alt="Survivor cast photo of Eric Macksoud" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -895,29 +897,29 @@
 								<div class="d-none d-md-block">
 					<div class="rating">
 						<div class="cancel"><a href="single-vote.php?rating=0&amp;episode=2&amp;survivor=546" title="Cancel Vote">Cancel Vote</a></div>
-												<div class="star"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">1</a></div>
-												<div class="star"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">2</a></div>
-												<div class="star"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">3</a></div>
-												<div class="star"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">4</a></div>
-												<div class="star"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">5</a></div>
-												<div class="star"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">6</a></div>
-												<div class="star"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">7</a></div>
-												<div class="star"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">8</a></div>
-												<div class="star"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">9</a></div>
-												<div class="star"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">10</a></div>
+												<div class="star on"><a href="single-vote.php?rating=1&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">1</a></div>
+												<div class="star on"><a href="single-vote.php?rating=2&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">2</a></div>
+												<div class="star on"><a href="single-vote.php?rating=3&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">3</a></div>
+												<div class="star on"><a href="single-vote.php?rating=4&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">4</a></div>
+												<div class="star on"><a href="single-vote.php?rating=5&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">5</a></div>
+												<div class="star on"><a href="single-vote.php?rating=6&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">6</a></div>
+												<div class="star on"><a href="single-vote.php?rating=7&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">7</a></div>
+												<div class="star on"><a href="single-vote.php?rating=8&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">8</a></div>
+												<div class="star on"><a href="single-vote.php?rating=9&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">9</a></div>
+												<div class="star on"><a href="single-vote.php?rating=10&amp;episode=2&amp;survivor=546" title="How likely is this survivor to go home?">10</a></div>
 											</div>
 				</div>
 								<div class="col-auto d-block d-md-none">
 					<div class="input-group align-content-center">
 						<button class="btn votebtnSM fs-1" data-op="subtract" type="button" style="display: block;">–</button>
-						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Eric" value="" maxlength="3" id="votenum2-3-546" name="votenum2-3-546" data-last-value="0">
+						<input type="text" class="vote form-control text-center fs-1 survivorfont" placeholder="0" inputmode="numeric" aria-label="Your guess for Eric" value="10" maxlength="3" id="votenum2-3-546" name="votenum2-3-546" data-last-value="10">
 						<button class="btn votebtnSM fs-1" data-op="add" type="button" style="display: block;">+</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-auto text-center d-none d-md-block">
 				<div class="fs-6 survivorfont">GUESS</div>
-				<div class="display-4 mb-2 survivorfont" id="voteBox2-546" style="line-height: .75em;">0</div>
+				<div class="display-4 mb-2 survivorfont" id="voteBox2-546" style="line-height: .75em;">10</div>
 			</div>
 		</div>
 	</div>
@@ -931,7 +933,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/kristinSOLE.jpg" title="Kristin Flickinger" alt="Survivor cast photo of Kristin Flickinger" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/kristinSOLE.jpg" title="Kristin Flickinger" alt="Survivor cast photo of Kristin Flickinger" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -977,7 +979,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/linneaSOLE.jpg" title="Linnea Capobianco" alt="Survivor cast photo of Linnea Capobianco" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/linneaSOLE.jpg" title="Linnea Capobianco" alt="Survivor cast photo of Linnea Capobianco" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -1023,7 +1025,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/oriSOLE.jpg" title="Ori Jean-Charles" alt="Survivor cast photo of Ori Jean-Charles" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/oriSOLE.jpg" title="Ori Jean-Charles" alt="Survivor cast photo of Ori Jean-Charles" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -1069,7 +1071,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/robSOLE.jpg" title="Rob Antonson" alt="Survivor cast photo of Rob Antonson" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/robSOLE.jpg" title="Rob Antonson" alt="Survivor cast photo of Rob Antonson" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -1115,7 +1117,7 @@
 
 						
 <div class="survivor-circle-img">
-	<img src="/images/51/thumbs/sharondaSOLE.jpg" title="Sharonda Cox" alt="Survivor cast photo of Sharonda Cox" style="border-color: #7E479C;">
+	<img src="/images/51/thumbs/sharondaSOLE.jpg" title="Sharonda Cox" alt="Survivor cast photo of Sharonda Cox" style="border-color: #7E479C; color: #7E479C;">
 		</div>
 			</div>
 			<div class="col-auto px-0">
@@ -1169,7 +1171,7 @@
 					
 		<script>
 			'use strict';
-			var timeLeft = 539432;
+			var timeLeft = 184002;
 			var numberOfVotes = 10;
 		</script>
 

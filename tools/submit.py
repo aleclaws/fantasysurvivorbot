@@ -99,6 +99,29 @@ def parse_vote_tribes(html: str) -> Dict[str, str]:
     return {tribe: name.strip() for name, _ep, tribe in TRIBE_HEADER_RE.findall(html)}
 
 
+POINTS_LEFT_RE = re.compile(r'id="pointsLeft(\d+)-(\d+)"[^>]*>\s*(\d+)')
+VOTE_INPUT_RE = re.compile(r"<input[^>]*\bid=\"votenum(\d+)-(\d+)-(\d+)\"[^>]*>")
+VALUE_ATTR_RE = re.compile(r'\bvalue="([^"]*)"')
+
+
+def parse_vote_budgets(html: str) -> Dict[str, int]:
+    """tribe_index -> that pool's FULL budget, not what is left of it.
+
+    The site displays points remaining, which reads zero once a vote is in,
+    so the budget is the remainder plus whatever is already allocated in
+    that pool. Worth reading rather than assuming 10: this is the open era,
+    the site has already added scoring rules mid-season, and a week that
+    handed out a different budget would otherwise be silently underspent.
+    """
+    spent: Dict[str, int] = {}
+    for m in VOTE_INPUT_RE.finditer(html):
+        _ep, tribe, _sid = m.groups()
+        val = VALUE_ATTR_RE.search(m.group(0))
+        spent[tribe] = spent.get(tribe, 0) + int((val.group(1) or 0) if val else 0)
+    return {t: int(n) + spent.get(t, 0)
+            for _ep, t, n in POINTS_LEFT_RE.findall(html)}
+
+
 def site_vote_view(html: str, engine_of: Dict[int, str]) -> Tuple[Dict[str, str], List[str]]:
     """What the live vote page says about this week, in engine terms.
 
@@ -530,7 +553,8 @@ def cmd_vote(args) -> None:
     try:
         page.goto(f"{BASE}/vote.html", wait_until="domcontentloaded", timeout=20000)
         page.wait_for_timeout(800)
-        tribes, names = site_vote_view(page.content(), site_ids_to_engine_ids())
+        html = page.content()
+        tribes, names = site_vote_view(html, site_ids_to_engine_ids())
         if not tribes:
             raise SubmitError("the vote page has no vote fields - voting is closed")
         season = Season()
@@ -543,7 +567,13 @@ def cmd_vote(args) -> None:
         print(f"  site vote pools: {', '.join(names)}")
 
         kwargs = {"sims": args.sims} if args.sims else {}
-        alloc, _diag = optimise(season, league, **kwargs)
+        by_index = parse_vote_tribes(html)
+        budgets = {by_index.get(t, f"tribe {t}"): b
+                   for t, b in parse_vote_budgets(html).items()}
+        if budgets:
+            print(f"  site budgets: " +
+                  ", ".join(f"{k} {v}" for k, v in sorted(budgets.items())))
+        alloc, _diag = optimise(season, league, budgets=budgets, **kwargs)
         by_site_id: Dict[int, int] = {}
         for _tribe, a in alloc.items():
             for cid, pts in a.items():

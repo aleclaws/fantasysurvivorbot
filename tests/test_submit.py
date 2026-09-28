@@ -170,6 +170,20 @@ class TestSiteVoteView(unittest.TestCase):
         self.assertEqual(names, ["Unknown"])
         self.assertEqual(tribes, {"brady": "Unknown", "ori": "Unknown"})
 
+    def test_budget_is_remaining_plus_already_allocated(self):
+        # The site shows points REMAINING, which is 0 once a vote is in, so a
+        # naive read would tell the optimiser it has nothing to spend.
+        html = ('<div id="pointsLeft2-1">3</div>'
+                '<input id="votenum2-1-541" value="7">'
+                '<input id="votenum2-1-548" value="">'
+                '<div id="pointsLeft2-2">10</div>'
+                '<input id="votenum2-2-553" value="">')
+        self.assertEqual(submit.parse_vote_budgets(html), {"1": 10, "2": 10})
+
+    def test_budget_read_from_the_live_page(self):
+        self.assertEqual(sorted(submit.parse_vote_budgets(_read("vote.html")).values()),
+                         [10, 10])
+
     def test_reads_real_tribe_names_per_pool(self):
         tribes, names = submit.site_vote_view(
             self.TWO_TRIBES, submit.site_ids_to_engine_ids())

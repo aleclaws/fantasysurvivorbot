@@ -35,6 +35,7 @@ import random
 import statistics
 from typing import Dict, List, Optional, Sequence, Tuple
 
+from .draft import load_scoring
 from .model import Season
 
 Alloc = Dict[str, int]
@@ -341,7 +342,8 @@ def expected_points(alloc: Alloc, probs: Dict[str, float]) -> float:
 
 
 def optimise(season: Season, league: dict, sims: int = 16000, seed: int = 51,
-             rounds: int = 2) -> Tuple[Dict[str, Alloc], dict]:
+             rounds: int = 2,
+             budgets: Optional[Dict[str, int]] = None) -> Tuple[Dict[str, Alloc], dict]:
     """Best allocation per tribe, by coordinate ascent on P(win).
 
     The default scenario count is set by the hardest decision of the season,
@@ -355,6 +357,12 @@ def optimise(season: Season, league: dict, sims: int = 16000, seed: int = 51,
     # chance of leaving. A castaway who is likely to go out on a stretcher
     # keeps their departure risk but is worth nothing as a pick.
     probs = season.vote_probabilities()
+    # How many points each pool actually carries. tools/submit.py reads this
+    # off the live vote page, because the budget is the site's to set: this is
+    # the open era, it has already added scoring rules mid-season, and a week
+    # that handed out a different budget would otherwise be quietly underspent.
+    default_budget = int(load_scoring()["vote"]["budget_per_tribe"])
+    budgets = budgets or {}
     sc = Scenarios(season, league, n=sims, seed=seed)
     my_score = float(league.get("my_score", 0))
     pools = Scenarios._pools(season)
@@ -363,9 +371,10 @@ def optimise(season: Season, league: dict, sims: int = 16000, seed: int = 51,
     current: Dict[str, Alloc] = {}
     cands: Dict[str, List[Alloc]] = {}
     for name, members in pools.items():
-        cands[name] = candidate_allocations(members, probs)
+        budget = int(budgets.get(name, default_budget))
+        cands[name] = candidate_allocations(members, probs, budget=budget)
         fav = max(members, key=lambda i: probs.get(i, 0.0))
-        current[name] = {fav: 10}
+        current[name] = {fav: budget}
 
     def merged_alloc(over: Optional[Tuple[str, Alloc]] = None) -> Alloc:
         out: Alloc = {}
@@ -434,7 +443,7 @@ def optimise(season: Season, league: dict, sims: int = 16000, seed: int = 51,
     ev_alloc = {}
     for name, members in pools.items():
         fav = max(members, key=lambda i: probs.get(i, 0.0))
-        ev_alloc[fav] = ev_alloc.get(fav, 0) + 10
+        ev_alloc[fav] = ev_alloc.get(fav, 0) + int(budgets.get(name, default_budget))
     diag = {
         "win_probability": best_p,
         "win_probability_if_ev_max": win_probability(ev_alloc, sc, my_score),
