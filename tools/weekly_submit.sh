@@ -30,10 +30,39 @@ set +a
 TESTS_OK=1
 python3 -m unittest discover -s tests || TESTS_OK=0
 
-python3 tools/submit.py rules-check || echo 'RULES CHANGED - see above'
-python3 tools/submit.py standings
-python3 tools/submit.py vote
-python3 tools/submit.py verify
+# Dropping `set -e` (so a git hiccup cannot abort a run that has already
+# submitted) also removed the thing that stopped the script on a FAILED
+# submission - it would carry on and exit 0, so a week that scored nothing
+# looked like a clean run. Failures are tracked explicitly instead, and the
+# vote, which is the only step with a deadline, gets one retry and decides
+# the exit code.
+STATUS=0
+
+python3 tools/submit.py rules-check || {
+	echo "RULES CHANGED - re-read rules.html into data/scoring.json"
+	STATUS=1
+}
+python3 tools/submit.py standings || {
+	echo "WARNING: standings sync failed - picks computed on stale scores"
+	STATUS=1
+}
+
+if ! python3 tools/submit.py vote; then
+	echo "vote submission failed, retrying once..."
+	sleep 20
+	if ! python3 tools/submit.py vote; then
+		echo "########################################################"
+		echo "# VOTE NOT SUBMITTED. This week scores ZERO unless it   #"
+		echo "# is fixed before the 20:00 ET lock.                    #"
+		echo "########################################################"
+		STATUS=2
+	fi
+fi
+
+python3 tools/submit.py verify || {
+	echo "WARNING: could not verify what the site has saved"
+	STATUS=1
+}
 
 if [ "$TESTS_OK" = "1" ]; then
 	# Scope the check to the files actually committed. Checking the whole
@@ -54,4 +83,9 @@ else
 	echo "TESTS FAILED - picks were still submitted (deadline-bound), but nothing was pushed. Investigate before next Wednesday."
 fi
 
-echo "=== done ==="
+if [ "$STATUS" = "0" ]; then
+	echo "=== done: picks submitted and verified ==="
+else
+	echo "=== done WITH PROBLEMS (status $STATUS) - read the log above ==="
+fi
+exit $STATUS
