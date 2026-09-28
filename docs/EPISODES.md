@@ -52,6 +52,31 @@ Sources: [TVLine recap](https://www.tvline.com/2267004/survivor-51-premiere-reca
   (0.144), so the live pick stands and the streak is not reset. Patt is also
   held by an opponent; Rob is not.
 
+
+### Savu read corrected 2026-09-28 (local session)
+
+Savu never voted in episode 1, so the model had no evidence there and fell
+back on the age prior: Kristin, 49, at 0.29 of the tribe's boot weight. The
+aired content actually says the opposite.
+
+| Castaway | Evidence | Edit |
+|---|---|---|
+| Kristin Flickinger | Chosen BY the tribe to negotiate for supplies, sparked the first fire, reconnected with Sharonda. Integrated and trusted, not an outsider. Her 6 points are exactly negotiate + fire + immunity + opening challenge. | **-0.3** |
+| Eric Macksoud | "Starting to rub his tribemates the wrong way." Rob threw him under the bus, implying he was idol-hunting while he was using the fishing gear. Alexis called him "sweet ... but annoying". A named antagonist and multiple tribemates commenting. | **+0.8** |
+
+That moves the Savu pick from Kristin (0.201) to Eric (0.216) - a near-tie,
+but one now settled by aired evidence on both sides rather than by an
+untested demographic prior. Sources: [Inside Survivor episode 1
+recap](https://insidesurvivor.com/survivor-51-episode-1-recap-the-open-era-61715),
+[DraftKings episode 2
+predictions](https://dknetwork.draftkings.com/2026/09/25/survivor-51-predictions-who-will-be-voted-out-next/).
+
+**The age prior itself is still unvalidated.** I tried to set its weight from
+the real base rate - how often the oldest player goes early in the new era -
+and could not find systematic data, only that Survivor 41's first boot was
+51. One data point does not justify retuning the largest weight in the model,
+so it is unchanged and still the biggest untested assumption in it.
+
 ## Episode 2 — "Weaponized Honesty" (30 September 2026) — before it airs
 
 **Preview.** Brady Booker cuts his finger with a machete and loses a lot of
