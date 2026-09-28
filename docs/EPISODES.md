@@ -34,6 +34,24 @@ Sources: [TVLine recap](https://www.tvline.com/2267004/survivor-51-premiere-reca
 [TVInsider recap](https://www.tvinsider.com/1292889/survivor-51-episode-1-recap-who-was-voted-out/),
 [Paramount+ recap](https://www.paramountplus.com/sneak-peak/survivor-season-51-episode-1-recap/)
 
+
+### Corrections made 2026-09-28 (local session)
+
+- **Brady Booker's edit was +0.7 (doomed), now -0.2.** The episode 1 ingest
+  put him in the exposed minority with Devin. The research above corrects
+  that - the two Jenna votes were Devin and Jelly, and Brady voted with the
+  six - but his edit was never brought in line with it. His medical risk is
+  separate and is carried by `medevac_risk`, not by his vote risk.
+- **`my_mvp_on_site` said Eric; the site holds Rob.** Checked directly
+  against profile.html from a session that can reach the site. The earlier
+  reading came from the league activity feed, which lists every prediction
+  ever made, so a superseded entry there looks like the current pick.
+  `tools/submit.py standings` now reads the live pick off the profile every
+  run, so this cannot drift again.
+- With Brady corrected, `fsb mvp` puts Rob (0.153) back ahead of Patt
+  (0.144), so the live pick stands and the streak is not reset. Patt is also
+  held by an opponent; Rob is not.
+
 ## Episode 2 — "Weaponized Honesty" (30 September 2026) — before it airs
 
 **Preview.** Brady Booker cuts his finger with a machete and loses a lot of

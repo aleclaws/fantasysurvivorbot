@@ -354,6 +354,7 @@ def sync_league_standings(page) -> dict:
     league_path = DATA / "league.json"
     with open(league_path, encoding="utf-8") as fh:
         league = json.load(fh)
+    sync_sole_pick(page)
     others = [r for r in rows if not r["is_self"]]
     league["my_score"] = self_row["total"]
     league["opponent_scores"] = [r["total"] for r in others]
@@ -363,6 +364,37 @@ def sync_league_standings(page) -> dict:
         json.dump(league, fh, indent=2)
         fh.write("\n")
     return league
+
+
+def sync_sole_pick(page) -> str:
+    """Record the Sole Survivor pick the site actually holds, in state.json.
+
+    Read from the profile, which shows the live pick. The league activity feed
+    is NOT a substitute: it lists every prediction ever made, so an old entry
+    there reads as the current pick and raised a false "out of sync" alarm
+    once already. Writes my_mvp_on_site so a session that cannot reach the
+    site can still see whether my_mvp was actually submitted.
+    """
+    page.goto(f"{BASE}/profile.html", wait_until="domcontentloaded", timeout=20000)
+    page.wait_for_timeout(800)
+    shown = parse_profile_sole_pick(page.inner_text("body"))
+    if not shown:
+        return ""
+    by_name = {v.upper(): k for k, v in load_display_names().items()}
+    cid = by_name.get(shown.upper(), shown.lower())
+    path = DATA / "state.json"
+    with open(path, encoding="utf-8") as fh:
+        state = json.load(fh)
+    if state.get("my_mvp_on_site") != cid:
+        state["my_mvp_on_site"] = cid
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(state, fh, indent=2)
+            fh.write("\n")
+    if state.get("my_mvp") and state["my_mvp"] != cid:
+        print(f"  WARNING: my_mvp is {state['my_mvp']!r} but the site holds "
+              f"{cid!r} - run: python3 tools/submit.py sole-survivor "
+              f"{state['my_mvp']}")
+    return cid
 
 
 def join_group(page, group_code: str) -> None:

@@ -51,7 +51,7 @@
   ],
   "edit": {
     "devin": 0.7,
-    "brady": 0.7,
+    "brady": -0.2,
     "jenna": 0.5,
     "jelly": 0.7,
     "patt": -0.4,
@@ -88,7 +88,7 @@
     "rob",
     "kristin"
   ],
-  "my_mvp_on_site": "eric",
+  "my_mvp_on_site": "rob",
   "_mvp_desync": [
     "ACTION REQUIRED. my_mvp and the site disagree.",
     "data/site/standings.txt, captured 2026-09-27, says: 'Win Probability AI bot",
