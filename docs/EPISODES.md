@@ -102,3 +102,22 @@ zero, and being on the real vote-out is worth more than usual this week.
 Source: [cartermatt preview](https://cartermatt.com/729031/survivor-51-episode-2-preview-is-brady-getting-medically-evacuated/)
 
 **Picks:** 10 on Jelly Loblack (Toka), 10 on Kristin Flickinger (Savu).
+
+### Brady's medical risk, corrected 2026-09-28
+
+`medevac_risk` had Brady at 0.5 off the episode 2 synopsis ("a chilling
+injury at camp threatens to send one player home"). Two outlets describing
+the same first-look footage have him cutting his hand, getting it bandaged
+and then **competing in the immunity challenge** - visible in the water
+during the challenge clips. Someone who plays on was not pulled, so the
+synopsis line is promo framing. Lowered to 0.15, leaving residual risk
+because medical can still intervene later.
+
+This matters wider than Brady: a medical evacuation pays NOBODY vote
+points, so overstating its chance made the whole week look less valuable
+than it is. The picks did not change - Jelly on Toka, Eric on Savu, both
+already live - and the win probability held at 0.098.
+
+Sources: [Surviving Tribal first look](https://survivingtribal.com/survivor-51-episode-2-first-look-photos-and-predictions),
+plus corroborating challenge-footage description in episode 2 preview coverage.
+

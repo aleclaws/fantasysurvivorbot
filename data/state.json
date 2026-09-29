@@ -111,7 +111,7 @@
     "Then set my_mvp and my_mvp_on_site to the same value and delete this note."
   ],
   "medevac_risk": {
-    "brady": 0.5
+    "brady": 0.15
   },
   "_medevac_note": [
     "P(a departure is a quit/evacuation/removal rather than a vote), per castaway.",
