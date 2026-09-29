@@ -118,13 +118,26 @@
     "The rules are explicit (data/site/rules.txt line 30, faq.txt line 32): no vote",
     "points are awarded for a castaway who quits, is medically evacuated, or is",
     "removed by production. So points on such a departure score zero.",
-    "brady 0.5, for episode 2 only. The episode 2 preview ('Weaponized Honesty')",
-    "shows Brady cutting his finger with a machete, losing a lot of blood, with",
-    "medical called in. He is also in Toka's 6-vote majority, so his vote risk is",
-    "low - if Brady leaves this week it is more likely medical than a vote. Most",
-    "on-screen medical visits do NOT end in evacuation, and the same preview shows",
-    "a tribal council happening, so this is deliberately set at a coin flip rather",
-    "than higher. CLEAR THIS FIELD after episode 2 airs."
+    "brady 0.15, for episode 2 only. CORRECTED 2026-09-28 from 0.5. The 0.5 came",
+    "from the synopsis line 'a chilling injury at camp threatens to send one player",
+    "home'. That is promo framing. Two outlets describing the same first-look",
+    "footage have Brady bandaged and COMPETING in the immunity challenge, and",
+    "someone who plays on was not pulled. Set it from footage, never from a",
+    "synopsis. CLEAR THIS FIELD after episode 2 airs."
   ],
-  "edit_updated_episode": 2
+  "edit_updated_episode": 2,
+  "_idols_note": [
+    "Castaways holding a hidden immunity idol. VERIFIED 2026-09-29, having been",
+    "carried unsourced since the episode 1 ingest.",
+    "rob: found a hidden immunity idol in the premiere. Inside Survivor's episode 1",
+    "stats page: 'Rob found a hidden immunity idol. This is the first idol without",
+    "an attached twist (beware/boomerang) found in a premiere episode since David vs",
+    "Goliath.' Corroborated by premiere recap coverage.",
+    "This matters more than its one line suggests. It is the whole reason Rob is the",
+    "Sole Survivor pick: with the idol P(win) is 0.166, without it 0.102, and without",
+    "it the pick becomes Patt or Kristin. Do not remove this entry without re-running",
+    "'python3 -m fsb mvp'.",
+    "Lewis was offered an idol on Exile Island and FAILED to retrieve it, so he holds",
+    "nothing. Do not add him."
+  ]
 }

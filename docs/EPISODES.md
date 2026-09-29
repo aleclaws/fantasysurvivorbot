@@ -233,3 +233,75 @@ one castaway "attempts a never-before-seen move to save an ally". The ally
 is the castaway in danger, not the castaway who makes the move.
 
 Source: [Surviving Tribal first look](https://survivingtribal.com/survivor-51-episode-2-first-look-photos-and-predictions)
+
+### The Sole Survivor pick rested on an unsourced claim — 2026-09-29
+
+The Sole bonus pays 1 point for each consecutive episode the correct winner
+was the standing pick, counted back from the final, to a maximum of 13. The
+standings show `-` in the Sole column for all eight players, so nobody has
+banked any of it. It is the largest pot still open, and the site allows the
+pick to be changed for free.
+
+**Change it early or not at all.** A change resets the streak. At episode 2
+that costs 1 or 2 points. At episode 8 it costs 8. So this is the cheapest
+week of the season in which to be wrong, which is the reason to test the
+pick now rather than later.
+
+**What the test found.** `idols: ["rob"]` entered in the episode 1 ingest
+with no source recorded anywhere in this repository. The only other mention
+of Rob and an idol in these notes is Rob accusing ERIC of idol-hunting,
+which is not evidence that Rob holds one.
+
+That one unsourced line was carrying the whole pick:
+
+| Scenario | rob | patt | kristin | pick |
+|---|---|---|---|---|
+| idol, age prior as-is | **0.166** | 0.138 | 0.107 | rob |
+| idol, age prior halved | **0.166** | 0.130 | 0.159 | rob |
+| idol, age prior off | 0.159 | 0.120 | **0.232** | kristin |
+| no idol, age prior as-is | 0.102 | **0.148** | 0.108 | patt |
+| no idol, age prior halved | 0.109 | 0.137 | **0.169** | kristin |
+| no idol, age prior off | 0.108 | 0.122 | **0.242** | kristin |
+
+Take the idol away and Rob falls from 0.166 to 0.102, and the pick becomes
+Patt or Kristin. The idol is not a detail. It is the reason.
+
+**The claim is true.** Inside Survivor's episode 1 stats page: "Rob found a
+hidden immunity idol. This is the first idol without an attached twist
+(beware/boomerang) found in a premiere episode since *David vs. Goliath*."
+Premiere recap coverage agrees. The same coverage says Lewis was offered an
+idol on Exile Island and failed to retrieve it, so Lewis holds nothing.
+
+The source is now written into `_idols_note` in `data/state.json`, next to
+the value, with a warning not to remove the entry without re-running
+`fsb mvp`.
+
+**The pick stands: Rob.** It survives halving the age prior. Only setting
+that weight to zero flips it, and zero is not a correction, it is the other
+extreme. The age prior remains the largest untested weight in the model,
+and this is the second decision it has now been shown to control.
+
+**Two items for Thursday.**
+
+- Idol expiry may be off by one. `idol_expires_at_players` is 5 and the
+  simulation requires `len(live) > 5`, so the idol cannot be played at the
+  final 5. Premiere coverage describes the idol as good "through the Final
+  5". If that is right the test should be `>=`, and the change can only
+  help Rob. Confirm the detail before changing anything.
+- `Season.apply_state` only ever SETS `out`, `idol`, `edit` and `medevac`.
+  It never clears them. Re-applying a state that drops an idol therefore
+  leaves the castaway holding it. No production path hits this, because
+  each run builds one Season from the file, but it silently corrupted the
+  first version of this test and it will catch someone else.
+
+### A stale note, corrected before the cloud routine reads it — 2026-09-29
+
+`_medevac_note` in `data/state.json` still described Brady at 0.5 after the
+value itself was lowered to 0.15 on 2026-09-28. The note, not the value, is
+the risk: the cloud routine runs at 14:05 ET on Wednesday and edits this
+file, and a note that argues for 0.5 invites it to restore 0.5. The note
+now states 0.15 and gives the reason - set medical risk from footage, never
+from a synopsis.
+
+Sources: [Inside Survivor episode 1 stats](https://insidesurvivor.com/survivor-51-episode-1-stats-61724),
+[reality blurred premiere recap](https://www.realityblurred.com/realitytv/2026/09/survivor-51-episode-1-recap/)
