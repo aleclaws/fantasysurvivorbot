@@ -108,3 +108,74 @@ The cost of waiting is at most 1 point of Sole Survivor streak, because the
 bonus counts consecutive episodes back from the final and the pick can be
 changed for free. That is the right price to pay for calibrating the third
 largest weight in the model properly rather than quickly.
+
+## The same problem, in the bio priors — measured the same day
+
+`phys`, `social` and `threat` carry weights of −1.2, −0.9 and −0.25. The
+second and third largest weights in the model are two of those three. The
+file is honest about what they are:
+
+> phys/social/threat are SUBJECTIVE pre-season priors from bio data only
+> (age + occupation). Weak.
+
+So the problem is not that they are hidden. It is that inputs described in
+their own file as weak, built from nothing but age and occupation, carry
+near-top weights — and they are still at full strength in episode 2, after
+real edit evidence exists for nine castaways.
+
+Scaling all three toward zero:
+
+| bio weights | Toka | Savu | Sole |
+|---|---|---|---|
+| ×1.0 | jelly .174 | eric .252 | rob .166 |
+| ×0.75 | jelly .175 | eric .260 | rob .154 |
+| ×0.5 | jelly .175 | eric .268 | **patt .166** |
+| ×0.0 | jelly .176 | eric .283 | **patt .178** |
+
+## Both priors together — the honest summary
+
+| age | bio | Toka | Savu | Sole |
+|---|---|---|---|---|
+| 1.1 | ×1.0 | jelly .174 | eric .252 | rob .166 |
+| 0.75 | ×0.75 | jelly .176 | eric .272 | rob .155 |
+| 0.55 | ×0.75 | jelly .177 | eric .278 | **kristin .157** |
+| 0.45 | ×0.5 | jelly .178 | eric .288 | **kristin .154** |
+| 0.3 | ×0.5 | jelly .179 | eric .291 | **kristin .172** |
+| 0.0 | ×0.0 | jelly .180 | eric .309 | **kristin .179** |
+
+**The vote is rock solid.** Jelly and Eric hold at every combination, and
+both get STRONGER as the weak priors shrink — Eric from 0.252 to 0.309.
+The vote rests on aired evidence, not on the guesses. That is the single
+most reassuring result of the day, because the vote is what the automation
+submits.
+
+**The Sole Survivor pick is not solid.** It is Rob only at full weights.
+Discount the weak priors even moderately and it becomes Kristin, and some
+bio-only settings give Patt. Three answers across a plausible range is not
+a pick, it is a coin toss.
+
+The direction is consistent and worth naming: **every discount moves toward
+Kristin**, because both weak priors happen to punish her. She is the oldest
+castaway, and she carries the lowest `phys` in the cast at 0.30. Set
+against that, the evidence that is NOT a guess all points the other way —
+the best edit signal in the cast at −0.5, chosen by her tribe to negotiate,
+first to make fire, ranked first of twenty by DraftKings, and the new-era
+record above saying the oldest player outperforms.
+
+## Decision, revised the same evening
+
+**Still hold Rob through the Wednesday lock**, for a better reason than
+before. Not because Rob is robust — he is not — but because episode 2 airs
+tomorrow and will produce fresh edit evidence for the whole cast, including
+Savu, which has produced little so far. Real evidence outranks any guess I
+could make tonight about what these weights should be. Deciding Rob against
+Kristin after episode 2 uses strictly more information.
+
+The price of waiting is 1 point of streak. The pick can be changed for
+free, and the bonus counts consecutive episodes back from the final.
+
+**Thursday, in order:** recalibrate the age curve against
+`data/newera_boots.json`; decide whether the bio weights should decay as
+`edit_updated_episode` advances, since the priors file already says edit
+data overwrites them; fold in episode 2's evidence; then re-run `fsb mvp`
+and change the Sole pick if it still says Kristin.
