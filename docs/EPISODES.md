@@ -305,3 +305,10 @@ from a synopsis.
 
 Sources: [Inside Survivor episode 1 stats](https://insidesurvivor.com/survivor-51-episode-1-stats-61724),
 [reality blurred premiere recap](https://www.realityblurred.com/realitytv/2026/09/survivor-51-episode-1-recap/)
+
+> The age prior is no longer unvalidated. It was measured on 2026-09-29
+> against every new-era season - see [AGE_PRIOR.md](AGE_PRIOR.md). The
+> direction holds and the magnitude does not, and the oldest player in a
+> new-era season finishes BETTER than chance rather than worse. The weight
+> is unchanged until Thursday, because the vote does not depend on it and
+> the Sole Survivor pick flips in the middle of the plausible range.

@@ -1,0 +1,778 @@
+{
+  "_note": [
+    "New-era boot order with ages, for calibrating the age prior in priors.json.",
+    "Gathered 2026-09-29 from the Wikipedia season articles' contestant tables,",
+    "which list the cast in elimination order. Index 0 is the first boot and the",
+    "last entry is the winner.",
+    "S50 is a returnee season (24 players, older skew) and is EXCLUDED from every",
+    "figure quoted in docs/AGE_PRIOR.md. It is kept here for completeness."
+  ],
+  "source": "https://en.wikipedia.org/wiki/Survivor_<N>",
+  "gathered": "2026-09-29",
+  "seasons": {
+    "41": [
+      {
+        "name": "Eric Abraham",
+        "age": 51
+      },
+      {
+        "name": "Sara Wilson",
+        "age": 24
+      },
+      {
+        "name": "David Voce",
+        "age": 35
+      },
+      {
+        "name": "Brad Reese",
+        "age": 50
+      },
+      {
+        "name": "Jairus \"JD\" Robinson",
+        "age": 20
+      },
+      {
+        "name": "Genie Chen",
+        "age": 46
+      },
+      {
+        "name": "Sydney Segal",
+        "age": 26
+      },
+      {
+        "name": "Tiffany Seely",
+        "age": 47
+      },
+      {
+        "name": "Naseer Muttalif",
+        "age": 37
+      },
+      {
+        "name": "Evvie Jagoda",
+        "age": 28
+      },
+      {
+        "name": "Shantel \"Shan\" Smith",
+        "age": 34
+      },
+      {
+        "name": "Liana Wallace",
+        "age": 20
+      },
+      {
+        "name": "Danny McCray",
+        "age": 33
+      },
+      {
+        "name": "Ricard Foy\u00e9",
+        "age": 31
+      },
+      {
+        "name": "Heather Aldret",
+        "age": 52
+      },
+      {
+        "name": "Xander Hastings",
+        "age": 21
+      },
+      {
+        "name": "Deshawn Radden",
+        "age": 26
+      },
+      {
+        "name": "Erika Casupanan",
+        "age": 31
+      }
+    ],
+    "42": [
+      {
+        "name": "Jackson Fox",
+        "age": 48
+      },
+      {
+        "name": "Zach Wurtenberger",
+        "age": 22
+      },
+      {
+        "name": "Marya Sherron",
+        "age": 47
+      },
+      {
+        "name": "Jenny Kim",
+        "age": 43
+      },
+      {
+        "name": "Swati Goel",
+        "age": 19
+      },
+      {
+        "name": "Daniel Strunk",
+        "age": 30
+      },
+      {
+        "name": "Lydia Meredith",
+        "age": 22
+      },
+      {
+        "name": "Chanelle Howell",
+        "age": 29
+      },
+      {
+        "name": "Rocksroy Bailey",
+        "age": 44
+      },
+      {
+        "name": "Tori Meehan",
+        "age": 25
+      },
+      {
+        "name": "Hai Giang",
+        "age": 29
+      },
+      {
+        "name": "Drea Wheeler",
+        "age": 35
+      },
+      {
+        "name": "Omar Zaheer",
+        "age": 31
+      },
+      {
+        "name": "Lindsay Dolashewich",
+        "age": 31
+      },
+      {
+        "name": "Jonathan Young",
+        "age": 29
+      },
+      {
+        "name": "Romeo Escobar",
+        "age": 37
+      },
+      {
+        "name": "Mike Turner",
+        "age": 58
+      },
+      {
+        "name": "Maryanne Oketch",
+        "age": 24
+      }
+    ],
+    "43": [
+      {
+        "name": "Morriah Young",
+        "age": 28
+      },
+      {
+        "name": "Justine Brennan",
+        "age": 29
+      },
+      {
+        "name": "Nneka Ejere",
+        "age": 43
+      },
+      {
+        "name": "Lindsay Carmine",
+        "age": 42
+      },
+      {
+        "name": "Geo Bustamante",
+        "age": 36
+      },
+      {
+        "name": "Elisabeth \"Elie\" Scott",
+        "age": 31
+      },
+      {
+        "name": "Dwight Moore",
+        "age": 22
+      },
+      {
+        "name": "Jeanine Zheng",
+        "age": 24
+      },
+      {
+        "name": "James Jones",
+        "age": 37
+      },
+      {
+        "name": "Ryan Medrano",
+        "age": 25
+      },
+      {
+        "name": "Noelle Lambert",
+        "age": 25
+      },
+      {
+        "name": "Sami Layadi",
+        "age": 19
+      },
+      {
+        "name": "Cody Assenmacher",
+        "age": 35
+      },
+      {
+        "name": "Karla Cruz Godoy",
+        "age": 28
+      },
+      {
+        "name": "Jesse Lopez",
+        "age": 30
+      },
+      {
+        "name": "Owen Knight",
+        "age": 30
+      },
+      {
+        "name": "Cassidy Clark",
+        "age": 26
+      },
+      {
+        "name": "Mike Gabler",
+        "age": 51
+      }
+    ],
+    "44": [
+      {
+        "name": "Bruce Perreault",
+        "age": 46
+      },
+      {
+        "name": "Maddy Pomilla",
+        "age": 28
+      },
+      {
+        "name": "Helen Li",
+        "age": 29
+      },
+      {
+        "name": "Claire Rafson",
+        "age": 25
+      },
+      {
+        "name": "Sarah Wade",
+        "age": 27
+      },
+      {
+        "name": "Matthew Grinstead-Mayle",
+        "age": 43
+      },
+      {
+        "name": "Josh Wilder",
+        "age": 34
+      },
+      {
+        "name": "Matt Blankinship",
+        "age": 27
+      },
+      {
+        "name": "Brandon Cottom",
+        "age": 30
+      },
+      {
+        "name": "Kane Fritzler",
+        "age": 25
+      },
+      {
+        "name": "Frannie Marin",
+        "age": 23
+      },
+      {
+        "name": "Danny Massa",
+        "age": 32
+      },
+      {
+        "name": "Jaime Lynn Ruiz",
+        "age": 35
+      },
+      {
+        "name": "Lauren Harpe",
+        "age": 31
+      },
+      {
+        "name": "Carson Garrett",
+        "age": 20
+      },
+      {
+        "name": "Carolyn Wiger",
+        "age": 35
+      },
+      {
+        "name": "Heidi Lagares-Greenblatt",
+        "age": 43
+      },
+      {
+        "name": "Yamil \"Yam Yam\" Arocho",
+        "age": 36
+      }
+    ],
+    "45": [
+      {
+        "name": "Hannah Rose",
+        "age": 33
+      },
+      {
+        "name": "Brandon Donlon",
+        "age": 26
+      },
+      {
+        "name": "Sabiyah Broderick",
+        "age": 28
+      },
+      {
+        "name": "Sean Edwards",
+        "age": 35
+      },
+      {
+        "name": "Brandon \"Brando\" Meyer",
+        "age": 23
+      },
+      {
+        "name": "Janani \"J. Maya\" Krishnan-Jha",
+        "age": 24
+      },
+      {
+        "name": "Nicholas \"Sifu\" Alsup",
+        "age": 30
+      },
+      {
+        "name": "Kaleb Gebrewold",
+        "age": 29
+      },
+      {
+        "name": "Kellie Nalbandian",
+        "age": 29
+      },
+      {
+        "name": "Kendra McQuarrie",
+        "age": 30
+      },
+      {
+        "name": "Bruce Perreault Survivor 44",
+        "age": 47
+      },
+      {
+        "name": "Emily Flippen",
+        "age": 28
+      },
+      {
+        "name": "Drew Basile",
+        "age": 23
+      },
+      {
+        "name": "Julie Alley",
+        "age": 49
+      },
+      {
+        "name": "Katurah Topps",
+        "age": 35
+      },
+      {
+        "name": "Jake O'Kane",
+        "age": 26
+      },
+      {
+        "name": "Austin Li Coon",
+        "age": 26
+      },
+      {
+        "name": "Dee Valladares",
+        "age": 26
+      }
+    ],
+    "46": [
+      {
+        "name": "David Jelinsky",
+        "age": 21
+      },
+      {
+        "name": "Jess Chong",
+        "age": 37
+      },
+      {
+        "name": "Randen Montalvo",
+        "age": 40
+      },
+      {
+        "name": "Bhanu Gopal",
+        "age": 40
+      },
+      {
+        "name": "Jemila \"Jem\" Hussain-Adams",
+        "age": 31
+      },
+      {
+        "name": "Moriah Gaynor",
+        "age": 28
+      },
+      {
+        "name": "Tim Spicer",
+        "age": 30
+      },
+      {
+        "name": "Sodasia \"Soda\" Thompson",
+        "age": 27
+      },
+      {
+        "name": "Tevin Davis",
+        "age": 24
+      },
+      {
+        "name": "Hunter McKnight",
+        "age": 27
+      },
+      {
+        "name": "Tiffany Nicole Ervin",
+        "age": 32
+      },
+      {
+        "name": "Venus Vafa",
+        "age": 24
+      },
+      {
+        "name": "Quintavius \"Q\" Burdette",
+        "age": 29
+      },
+      {
+        "name": "Maria Shrime Gonzalez",
+        "age": 47
+      },
+      {
+        "name": "Liz Wilcox",
+        "age": 35
+      },
+      {
+        "name": "Ben Katzman",
+        "age": 31
+      },
+      {
+        "name": "Charlie Davis",
+        "age": 25
+      },
+      {
+        "name": "Kenzie Petty",
+        "age": 28
+      }
+    ],
+    "47": [
+      {
+        "name": "Jon Lovett",
+        "age": 41
+      },
+      {
+        "name": "Terran \"TK\" Foster",
+        "age": 31
+      },
+      {
+        "name": "Aysha Welch",
+        "age": 32
+      },
+      {
+        "name": "Kishan Patel",
+        "age": 27
+      },
+      {
+        "name": "Anika Dhar",
+        "age": 26
+      },
+      {
+        "name": "Jerome \"Rome\" Cooney",
+        "age": 30
+      },
+      {
+        "name": "Tiyana Hallums",
+        "age": 27
+      },
+      {
+        "name": "Sierra Wright",
+        "age": 26
+      },
+      {
+        "name": "Solomon \"Sol\" Yi",
+        "age": 42
+      },
+      {
+        "name": "Gabe Ortis",
+        "age": 26
+      },
+      {
+        "name": "Kyle Ostwald",
+        "age": 31
+      },
+      {
+        "name": "Caroline Vidmar",
+        "age": 27
+      },
+      {
+        "name": "Andy Rueda",
+        "age": 31
+      },
+      {
+        "name": "Genevieve Mushaluk",
+        "age": 32
+      },
+      {
+        "name": "Christine \"Teeny\" Chirichillo",
+        "age": 23
+      },
+      {
+        "name": "Sue Smey",
+        "age": 58
+      },
+      {
+        "name": "Sam Phalen",
+        "age": 24
+      },
+      {
+        "name": "Rachel LaMont",
+        "age": 34
+      }
+    ],
+    "48": [
+      {
+        "name": "Stephanie Berger",
+        "age": 37
+      },
+      {
+        "name": "Kevin Leung",
+        "age": 33
+      },
+      {
+        "name": "Justin Pioppi",
+        "age": 29
+      },
+      {
+        "name": "Thomas Krottinger",
+        "age": 34
+      },
+      {
+        "name": "Bianca Roses",
+        "age": 32
+      },
+      {
+        "name": "Charity Nelms",
+        "age": 33
+      },
+      {
+        "name": "Saiounia Hughley",
+        "age": 29
+      },
+      {
+        "name": "Cedrek McFadden",
+        "age": 46
+      },
+      {
+        "name": "Chrissy Sarnowsky",
+        "age": 54
+      },
+      {
+        "name": "David Kinne",
+        "age": 38
+      },
+      {
+        "name": "Star Toomey",
+        "age": 27
+      },
+      {
+        "name": "Mary Zheng",
+        "age": 30
+      },
+      {
+        "name": "Shauhin Davari",
+        "age": 37
+      },
+      {
+        "name": "Mitch Guerra",
+        "age": 34
+      },
+      {
+        "name": "Kamilla Karthigesu",
+        "age": 30
+      },
+      {
+        "name": "Joe Hunter",
+        "age": 45
+      },
+      {
+        "name": "Eva Erickson",
+        "age": 23
+      },
+      {
+        "name": "Kyle Fraser",
+        "age": 30
+      }
+    ],
+    "49": [
+      {
+        "name": "Nicole Mazullo",
+        "age": 26
+      },
+      {
+        "name": "Kimberly \"Annie\" Davis",
+        "age": 49
+      },
+      {
+        "name": "Jake Latimer",
+        "age": 35
+      },
+      {
+        "name": "Jeremiah Ing",
+        "age": 39
+      },
+      {
+        "name": "Matt Williams",
+        "age": 52
+      },
+      {
+        "name": "Jason Treul",
+        "age": 32
+      },
+      {
+        "name": "Shannon Fairweather",
+        "age": 27
+      },
+      {
+        "name": "Nate Moore",
+        "age": 47
+      },
+      {
+        "name": "Michelle \"MC\" Chukwujekwu",
+        "age": 29
+      },
+      {
+        "name": "Alex Moore",
+        "age": 26
+      },
+      {
+        "name": "Jawan Pitts",
+        "age": 28
+      },
+      {
+        "name": "Sophie Segreti",
+        "age": 31
+      },
+      {
+        "name": "Steven Ramm",
+        "age": 35
+      },
+      {
+        "name": "Kristina Mills",
+        "age": 35
+      },
+      {
+        "name": "Rizo Velovic",
+        "age": 25
+      },
+      {
+        "name": "Sage Ahrens-Nichols",
+        "age": 30
+      },
+      {
+        "name": "Sophi Balerdi",
+        "age": 27
+      },
+      {
+        "name": "Savannah Louie",
+        "age": 31
+      }
+    ],
+    "50": [
+      {
+        "name": "Jenna Lewis-Dougherty Borneo & All-Stars",
+        "age": 47
+      },
+      {
+        "name": "Kyle Fraser Survivor 48",
+        "age": 31
+      },
+      {
+        "name": "Savannah Louie Survivor 49",
+        "age": 31
+      },
+      {
+        "name": "Quintavius \"Q\" Burdette Survivor 46",
+        "age": 31
+      },
+      {
+        "name": "Mike White David vs. Goliath",
+        "age": 54
+      },
+      {
+        "name": "Angelina Keeley David vs. Goliath",
+        "age": 35
+      },
+      {
+        "name": "Charlie Davis Survivor 46",
+        "age": 27
+      },
+      {
+        "name": "Kamilla Karthigesu Survivor 48",
+        "age": 31
+      },
+      {
+        "name": "Genevieve Mushaluk Survivor 47",
+        "age": 34
+      },
+      {
+        "name": "Colby Donaldson The Australian Outback , All-Stars & Heroes vs. Villains",
+        "age": 51
+      },
+      {
+        "name": "Dee Valladares Survivor 45",
+        "age": 28
+      },
+      {
+        "name": "Chrissy Hofbeck Heroes vs. Healers vs. Hustlers",
+        "age": 54
+      },
+      {
+        "name": "Benjamin \"Coach\" Wade Tocantins , Heroes vs. Villains & South Pacific",
+        "age": 53
+      },
+      {
+        "name": "Christian Hubicki David vs. Goliath",
+        "age": 39
+      },
+      {
+        "name": "Stephenie LaGrossa Kendrick Palau , Guatemala & Heroes vs. Villains",
+        "age": 45
+      },
+      {
+        "name": "Emily Flippen Survivor 45",
+        "age": 30
+      },
+      {
+        "name": "Oscar \"Ozzy\" Lusth Cook Islands , Micronesia , South Pacific & Game Changers",
+        "age": 43
+      },
+      {
+        "name": "Rick Devens Edge of Extinction",
+        "age": 41
+      },
+      {
+        "name": "Cirie Fields Panama , Micronesia , Heroes vs. Villains , Game Changers & AU: Australia vs. The World",
+        "age": 54
+      },
+      {
+        "name": "Tiffany Ervin Survivor 46",
+        "age": 34
+      },
+      {
+        "name": "Rizo Velovic Survivor 49",
+        "age": 25
+      },
+      {
+        "name": "Joe Hunter Survivor 48",
+        "age": 45
+      },
+      {
+        "name": "Jonathan Young Survivor 42",
+        "age": 32
+      },
+      {
+        "name": "Aubry Bracco Ka\u00f4h R\u014dng , Game Changers & Edge of Extinction",
+        "age": 39
+      }
+    ]
+  }
+}
