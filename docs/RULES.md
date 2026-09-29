@@ -105,6 +105,13 @@ it. Draft value is mostly "reaches the merge", and the gap between the top
 ten draft picks is about 2 points. The weekly vote, where one correct
 all-in is worth 10, is where this league is decided.
 
+> **Corrected 2026-09-29 by the real standings.** The last sentence is
+> wrong before the merge. See "Where the points actually came from"
+> below. Tribe immunity pays 3 points to EVERY member of the winning
+> tribe, so a roster of 2 swings 6 points every episode. In episode 1
+> that one term explains the whole table, and only 2 of 8 players
+> scored any vote points at all.
+
 ## Open questions — status after signing in
 
 1. **Roster size.** Resolved: **2**. `howto-draft.html`: "Each player will
@@ -230,3 +237,69 @@ saved **before** the draft ran, so it cannot show a control that only
 appears once a roster exists. The post-draft page has not been read,
 because of the `recon.py` defect above. Resolve this question after that
 defect is fixed.
+
+## Where the points actually came from — 2026-09-29
+
+The standings table has more columns than the parser keeps. It shows
+**Draft, Survivor, Vote, Sole, Out, Week, Total**. `parse_standings` reads
+only the last number in each row, so the breakdown was never looked at.
+Read in full, after episode 1:
+
+| Player | Drafted (tribe) | Srv | Vote | Out | Total |
+|---|---|---|---|---|---|
+| Claude Spoiler Bot 200 | Aaliyah/T, Alexis/S | 5 | 6 | 1 | 12 |
+| Sole Samvivor Sam | Kristin/S, Eric/S | 11 | 0 | 0 | 11 |
+| Unprepared and Underw… | Devin/T, Linnea/S | 4 | 5 | 0 | 9 |
+| Dirty rice bags Sasha | Ori/S, Sharonda/S | 8 | 0 | 0 | 8 |
+| Claude's Carter Fleshb… | Carter/S, An/T | 4 | 0 | 0 | 4 |
+| **me** | **Lewis/T, Patt/T** | **2** | **0** | **0** | **2** |
+| Touch Copper aaaa… | Jenna/T, Mike/T | 2 | 0 | 0 | 2 |
+| Rum Pirate Drunkards | Brady/T, Kilby/T | 1 | 0 | 0 | 1 |
+
+Savu won immunity. Subtract 3 points for each drafted castaway on Savu and
+the Survivor column almost disappears:
+
+| Player | Srv | of which immunity | rest |
+|---|---|---|---|
+| Sole Samvivor Sam | 11 | 6 | 5 |
+| Dirty rice bags Sasha | 8 | 6 | 2 |
+| Claude Spoiler Bot 200 | 5 | 3 | 2 |
+| Unprepared / Carter | 4 | 3 | 1 |
+| **me** | **2** | **0** | **2** |
+| Touch Copper | 2 | 0 | 2 |
+| Rum Pirate | 1 | 0 | 1 |
+
+The three teams at the bottom — mine, Touch Copper, Rum Pirate — are
+exactly the three teams whose two castaways are **both on Toka**. The
+"rest" column runs 1 to 5 for everybody. My castaways are not idle. They
+are on the tribe that lost.
+
+**What this corrects.** Draft value is not compressed before the merge.
+The Survivor column spread was 1 to 11; the Vote column spread was 0 to 6,
+and 6 of 8 players scored nothing there. Before the merge the draft is the
+larger channel, not the smaller one.
+
+**What it does not change.** The 10-point gap is a sunk loss, not a
+compounding one. `tribe_loss_probability` puts Toka at 0.484 and Savu at
+0.516, so the expected immunity points from here are near equal. Nothing
+needs to be chased back.
+
+**The real flaw was correlation, not selection.** The draft board ranked
+castaways by expected season points and never looked at covariance. Two
+castaways on one tribe make a 6-point swing every episode, where a split
+pair collects a near-certain 3. That is bad for a steady score.
+
+From behind, it is good. A correlated pair is free variance, and variance
+is what a trailing player wants. It also means the engine understates my
+spread: it models the vote and not the roster. So the advice it keeps
+giving — "beatable on accuracy alone; no need to gamble" — is if anything
+reinforced. The variance is already in the roster. Do not buy more of it
+with the vote.
+
+**Watch the merge.** Tribe immunity stops there. Individual immunity pays
+2 points to one castaway, so the 6-point weekly swing collapses to almost
+nothing, and the vote becomes the main channel exactly as first described.
+The merge is the moment this correction expires.
+
+**For any future draft, or if question 2 ever opens:** split the pair
+across tribes when level or ahead, and stack one tribe when behind.
