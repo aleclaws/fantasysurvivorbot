@@ -121,3 +121,25 @@ already live - and the win probability held at 0.098.
 Sources: [Surviving Tribal first look](https://survivingtribal.com/survivor-51-episode-2-first-look-photos-and-predictions),
 plus corroborating challenge-footage description in episode 2 preview coverage.
 
+### Savu read corroborated 2026-09-29
+
+DraftKings' post-episode-1 power rankings, read a day after the Savu call
+was made, independently rank the same two castaways at opposite poles:
+
+- **Kristin #1 of 20.** Negotiated with the other tribe for supplies,
+  "already looks like someone that won't crack under pressure", forming
+  early alliances with Ori and Sharonda.
+- **Eric #20 of 20.** A "friendly vampire" who "struggles socially", and
+  "Rob has already turned on his fellow Rhode Islander".
+
+That is three independent in-season sources agreeing (Inside Survivor's
+recap, DK's episode 2 predictions, DK's power rankings), so the signals
+were strengthened to match: Eric +0.8 -> +0.9, Kristin -0.3 -> -0.5. The
+Savu gap widens from 0.216/0.201 to 0.252/0.154.
+
+The pick does not change - Eric on Savu, Jelly on Toka, both already live.
+This is confidence, not a new decision, and it is worth being clear about
+the difference. Unlike the pre-season buzz that put Aaliyah at -0.30 and
+then watched her go first, every one of these is a description of aired
+content: who negotiated, who turned on whom.
+
