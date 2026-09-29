@@ -101,7 +101,9 @@ zero, and being on the real vote-out is worth more than usual this week.
 
 Source: [cartermatt preview](https://cartermatt.com/729031/survivor-51-episode-2-preview-is-brady-getting-medically-evacuated/)
 
-**Picks:** 10 on Jelly Loblack (Toka), 10 on Kristin Flickinger (Savu).
+**Picks:** 10 on Jelly Loblack (Toka), 10 on Eric Macksoud (Savu).
+(This line first said Kristin. The Savu section below moved the pick to
+Eric on aired evidence. The line is corrected here so that the two agree.)
 
 ### Brady's medical risk, corrected 2026-09-28
 
@@ -143,3 +145,91 @@ the difference. Unlike the pre-season buzz that put Aaliyah at -0.30 and
 then watched her go first, every one of these is a description of aired
 content: who negotiated, who turned on whom.
 
+
+### The Shot in the Dark is not modelled — measured 2026-09-29
+
+`data/scoring.json` prices `play_shot_in_the_dark` at 1 point, but the
+engine does not know that the item can save its holder. A Shot in the Dark
+makes the votes void 1 time in 6. When that occurs, the tribe votes again
+and a different castaway goes out. Points on the first target then score
+nothing.
+
+The gap is not equal across Toka. Jenna Doore played her Shot in episode 1
+and it failed, so she has none. Devin Way and Jelly Loblack still hold
+theirs, and both know that they are the only two in the minority.
+
+**How large is the error?** Discount each castaway by the chance that the
+castaway plays a Shot and draws safety:
+
+```
+P(voted out) = P(target) x [1 - P(plays) / 6]
+```
+
+Episode 1 gives the only in-season data for `P(plays)`: both targets
+(Aaliyah and Jenna) played a Shot. That is 2 of 2, so `P(plays)` is high
+for a castaway who knows that the tribe wants to vote the castaway out.
+
+**Does it change this week?** No. This table gives the Toka winner and its
+lead over the second castaway, across the full range of both unknowns:
+
+| Jenna edit | P(plays)=0.0 | 0.5 | 0.7 | 0.9 |
+|---|---|---|---|---|
+| **+0.5** (now) | jelly +0.018 | jelly +0.004 | jenna +0.002 | jenna +0.008 |
+| +0.3 | jelly +0.023 | jelly +0.021 | jelly +0.020 | jelly +0.019 |
+| +0.0 | jelly +0.024 | jelly +0.022 | jelly +0.021 | jelly +0.020 |
+| −0.4 | jelly +0.025 | jelly +0.023 | jelly +0.022 | jelly +0.021 |
+
+Jelly wins in every cell but two, and in those two the lead is 0.002 to
+0.008. That is smaller than the simulation noise. The reason the lead is
+stable is that the discount is symmetric: once Jenna falls below Devin, the
+second castaway is Devin, who holds a Shot exactly as Jelly does.
+
+Savu does not move at all. Eric stays at 0.246 and Kristin at 0.150,
+because no Savu castaway has used a Shot.
+
+**Decision.** Keep the picks. Do not change the engine before the 20:00 ET
+lock. Add the mechanic on Thursday with tests, as a `shots_spent` list in
+`data/state.json` and a discount in `Season.vote_probabilities()`. The
+measurement above is the reason to wait, not a reason to skip it: the gap
+is real, and it will decide a pick as soon as two candidates are close and
+only one of them holds a Shot.
+
+### Episode 2, predicted before it airs
+
+Record these now, and score them on Thursday. The model and the press
+disagree, and only the result can say which to trust later in the season.
+
+| # | Prediction | Source |
+|---|---|---|
+| 1 | Toka loses immunity and votes. | Press, from the first-look photos |
+| 2 | Jelly is the Toka boot. | Model, 0.174 against Devin 0.152 |
+| 3 | Devin is the Toka boot. | Press, from the episode title |
+| 4 | Brady stays. He is not evacuated. | Footage has him in the challenge |
+| 5 | Devin or Jelly plays a Shot in the Dark. | Press, and 2 of 2 in episode 1 |
+
+Predictions 2 and 3 are opposed. The title, "Weaponized Honesty", points
+to Devin, who called his own game "radical honesty". The press reads the
+title as the move that removes him. The model still puts Jelly first,
+because she and Devin carry the same edit signal and Jelly loses the other
+hazard terms. The lead is 0.022, which is small.
+
+**Two signals to settle on Thursday, whatever the result.**
+
+- **Jenna at +0.5.** Episode 1 left this value alone on purpose, and it has
+  not been tested. She was the first target, and the tribe then spared her.
+  She has no Shot left. Against that, she turned the vote herself. If she
+  survives episode 2 and drives the vote, +0.5 is stale and must fall.
+- **Lewis at +0.5.** This is the weakest value in the file. Lewis was on
+  Exile Island during the episode 1 vote, so no tribal evidence supports
+  it. The one source that discusses him says that he is not in danger, and
+  he is the strongest body on a tribe that keeps losing. Note a conflict of
+  interest before this value moves: Lewis is one of my two drafted
+  castaways, so a lower value flatters my own projection. Move it on aired
+  evidence only.
+
+CBS facts, kept apart from the reading of them: the episode is 90 minutes;
+two tribes face off, so there is one Tribal Council and not a double boot;
+one castaway "attempts a never-before-seen move to save an ally". The ally
+is the castaway in danger, not the castaway who makes the move.
+
+Source: [Surviving Tribal first look](https://survivingtribal.com/survivor-51-episode-2-first-look-photos-and-predictions)
