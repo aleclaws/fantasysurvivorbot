@@ -118,6 +118,25 @@ class TestParseStandings(unittest.TestCase):
         self.assertIn("Touch Copper", names)
 
 
+class TestStaleEditWarning(unittest.TestCase):
+    def test_silent_when_signals_match_the_episode(self):
+        self.assertEqual(
+            submit.stale_edit_warning({"edit_updated_episode": 2}, 2), "")
+
+    def test_warns_when_the_research_step_did_not_run(self):
+        msg = submit.stale_edit_warning({"edit_updated_episode": 1}, 2)
+        self.assertIn("episode 1", msg)
+        self.assertIn("stale", msg)
+
+    def test_warns_when_the_field_is_missing_entirely(self):
+        self.assertTrue(submit.stale_edit_warning({}, 2))
+
+    def test_silent_when_signals_run_ahead(self):
+        # Refreshed early, before the episode number was bumped.
+        self.assertEqual(
+            submit.stale_edit_warning({"edit_updated_episode": 3}, 2), "")
+
+
 class TestSolePickReadback(unittest.TestCase):
     PROFILE = ("WIN PROBABILITY\nSEASON 51\n\nSOLE SURVIVOR PICK\n\nROB\n\n"
                "Selected by 2.71% of players\n\n0/12\n\nBonus\nPts\n")

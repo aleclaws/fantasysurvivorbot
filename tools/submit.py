@@ -189,6 +189,23 @@ def parse_profile_sole_pick(body_text: str) -> str:
     return m.group(1).strip() if m else ""
 
 
+def stale_edit_warning(state: dict, episode: int) -> str:
+    """Warn when the edit signals were not refreshed for this episode.
+
+    The research step - who went out, who is on the outs now - runs
+    separately from submission. If it does not run, the vote still submits
+    fine, because the votable cast and the pools come off the live site.
+    What silently degrades is the read: the picks get computed on last
+    week's signals and the run looks identical to a good one.
+    """
+    fresh = int(state.get("edit_updated_episode", 0))
+    if fresh >= episode:
+        return ""
+    return (f"edit signals were last refreshed for episode {fresh}, this is "
+            f"episode {episode}. The research step has not run - picks are on "
+            f"stale reads. See docs/PLAYBOOK.md 'After each episode'.")
+
+
 def load_display_names() -> Dict[str, str]:
     """engine castaway id -> the name the site shows for them."""
     with open(DATA / "season51.json", encoding="utf-8") as fh:
@@ -564,6 +581,9 @@ def cmd_vote(args) -> None:
                   f"out for this vote. Record the boot in data/state.json.")
         if len(names) > 1:
             _persist_tribes(tribes)
+        warning = stale_edit_warning(season.state, season.episode)
+        if warning:
+            print(f"  WARNING: {warning}")
         print(f"  site vote pools: {', '.join(names)}")
 
         kwargs = {"sims": args.sims} if args.sims else {}
