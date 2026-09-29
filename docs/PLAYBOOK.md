@@ -32,7 +32,11 @@ Do these steps on Thursday. Do not wait until Wednesday.
 
    This marks the castaway as out. It also moves to the next episode.
 
-2. Add the tribe assignments, after episode 1 and after each swap:
+2. Tribe assignments no longer need doing by hand. `tools/submit.py vote`
+   reads the pools, the tribe names and the votable cast straight off the
+   live vote page before it allocates, so a swap or a merge is picked up
+   automatically. The manual command still works if you want state.json
+   correct for `fsb status`:
 
    ```
    python3 -m fsb tribe <name> Savu
@@ -55,14 +59,29 @@ Do these steps on Thursday. Do not wait until Wednesday.
    | The castaway has no content at all | +0.3 |
    | The castaway has a clear winner edit | −0.6 |
    | The castaway holds an idol | use `idols` instead |
+   | The castaway is injured and medical is involved | use `medevac_risk` |
+
+   `medevac_risk` in `data/state.json` is a separate 0..1 chance that a
+   castaway leaves by medical or a quit rather than by vote. It is not an
+   edit signal: the rules pay NOBODY vote points for a departure like that,
+   so points parked on that castaway score nothing. Set it from footage,
+   not from a synopsis - "an injury threatens to send a player home" is how
+   every promo is written, and Brady was carried at 0.5 on that basis while
+   the actual first-look footage had him bandaged and competing.
 
 4. Record idols. Add the id to `idols` in `data/state.json`.
 
-5. Update the standings:
+5. Update the standings, and check whether the site changed the rules:
 
    ```
+   python3 tools/submit.py rules-check
    python3 tools/submit.py standings
    ```
+
+   `rules-check` counts the scored actions on the live rules page against
+   `data/scoring.json`. The site ADDS rules mid-season - the open era keeps
+   reviving twists and each one gets priced - and three went unnoticed for a
+   week. The league activity feed logs each one.
 
    This reads your score and the other scores directly off the site into
    `data/league.json`. **Do this step.** The engine changes its advice from
@@ -96,6 +115,18 @@ pushes. To do it by hand instead:
    ```
    python3 tools/submit.py vote
    ```
+
+4. Re-check the Sole Survivor pick, but do not churn it:
+
+   ```
+   python3 -m fsb mvp
+   python3 tools/submit.py sole-survivor <id>   # only if clearly better
+   ```
+
+   The bonus pays 1 point per CONSECUTIVE episode the correct winner was
+   your standing pick, counting back from the final. Switching resets that
+   run, so it is worth doing for a real gap in P(win) and not for a
+   rounding difference.
 
 ## If you are short of time
 
