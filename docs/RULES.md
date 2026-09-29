@@ -173,3 +173,60 @@ holds no tribe assignments. Add them after episode 1.
 
 Jeff Probst calls the season "the open era". Any past twist can return, at
 any time, in any order. Expect the schedule to change.
+
+## Every scoring value verified against the live page — 2026-09-29
+
+All 25 priced actions were compared name by name and value by value with
+`data/scoring.json`. **Zero mismatches.** The comparison also confirms two
+names that encode a rule rather than describe it:
+
+- `first_to_gain_immunity_idol` — "The castaway who **first** gains an
+  immunity idol earns 1 point." Only the first castaway scores.
+- `first_to_gain_advantage` — the same, and "Immunity Idols are not counted
+  as Advantages."
+
+Two more carry a limit that the point value alone does not show. Read Tree
+Mail and Make Fire at Camp are each "once per episode per castaway."
+
+### `rules-check` cannot see a changed value — open defect
+
+`tools/submit.py rules-check` counts the actions on the live page against
+`data/scoring.json`. It reports "site prices 25 actions, scoring.json has
+25" and passes. It does **not** compare the point values. If the site
+changed Win a Tribe Immunity Challenge from 3 points to 4, the count would
+stay at 25 and the check would stay silent.
+
+This is not a theory. The rules page marks each rule it has altered, and
+three rules carry the marker now:
+
+| Marker | Rules that carry it |
+|---|---|
+| `newrule` | Island Challenge, Negotiate for Supplies, Flip the Prize Coin |
+| `changedrule` | Read Tree Mail, Make Fire at Camp, Play Shot in the Dark |
+
+The values were verified by hand today and all are correct, so nothing is
+wrong right now. The check itself is what must improve. **Fix on Thursday:
+compare values, not counts, and report the `newrule` and `changedrule`
+markers.** The markers are a better signal than the count, because they
+name what moved.
+
+### `tools/recon.py` can no longer sign in — open defect
+
+`recon.py --headless` now stops at "could not find the sign-in button" and
+saves only the pages that need no account. Its sign-in selector is stale.
+`tools/submit.py` signs in correctly, so nothing on the weekly path is
+affected, and the rules and FAQ pages still refresh. Fix it on Thursday
+with the selector that `submit.py` uses.
+
+### Question 2 — still open, and here is why
+
+No swap, trade, waiver or free-agent control appears anywhere in the saved
+pages. Every hit for those words is a false positive: `display=swap` in a
+Google Fonts URL, the `dropmenu` and `dropzone` CSS classes, and the word
+"trademark" in the footer.
+
+Treat this as weak evidence, not an answer. `data/site/draft.html` was
+saved **before** the draft ran, so it cannot show a control that only
+appears once a roster exists. The post-draft page has not been read,
+because of the `recon.py` defect above. Resolve this question after that
+defect is fixed.
