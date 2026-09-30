@@ -145,3 +145,11 @@ these events, and read `docs/RULES.md` question 5 and question 6:
 
 Set `merged` to `true` in `data/state.json` on merge night. The engine does
 not detect the merge. It changes every hazard weight when you set the flag.
+
+## The league is not full yet
+
+A site-wide banner says the draft runs again each Wednesday at 20:00 ET for
+late signups, so `num_opponents` will grow. It re-runs AT the lock, not
+before it, so each Wednesday 18:30 job submits against the opponent count
+as it stands that evening. A jump the following week is expected. See
+`docs/RULES.md`.

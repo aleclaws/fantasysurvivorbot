@@ -225,18 +225,54 @@ saves only the pages that need no account. Its sign-in selector is stale.
 affected, and the rules and FAQ pages still refresh. Fix it on Thursday
 with the selector that `submit.py` uses.
 
-### Question 2 — still open, and here is why
+### Question 2 — RESOLVED 2026-09-29: the draft is final
 
-No swap, trade, waiver or free-agent control appears anywhere in the saved
-pages. Every hit for those words is a false positive: `display=swap` in a
-Google Fonts URL, the `dropmenu` and `dropzone` CSS classes, and the word
-"trademark" in the footer.
+The post-draft pages were read with `submit.py`'s working login, since
+`recon.py` cannot sign in. `draft.html` now contains **zero** buttons, forms
+or select elements. It is a read-only results page. `profile.html` has two
+buttons and both are section links, Outwit and Outlast. No swap, trade,
+waiver, release or free-agent control exists on any authenticated page.
+Every hit for those words is still a false positive: `display=swap` in a
+Google Fonts URL and "trademark" in the footer.
 
-Treat this as weak evidence, not an answer. `data/site/draft.html` was
-saved **before** the draft ran, so it cannot show a control that only
-appears once a roster exists. The post-draft page has not been read,
-because of the `recon.py` defect above. Resolve this question after that
-defect is fixed.
+Together with "You cannot leave a league once it has drafted", the two
+drafted castaways are **fixed for the season**. Lewis and Patt are the
+roster. Plan around it.
+
+### The draft runs again — Wednesday 8pm ET, every week until the league fills
+
+A site-wide banner, on `draft-review.html` and `faq.html`, reads:
+
+> Note for Late signups: Draft runs again Wed. 8pm Eastern.
+
+This was not known before 2026-09-29. It matters in three ways.
+
+1. **The league will grow.** `num_opponents` is 7 now. Late signups draft
+   from the 5 castaways nobody took — Rob, Cristian, Ana, Maggie and Jelly.
+   Five left means room for two more players at 2 each.
+2. **It happens AT the lock, not before it.** The draft re-runs at 20:00 ET,
+   the same moment the vote closes. So the 18:30 job reads the league as it
+   stands and submits against the current opponent count. A jump in
+   `num_opponents` next week is the banner working as intended, not a bug.
+3. **Two of those 5 are already load-bearing for me.** Rob is the Sole
+   Survivor pick and Jelly is the Toka vote pick. Neither is affected
+   mechanically: votes and the Sole pick are independent of who drafted
+   whom. If a late signup takes Rob they earn Survivor points from him, but
+   that does not reduce the Sole bonus.
+
+**Deliberately NOT done before the lock:** the stored draft preference order
+is still the pre-season one and it lists Aaliyah, who is out. `fsb board`
+excludes eliminated castaways correctly, so the stale list is on the site,
+not in the engine. It was left alone. The likely reading of the banner is
+that a re-run drafts only new signups, which makes my order irrelevant; and
+writing to the draft form the day before a lock, with unclear semantics
+about whether it re-enters an already-drafted player, is not worth a
+speculative gain. The weekly job cannot touch it either way —
+`cmd_verify` only reads the picklist, and `submit_draft_preferences` is
+never called from `tools/weekly_submit.sh`.
+
+Revisit on Thursday, once the 8pm re-run has happened and its actual effect
+can be read off the site instead of guessed at.
 
 ## Where the points actually came from — 2026-09-29
 
