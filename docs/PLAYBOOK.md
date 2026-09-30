@@ -146,10 +146,12 @@ these events, and read `docs/RULES.md` question 5 and question 6:
 Set `merged` to `true` in `data/state.json` on merge night. The engine does
 not detect the merge. It changes every hazard weight when you set the flag.
 
-## The league is not full yet
+## League size: 8 of a possible 10
 
-A site-wide banner says the draft runs again each Wednesday at 20:00 ET for
-late signups, so `num_opponents` will grow. It re-runs AT the lock, not
-before it, so each Wednesday 18:30 job submits against the opponent count
-as it stands that evening. A jump the following week is expected. See
-`docs/RULES.md`.
+`group.html` reports 8 tribes. A site-wide banner says the draft re-runs
+each Wednesday at 20:00 ET for late signups, so the count **may** rise -
+but only by 2, because 5 castaways are undrafted and each player takes 2.
+Eight is also the size that was expected. The re-run happens AT the lock,
+not before it, so each Wednesday 18:30 job submits against the count as it
+stands that evening. Treat a rise as normal and a flat count as normal too.
+See `docs/RULES.md`.

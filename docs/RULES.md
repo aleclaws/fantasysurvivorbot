@@ -239,17 +239,29 @@ Together with "You cannot leave a league once it has drafted", the two
 drafted castaways are **fixed for the season**. Lewis and Patt are the
 roster. Plan around it.
 
-### The draft runs again — Wednesday 8pm ET, every week until the league fills
+### The draft re-runs for late signups — but this league is very likely done
 
 A site-wide banner, on `draft-review.html` and `faq.html`, reads:
 
 > Note for Late signups: Draft runs again Wed. 8pm Eastern.
 
-This was not known before 2026-09-29. It matters in three ways.
+This was not known before 2026-09-29.
 
-1. **The league will grow.** `num_opponents` is 7 now. Late signups draft
-   from the 5 castaways nobody took — Rob, Cristian, Ana, Maggie and Jelly.
-   Five left means room for two more players at 2 each.
+**Corrected the same evening — the first version of this section overstated
+it.** `group.html` reports `Number of Tribes: 8/50` and gives this league's
+own draft date as `Sep 23, 8pm EDT`, which is past. The banner appears on
+`faq.html` and `group.html` as well, so it is site-wide boilerplate and not
+a scheduled event for this league. The 50 is also not the real ceiling:
+there are 21 castaways at 2 each, so 10 players is the maximum and 5
+undrafted castaways means **room for at most 2 more**. The user's stated
+expectation was five or six real people, one other bot and me — eight — and
+eight is what the standings show. So growth is possible, not expected.
+
+It still matters in three ways.
+
+1. **`num_opponents` may rise, by at most 2.** Late signups would draft from
+   the 5 castaways nobody took — Rob, Cristian, Ana, Maggie and Jelly. Read
+   a rise as the banner working; do not read a flat 7 as a failed sync.
 2. **It happens AT the lock, not before it.** The draft re-runs at 20:00 ET,
    the same moment the vote closes. So the 18:30 job reads the league as it
    stands and submits against the current opponent count. A jump in
