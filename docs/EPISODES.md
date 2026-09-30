@@ -283,11 +283,22 @@ and this is the second decision it has now been shown to control.
 
 **Two items for Thursday.**
 
-- Idol expiry may be off by one. `idol_expires_at_players` is 5 and the
-  simulation requires `len(live) > 5`, so the idol cannot be played at the
-  final 5. Premiere coverage describes the idol as good "through the Final
-  5". If that is right the test should be `>=`, and the change can only
-  help Rob. Confirm the detail before changing anything.
+- ~~Idol expiry may be off by one.~~ **Confirmed and fixed the same day.**
+  reality blurred's rules explainer is explicit: "The last time you can use
+  the hidden immunity idol is when there are five survivors remaining in the
+  game." The idol IS playable at the final five. The simulation required
+  `len(live) > 5`, which barred exactly that play, so
+  `idol_expires_at_players` is now 4 and the note sits beside the value.
+  Rob's P(win) rises 0.171 to 0.177. The vote is untouched, and not by luck:
+  the parameter is read only inside `simulate_placements`, which
+  `vote_probabilities` never calls. Jelly stayed at 0.084 and Eric at 0.130,
+  identical to the digit.
+
+  Worth recording how nearly this went the other way. A first search summary
+  said idols "can no longer be played once the game reaches the final five",
+  the opposite of the cited quote, and the Survivor Wiki returns HTTP 402 so
+  it could not settle it. Two summaries disagreeing is a reason to find a
+  quote, not to pick the summary that suits the model.
 - `Season.apply_state` only ever SETS `out`, `idol`, `edit` and `medevac`.
   It never clears them. Re-applying a state that drops an idol therefore
   leaves the castaway holding it. No production path hits this, because

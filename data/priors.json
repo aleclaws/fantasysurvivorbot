@@ -179,7 +179,16 @@
     "camp_points_per_episode": 6,
     "advantage_points_per_episode": 3,
     "idol_play_success": 0.55,
-    "idol_expires_at_players": 5,
+    "idol_expires_at_players": 4,
+    "_idol_expires_note": [
+      "The simulation plays an idol only while len(live) > this number, so 4",
+      "means an idol CAN be saved at the final five and cannot at the final four.",
+      "Was 5, which wrongly barred the final-five play. Corrected 2026-09-29",
+      "against reality blurred's rules explainer: 'The last time you can use the",
+      "hidden immunity idol is when there are five survivors remaining in the",
+      "game.' Survivor 51 premiere coverage describes Rob's idol the same way.",
+      "https://www.realityblurred.com/realitytv/2016/03/survivor-immunity-idol-super-idol-rules/"
+    ],
     "auction_prob": 0.3,
     "love_from_home_prob": 0.9,
     "love_from_home_window": 3,
