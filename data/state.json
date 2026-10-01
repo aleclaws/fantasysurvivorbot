@@ -22,7 +22,7 @@
     "sole-survivor <id>' whenever a stronger candidate emerges - the site lets",
     "you change this pick for free; see docs/RULES.md."
   ],
-  "episode": 2,
+  "episode": 3,
   "merged": false,
   "tribes": {
     "rob": "Savu",
@@ -47,7 +47,8 @@
     "an": "Toka"
   },
   "eliminated": [
-    "aaliyah"
+    "aaliyah",
+    "ana"
   ],
   "edit": {
     "devin": 0.7,
@@ -110,30 +111,19 @@
     "  python3 tools/submit.py verify",
     "Then set my_mvp and my_mvp_on_site to the same value and delete this note."
   ],
-  "medevac_risk": {
-    "brady": 0.25
-  },
+  "medevac_risk": {},
   "_medevac_note": [
     "P(a departure is a quit/evacuation/removal rather than a vote), per castaway.",
     "The rules are explicit (data/site/rules.txt line 30, faq.txt line 32): no vote",
     "points are awarded for a castaway who quits, is medically evacuated, or is",
     "removed by production. So points on such a departure score zero.",
-    "brady 0.25, for episode 2 only. History: 0.5 from the synopsis, cut to 0.15 on",
-    "2026-09-28 because that was promo framing, now raised to 0.25 on 2026-09-30.",
-    "Two pieces of FOOTAGE evidence disagree, which is why it sits in the middle:",
-    "  Inside Survivor's sneak-peek writeup - hands 'very bloodied', 'severe enough",
-    "  to potentially require a medical evacuation', a medic called, a producer",
-    "  telling him to apply pressure, Brady asking 'Did I just knock myself out of",
-    "  the game'. More severe than the 0.15 reading assumed.",
-    "  Surviving Tribal reads the challenge clips as Brady in the water competing",
-    "  through it, and expects Toka to lose partly from 'one man's hands down'.",
-    "  Someone who plays on was not pulled.",
-    "Base rate still applies: most on-screen medical visits do NOT end in an",
-    "evacuation, and 'did I just knock myself out' is the soundbite a promo cuts",
-    "whatever the outcome. CLEAR THIS FIELD after episode 2 airs.",
-    "This value cannot change this week's picks. medevac_risk discounts only its own",
-    "castaway's vote probability - Jelly and Eric are identical to four decimals at",
-    "every value from 0.15 to 1.0. It is set for accuracy and for Thursday's ingest."
+    "EMPTY as of episode 3. Brady's episode 2 entry is cleared: he was NOT",
+    "evacuated. Medical told him he would 'be good to go for today's immunity",
+    "challenge', he competed in both challenges, and the whole cost was a small",
+    "piece of thumb. The 0.25 carried into the episode was too high, though the",
+    "earlier 0.5 was worse - the direction of both corrections was right.",
+    "Do not re-add a value speculatively. If a wound becomes an on-screen",
+    "infection, set it then, from footage, not from a synopsis."
   ],
   "edit_updated_episode": 2,
   "_idols_note": [

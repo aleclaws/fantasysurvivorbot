@@ -427,3 +427,90 @@ sync it could not finish and had still not reached the vote with 27 minutes
 left. Checked on both sides of the boundary: 1830 and 1929 run normally,
 1930, 1945 and 2015 skip. The `10#` prefix is load-bearing - a morning time
 like `0930` is invalid octal and errors without it.
+
+## Episode 2 — "Weaponized Honesty" (30 September 2026) — RESULT
+
+**Result.** Savu lost immunity. Ana Sani was voted out after a 4-4 tie: four
+votes Ana, four votes Eric, and the last two parchments both read Ana, so
+she left 6-4. Eric Macksoud was offered his Shot in the Dark and **declined
+it**. Rob Antonson, holding an idol, **declined** to play it on Eric. Brady
+Booker was not evacuated: medical told him he would "be good to go for
+today's immunity challenge", he competed in both challenges, and the total
+cost was a small piece of thumb.
+
+**My week: zero vote points.** 10 on Jelly (Toka) scored nothing because
+Toka never voted. 10 on Eric (Savu) scored nothing because Eric survived.
+Say it plainly: the picks were wrong and the week was lost.
+
+### The five predictions, scored
+
+Recorded on 2026-09-29 before the episode aired.
+
+| # | Prediction | Source | Result |
+|---|---|---|---|
+| 1 | Toka loses immunity and votes | Press | **WRONG** — Savu lost |
+| 2 | Jelly is the Toka boot | Model | **Untested** — no Toka tribal |
+| 3 | Devin is the Toka boot | Press | **Untested** — no Toka tribal |
+| 4 | Brady stays, not evacuated | Footage read | **RIGHT** |
+| 5 | Devin or Jelly plays a Shot in the Dark | Press + ep 1 base rate | **WRONG** |
+
+**The model beat the press on the one thing both called.**
+`tribe_loss_probability` had Savu at 0.516 against Toka 0.484 — a marginal
+lean, but the right one. The press was confident Toka would lose again, on
+Brady's hands and Lewis's hands and the whale carry. Savu lost. That lean is
+nearly a coin flip and should not be oversold, but it is the model's first
+correct call against a confident contrary press read.
+
+**It did not help, and that is structural.** The budget is 10 points per
+tribe and cannot be moved between them, so being right about which tribe
+votes earns nothing on its own. Knowing Savu would vote would only have
+mattered if it changed the Savu pick, and it did not.
+
+### Where the Savu pick actually went wrong
+
+Eric was the right read of the *target* and still the wrong pick. He took
+four of ten votes. The model had him at 0.252 of Savu's boot weight, far
+clear of Kristin at 0.154. That part was close to right.
+
+Ana was 5th at 0.089. She carried **no edit signal at all** — she sat at
+the baseline the bio priors give her, because no episode-1 content had named
+her. A 4-4 tie means Savu was split down the middle and the model saw only
+one side of the split.
+
+**The honest diagnosis: this was lost on information I did not have**, not
+on a model defect. Savu's internal alliance structure — Rob telling Eric
+that "Ana was a fake vote" — is not in any pre-episode source. The press
+missed it too, and more badly.
+
+### What the Shot in the Dark result says
+
+**Good news for Tuesday's decision.** The mechanic was measured and
+deliberately not implemented before the lock. It would not have changed the
+Savu pick either: discounting Eric by the full `P(plays)/6` gives
+0.252 × (1 − 0.8/6) = 0.218, still far clear of Kristin's 0.154. The gap was
+too wide for the correction to matter. Not implementing it cost nothing.
+
+**But the parameter needs revising down.** Episode 1 gave 2 of 2 targets
+playing a Shot, which put `P(plays | targeted)` near 0.8. Eric declined
+while sitting on four votes, so the record is now **2 of 3**, about 0.67,
+and the one castaway who declined did so in exactly the spot where the
+theory said he would play. Use 0.6 or lower when this is implemented, and
+treat "a target will play it" as a tendency rather than a rule.
+
+### One strategic question this raises
+
+The optimiser went all-in on one name per tribe because the field is
+"beatable on accuracy alone" — 6 of 8 players scored no vote points in
+episode 1. That reasoning assumed my accuracy was decent. It is now 0 for 1
+on the real boot.
+
+Do not over-correct on one week. But when the site rescores and the episode 2
+Vote column is readable, check two things: how many opponents found Ana, and
+whether a spread would have beaten an all-in. If the field is also missing,
+accuracy still wins. If several found Ana, the field is better than the
+episode 1 calibration said and `field_sharpness` is too low.
+
+**Also still to do:** refresh the edit signals from the analytical recaps
+once they publish, and set `edit_updated_episode` to 3. Deliberately not done
+tonight on same-night recaps - `edit` carries weight 1.40, the heaviest in
+the model, and it is the wrong input to rush.
