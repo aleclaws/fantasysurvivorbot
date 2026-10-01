@@ -323,3 +323,59 @@ Sources: [Inside Survivor episode 1 stats](https://insidesurvivor.com/survivor-5
 > new-era season finishes BETTER than chance rather than worse. The weight
 > is unchanged until Thursday, because the vote does not depend on it and
 > the Sole Survivor pick flips in the middle of the plausible range.
+
+### The 2026-09-30 weekly job failed partway. The picks were unaffected.
+
+**What happened.** The job fired at 18:39:29, nine minutes behind its 18:30
+schedule, which is a launchd wake delay and matches the 18:34 start on
+Sep 23. The machine was about four times slower than normal: 71 tests took
+133 seconds against a usual 35. `rules-check` passed, 25 actions against 25.
+Then `standings` failed with:
+
+```
+SubmitError: login failed - check FSG_EMAIL / FSG_PASSWORD
+```
+
+**That message is wrong, and the wrongness is the lesson.** The same `.env`
+logged in by hand minutes later and read the site correctly. Nothing was
+wrong with the credentials. `login()` raises that error whenever it cannot
+find what it expects after signing in, so a slow page under load is reported
+as a bad password. The next person to read that line will go looking in the
+wrong place.
+
+**Why the job was killed rather than left to finish.** `standings` set
+STATUS=1 and the script carried on to `vote`, as designed. `vote` then ran
+for over 18 minutes, almost certainly stuck in the same slow login, with the
+20:00 lock approaching.
+
+A failed login is harmless: it raises inside `_make_page()`, before any form
+is touched. The danger is the case where login SUCCEEDS and the write stalls,
+because `submit_vote` works in two passes, zeroing every field and then
+setting the two it wants. An interrupted write leaves the allocation at zero,
+which scores nothing for the week. Once the job had demonstrated it could not
+log in reliably and was hanging, letting it keep racing the deadline had
+negative expected value. Killed at 19:33.
+
+**Outcome.** Verified by hand at 19:33, 27 minutes before the lock:
+`jelly = 10`, `eric = 10`. At 20:03 `verify` prints the draft order but no
+vote lines, so login worked and the vote fields are simply gone - the lock is
+in effect. The submitted allocation is the intended one.
+
+**Why this cost nothing.** The picks were submitted and verified days
+earlier, so the weekly job was only ever a refresh. The one real loss is that
+`standings` never synced, so `data/league.json` still holds last week's
+scores. That does not affect a vote already submitted, and tomorrow's ingest
+re-reads the standings anyway.
+
+**Three fixes for Thursday, in priority order.**
+
+1. **Make `login()` tell the truth.** Separate "could not find the element in
+   time" from "the site rejected the credentials". Retry with backoff before
+   raising either. A misleading error is worse than no error, because it sends
+   the reader to the wrong cause.
+2. **Make an interrupted vote safe.** The two-pass zero-then-set has a window
+   where the allocation is zero. Either write the wanted values first and zero
+   the rest afterwards, or re-read and repair immediately after writing.
+3. **Do not let the job race the lock.** If it is past roughly 19:45, it
+   should skip straight to the vote and verify, and never start a long
+   `standings` sync it has no time to finish.
