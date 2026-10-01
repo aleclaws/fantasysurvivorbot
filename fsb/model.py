@@ -57,15 +57,33 @@ class Castaway:
 
 
 def age_risk(age: int) -> float:
-    """Age-driven boot risk, normalised to roughly [0, 1].
+    """Age-driven premerge boot risk, normalised to [0, 1].
 
-    New-era Survivor culls the oldest member of a losing tribe early and often;
-    the effect is mild until the late 30s and then climbs fast.  Very young
-    players carry a smaller, separate risk (read as naive, used as a number).
+    Fitted to every new-era season, 41 to 49, in data/newera_boots.json.
+    S50 is excluded as a returnee season.  Early boot means first 4 out of
+    18, so the base rate is 0.222.  Observed rate relative to that base:
+
+        under 25   0.61x      38-41   3.60x  (n=5, treat with suspicion)
+        25-29      0.92x      42-45   1.69x
+        30-34      0.56x      46-49   1.64x
+        35-39      1.29x      50+     1.12x  (z=+0.19, i.e. nothing)
+
+    Aggregated where the bins are too thin to trust: 38 and over runs 1.83x
+    the base rate at z=+2.50, and that elevation is concentrated below 50.
+
+    So the curve is a bump, not a ramp.  It rises from the mid thirties, peaks
+    around 41, and is back to nothing by the early fifties.  Two beliefs the
+    previous version encoded are contradicted by the record and are gone:
+    that risk keeps climbing with age (the oldest castaway of a season
+    finishes at percentile 0.673, better than chance), and that the very
+    young carry a separate naivety risk (under-25s go early at 0.61x base).
+    See docs/AGE_PRIOR.md.
     """
-    old = max(0.0, (age - 37) / 13.0)
-    young = max(0.0, (25 - age) / 8.0) * 0.35
-    return min(1.0, old + young)
+    if age < 36:
+        return 0.0
+    if age <= 41:
+        return (age - 36) / 5.0
+    return max(0.0, 1.0 - (age - 41) / 11.0)
 
 
 class Season:

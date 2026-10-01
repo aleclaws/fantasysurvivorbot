@@ -179,3 +179,71 @@ free, and the bonus counts consecutive episodes back from the final.
 `edit_updated_episode` advances, since the priors file already says edit
 data overwrites them; fold in episode 2's evidence; then re-run `fsb mvp`
 and change the Sole pick if it still says Kristin.
+
+## Fitted at last — 2026-10-01
+
+Measured on 2026-09-29, fitted on 2026-10-01. Early boot means first 4 out
+of 18, so the base rate is 0.222. Observed rate relative to that base, over
+seasons 41-49:
+
+| band | n | early | rate | multiplier |
+|---|---|---|---|---|
+| under 25 | 22 | 3 | 0.136 | **0.61** |
+| 25-29 | 49 | 10 | 0.204 | 0.92 |
+| 30-34 | 40 | 5 | 0.125 | 0.56 |
+| 35-39 | 21 | 6 | 0.286 | 1.29 |
+| 40-44 | 10 | 6 | 0.600 | **2.70** |
+| 45+ | 20 | 6 | 0.300 | 1.35 |
+| 50+ | 8 | 2 | 0.250 | 1.12 (z=+0.19) |
+
+The trustworthy aggregate, since several bins are thin: **38 and over runs
+1.83x the base rate, z=+2.50**, and that elevation is concentrated below 50.
+
+**This corrects what was written here on 2026-09-29.** That said the
+magnitude and the shape were both wrong. The fit says the **magnitude was
+close** - 1.1 against a fitted 1.0 - and the **shape was the real error**.
+
+`age_risk` is now a bump, not a ramp: zero below 36, rising to 1.0 at 41,
+decaying to zero by 52. Kristin at 49 goes from 0.923 to 0.27.
+
+Two beliefs the old function encoded are gone, because the record
+contradicts both:
+
+- **Risk keeps climbing with age.** It does not. 50+ sits at 1.12x, which is
+  nothing, and the oldest castaway of a season finishes at percentile 0.673
+  where chance is 0.500.
+- **The very young carry a naivety risk.** They do not. Under-25s go early
+  at 0.61x base. An unsupported term is worse than no term, so it is gone.
+
+`postmerge` age stays at 0.35 and is **not** fitted. The data here covers
+early premerge boots only. Do not claim it reaches further than that.
+
+### Two tests were replaced, not worked around
+
+`test_rises_with_age_past_the_late_thirties` asserted
+`age_risk(42) < age_risk(49)`, and `test_very_young_carries_some_risk_too`
+asserted `age_risk(22) > age_risk(31)`. Both encoded the guesses the
+function was built on, which is why neither could ever have caught those
+guesses being wrong. A test that asserts an assumption cannot test it.
+
+### One allocation test was under-powered, and that is NOT the same thing
+
+`test_recoverable_deficit_late_buys_variance` failed after the refit. The
+tempting move was to relax it, since it guards an effect worth under a
+thousandth of win probability. Measuring instead:
+
+```
+sims=25000   spent=10  P(win)=0.00396  evmax=0.00396   joins consensus
+sims=60000   spent=2   P(win)=0.00473  evmax=0.00373   VARIANCE PLAY
+sims=120000  spent=2   P(win)=0.00466  evmax=0.00376   VARIANCE PLAY
+```
+
+The engine's actual choice never changed. It backs the same castaway either
+way, 8 of its 10 points on the name the field is not sitting on. What
+changed is that the refit narrowed the gap between the top two from 0.023 to
+0.019, which shrank the paired gain against its own error bar, so the
+significance guard refused the play - correctly, on the evidence it had.
+
+So the model was right, the guard was right, and the test needed more draws.
+Raised to 60000 with the measurements recorded beside it. Weakening the
+assertion would have deleted a real guard to paper over a sampling problem.

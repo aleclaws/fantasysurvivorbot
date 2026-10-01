@@ -208,7 +208,7 @@
   "weights": {
     "_comment": "Hazard weights. Positive weight => feature RAISES boot risk.",
     "premerge": {
-      "age": 1.1,
+      "age": 1.0,
       "phys": -1.2,
       "social": -0.9,
       "threat": -0.25,
@@ -222,6 +222,17 @@
       "threat": 0.95,
       "edit": 1.4,
       "preseason_buzz": 0.2
-    }
+    },
+    "_age_note": [
+      "premerge age 1.1 -> 1.0 on 2026-10-01, fitted rather than chosen.",
+      "weight * age_risk should approximate log(observed multiplier). The bands in",
+      "data/newera_boots.json imply 0.68 from 42-45, about 1.0 from the 38+",
+      "aggregate, and 1.2 from 46-49, so 1.0 sits in the middle of the range.",
+      "The MAGNITUDE was never badly wrong - 1.1 was close. The SHAPE was, and",
+      "that is where the fix is: age_risk is now a bump peaking near 41 instead of",
+      "a ramp saturating at 52. Kristin, 49, goes from 0.923 to 0.27.",
+      "postmerge age stays 0.35 and is NOT fitted. The data behind this covers",
+      "early premerge boots only. Do not claim it applies after the merge."
+    ]
   }
 }

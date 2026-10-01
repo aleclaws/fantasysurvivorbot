@@ -45,17 +45,50 @@ def league(**over):
 
 
 class TestAgeRisk(unittest.TestCase):
-    def test_rises_with_age_past_the_late_thirties(self):
-        self.assertLess(age_risk(37), age_risk(42))
-        self.assertLess(age_risk(42), age_risk(49))
+    """Fitted to seasons 41-49 in data/newera_boots.json on 2026-10-01.
+
+    Two tests here used to assert the opposite of what the record shows, and
+    they are replaced rather than worked around. They encoded the guesses the
+    function was built on, so they could never have caught the guesses being
+    wrong - see docs/AGE_PRIOR.md.
+    """
+
+    def test_rises_through_the_late_thirties(self):
+        # Early-boot rate for 38+ is 1.83x the base rate, z=+2.50.
+        self.assertLess(age_risk(35), age_risk(40))
+
+    def test_falls_again_past_the_mid_forties(self):
+        # REPLACES test_rises_with_age_past_the_late_thirties, which asserted
+        # age_risk(42) < age_risk(49). The record says the opposite: 40-44
+        # runs 2.70x base, 45+ only 1.35x, 50+ only 1.12x, and the oldest
+        # castaway of a season finishes at percentile 0.673 where chance is
+        # 0.500. The oldest player is not the one who goes early.
+        self.assertGreater(age_risk(41), age_risk(49))
+        self.assertGreater(age_risk(45), age_risk(52))
+
+    def test_is_flat_by_the_early_fifties(self):
+        # 50+ early-boot rate is 1.12x base, z=+0.19 - indistinguishable
+        # from no effect at all.
+        self.assertEqual(age_risk(52), 0.0)
+        self.assertEqual(age_risk(58), 0.0)
+
+    def test_the_young_carry_no_extra_risk(self):
+        # REPLACES test_very_young_carries_some_risk_too, which asserted
+        # age_risk(22) > age_risk(31). Under-25s go early at 0.61x the base
+        # rate and under-30s at 0.82x: protected if anything, never elevated.
+        # An unsupported term is worse than no term.
+        self.assertEqual(age_risk(22), 0.0)
+        self.assertEqual(age_risk(31), 0.0)
 
     def test_bounded(self):
         for a in range(18, 75):
             self.assertGreaterEqual(age_risk(a), 0.0)
             self.assertLessEqual(age_risk(a), 1.0)
 
-    def test_very_young_carries_some_risk_too(self):
-        self.assertGreater(age_risk(22), age_risk(31))
+    def test_peak_is_where_the_data_puts_it(self):
+        peak = max(range(18, 75), key=age_risk)
+        self.assertGreaterEqual(peak, 38)
+        self.assertLessEqual(peak, 44)
 
 
 class TestModel(unittest.TestCase):
@@ -200,7 +233,23 @@ class TestAllocation(unittest.TestCase):
         # Enough scenarios to resolve the effect: the gain here is real but
         # worth under a thousandth of win probability, and 8000 draws cannot
         # separate it from noise.
-        alloc, d = optimise(s, lg, sims=25000)
+        #
+        # Raised 25000 -> 60000 on 2026-10-01. Fitting age_risk to the real
+        # new-era record narrowed the gap between the top two candidates here
+        # from 0.023 to 0.019, which shrinks the paired gain relative to its
+        # own error bar, and the optimiser's significance guard then refused
+        # the play - correctly, on the evidence it had. Measured at the time:
+        #
+        #   sims=25000   spent=10  P(win)=0.00396  evmax=0.00396
+        #   sims=60000   spent=2   P(win)=0.00473  evmax=0.00373
+        #   sims=120000  spent=2   P(win)=0.00466  evmax=0.00376
+        #
+        # So the effect is real and stable once it can be resolved, and the
+        # engine's choice never changed: it backs the same castaway either
+        # way, 8 of 10 points on the name the field is not sitting on. Only
+        # the resolution changed. This is a test that was under-powered, not
+        # a regression - do not weaken the assertion to make it pass.
+        alloc, d = optimise(s, lg, sims=60000)
         self.assertGreater(d["win_probability"], 0.0,
                            "deficit must be live for this test to mean anything")
         self.assertGreaterEqual(d["win_probability"],
