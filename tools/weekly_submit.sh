@@ -38,14 +38,30 @@ python3 -m unittest discover -s tests || TESTS_OK=0
 # the exit code.
 STATUS=0
 
-python3 tools/submit.py rules-check || {
-	echo "RULES CHANGED - re-read rules.html into data/scoring.json"
+# Deadline first. The vote closes at 20:00 ET and is the only step with a
+# deadline; rules-check and standings only improve the picks. On 2026-09-30
+# the job started 9 minutes late onto a machine running 4x slow, spent close
+# to an hour failing a standings sync, and still had not reached the vote
+# with 27 minutes left. Past LOCK_GUARD_HHMM, skip straight to the vote.
+# "Stale data costs accuracy. A missed deadline costs the whole week."
+LOCK_GUARD_HHMM=1930
+NOW_HHMM=$(date +%H%M)
+
+if [ "$((10#$NOW_HHMM))" -ge "$((10#$LOCK_GUARD_HHMM))" ]; then
+	echo "TIME GUARD: it is $NOW_HHMM, at or past $LOCK_GUARD_HHMM."
+	echo "Skipping rules-check and standings to protect the 20:00 vote"
+	echo "deadline. Picks come from the data already on disk."
 	STATUS=1
-}
-python3 tools/submit.py standings || {
-	echo "WARNING: standings sync failed - picks computed on stale scores"
-	STATUS=1
-}
+else
+	python3 tools/submit.py rules-check || {
+		echo "RULES CHANGED - re-read rules.html into data/scoring.json"
+		STATUS=1
+	}
+	python3 tools/submit.py standings || {
+		echo "WARNING: standings sync failed - picks computed on stale scores"
+		STATUS=1
+	}
+fi
 
 if ! python3 tools/submit.py vote; then
 	echo "vote submission failed, retrying once..."

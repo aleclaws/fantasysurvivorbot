@@ -311,3 +311,56 @@ class TestSoleSurvivorConfirmation(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestClassifyLoginOutcome(unittest.TestCase):
+    """The 2026-09-30 run reported "login failed - check FSG_EMAIL /
+    FSG_PASSWORD" when the credentials were correct and the page was merely
+    slow. Signing in has three outcomes, not two, and only one of them may
+    be retried: retrying a real rejection risks locking the account.
+    """
+
+    def test_leaving_the_login_page_is_success(self):
+        self.assertEqual(
+            submit.classify_login_outcome(
+                "https://www.fantasysurvivorgame.com/home.html", "Welcome"),
+            "ok")
+
+    def test_still_on_login_with_no_error_text_is_unconfirmed(self):
+        # What actually happened on 2026-09-30: correct password, slow page.
+        self.assertEqual(
+            submit.classify_login_outcome(
+                "https://www.fantasysurvivorgame.com/login.html",
+                "Sign in\nEmail\nPassword"),
+            "unconfirmed")
+
+    def test_an_explicit_rejection_is_reported_as_bad_credentials(self):
+        for text in ("Incorrect email or password",
+                     "Invalid login credentials",
+                     "That email and password do not match our records",
+                     "Login failed. Please try again."):
+            with self.subTest(text=text):
+                self.assertEqual(
+                    submit.classify_login_outcome(
+                        "https://www.fantasysurvivorgame.com/login.html", text),
+                    "bad_credentials")
+
+    def test_rejection_wording_is_matched_regardless_of_case(self):
+        self.assertEqual(
+            submit.classify_login_outcome(
+                "https://www.fantasysurvivorgame.com/login.html",
+                "INCORRECT PASSWORD"),
+            "bad_credentials")
+
+    def test_the_word_password_alone_is_not_a_rejection(self):
+        # The login form itself always contains the word "password".
+        self.assertEqual(
+            submit.classify_login_outcome(
+                "https://www.fantasysurvivorgame.com/login.html",
+                "Email address\nPassword\nRemember me\nSign in"),
+            "unconfirmed")
+
+    def test_unconfirmed_is_retryable_and_bad_credentials_is_not(self):
+        self.assertTrue(submit.is_retryable_login_outcome("unconfirmed"))
+        self.assertFalse(submit.is_retryable_login_outcome("bad_credentials"))
+        self.assertFalse(submit.is_retryable_login_outcome("ok"))

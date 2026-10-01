@@ -379,3 +379,51 @@ re-reads the standings anyway.
 3. **Do not let the job race the lock.** If it is past roughly 19:45, it
    should skip straight to the vote and verify, and never start a long
    `standings` sync it has no time to finish.
+
+### The three fixes, 2026-09-30 evening. One of them was wrong.
+
+Done after the 20:00 lock, which is the safest moment to touch the
+submission path: a full week before the next deadline.
+
+**1. `login()` now tells the truth. Done, test first.** Signing in has three
+outcomes, not two: `ok`, `bad_credentials`, `unconfirmed`.
+`classify_login_outcome()` decides which, and only `unconfirmed` is retried -
+three attempts with 0s, 4s and 12s backoff. A real rejection is never
+retried, because repeated attempts with a bad password are how accounts get
+locked. The wait is now on the navigation itself rather than a fixed 800ms,
+so a slow machine gets the time it needs. The unconfirmed message says
+plainly that this is usually a slow site and not a wrong password. Six new
+tests, including the exact 2026-09-30 case: correct password, slow page, no
+rejection text.
+
+**2. Removing the zero-then-set window: WITHDRAWN. The plan was wrong.**
+
+Last night this was written down as a fix to make. Reading `submit_vote`
+properly shows there is nothing to fix, and that making the change would
+break something that works.
+
+Both passes are client-side DOM manipulation. `window.submitVotes()` appears
+exactly once in the file, at the very end. Nothing reaches the server before
+it. So an interrupted write closes the browser holding a zeroed FORM while
+the server still holds the previous allocation. **Zeros cannot persist.**
+
+Worse, writing the wanted values before zeroing the rest would reintroduce a
+bug that was found by hand: the site's `capInputAtMaximum` clamps each field
+against the running total at the moment its own input event fires, so a
+target increase landing before an unrelated decrease gets silently clamped.
+Zeroing first guarantees every field starts the second pass at 0, so the
+running total is always a subset sum of the final allocation. The ordering is
+deliberate and it stays.
+
+**This also corrects the reasoning given for killing the job tonight.**
+Stopping it was still right - it was failing logins and burning the clock to
+no purpose. But the urgency was argued from a risk that does not exist. The
+picks were never in danger from an interrupted write.
+
+**3. The job no longer races the lock. Done.** Past `LOCK_GUARD_HHMM` (1930)
+the script skips `rules-check` and `standings`, logs why, sets STATUS=1 and
+goes straight to the vote. Tonight it spent close to an hour on a standings
+sync it could not finish and had still not reached the vote with 27 minutes
+left. Checked on both sides of the boundary: 1830 and 1929 run normally,
+1930, 1945 and 2015 skip. The `10#` prefix is load-bearing - a morning time
+like `0930` is invalid octal and errors without it.

@@ -272,15 +272,86 @@ def parse_standings(html: str) -> List[Dict[str, object]]:
 #
 # Each of these takes an already-created, already-logged-in Playwright page.
 
-def login(page, email: str, password: str) -> None:
+# Wording the site uses when it actually rejects a sign-in. Matching any of
+# these means "do not retry": repeated attempts with a bad password are how
+# accounts get locked. Anything else that leaves us on the login page is
+# treated as unconfirmed and retried, because that is almost always a slow
+# page rather than a wrong password - see docs/EPISODES.md, 2026-09-30.
+LOGIN_REJECTION_PHRASES = (
+    "incorrect email",
+    "incorrect password",
+    "invalid login",
+    "invalid email",
+    "invalid password",
+    "do not match",
+    "does not match",
+    "login failed",
+    "sign in failed",
+)
+
+LOGIN_ATTEMPTS = 3
+LOGIN_BACKOFF_SECONDS = (0, 4, 12)
+
+
+def classify_login_outcome(url: str, body_text: str) -> str:
+    """"ok", "bad_credentials" or "unconfirmed".
+
+    Three outcomes, not two. Leaving the login page is success. Staying on it
+    with an explicit rejection is a credentials problem. Staying on it with no
+    such message means the sign-in was never confirmed either way, which is
+    what a slow page looks like.
+    """
+    if "login.html" not in (url or ""):
+        return "ok"
+    low = (body_text or "").lower()
+    if any(phrase in low for phrase in LOGIN_REJECTION_PHRASES):
+        return "bad_credentials"
+    return "unconfirmed"
+
+
+def is_retryable_login_outcome(outcome: str) -> bool:
+    """Only an unconfirmed sign-in may be retried."""
+    return outcome == "unconfirmed"
+
+
+def _attempt_login(page, email: str, password: str) -> str:
     page.goto(f"{BASE}/login.html", wait_until="domcontentloaded", timeout=30000)
     page.fill("#email", email)
     page.fill("#password", password)
     page.keyboard.press("Enter")
-    page.wait_for_load_state("domcontentloaded", timeout=15000)
-    page.wait_for_timeout(800)
-    if "login.html" in page.url:
-        raise SubmitError("login failed - check FSG_EMAIL / FSG_PASSWORD")
+    # Wait for the navigation itself rather than a fixed pause, so a slow
+    # machine gets the time it needs instead of being called a bad password.
+    try:
+        page.wait_for_url(lambda u: "login.html" not in u, timeout=30000)
+    except Exception:
+        pass
+    page.wait_for_timeout(500)
+    try:
+        body = page.inner_text("body")
+    except Exception:
+        body = ""
+    return classify_login_outcome(page.url, body)
+
+
+def login(page, email: str, password: str) -> None:
+    last = "unconfirmed"
+    for i in range(LOGIN_ATTEMPTS):
+        if i:
+            page.wait_for_timeout(LOGIN_BACKOFF_SECONDS[i] * 1000)
+        last = _attempt_login(page, email, password)
+        if last == "ok":
+            return
+        if not is_retryable_login_outcome(last):
+            break
+    if last == "bad_credentials":
+        raise SubmitError(
+            "the site rejected the sign-in - check FSG_EMAIL / FSG_PASSWORD")
+    raise SubmitError(
+        f"could not confirm sign-in after {LOGIN_ATTEMPTS} attempts: the page "
+        "never left login.html and showed no rejection message. This is "
+        "usually a slow or unreachable site, NOT a wrong password. The "
+        "credentials were present in the environment."
+    )
 
 
 def submit_sole_survivor(page, site_id: int, expect_name: str = "") -> None:
