@@ -43,23 +43,23 @@
   "my_tribe_name": "Win Probability",
   "num_opponents": 7,
   "opponent_names": [
+    "Unprepared and Underweared",
     "Claude Spoiler Bot 2000",
     "Sole Samvivor",
-    "Unprepared and Underweared",
-    "Dirty rice bags",
-    "Claude's Carter Fleshbag",
+    "Rum Pirate Drunkards",
     "Touch Copper",
-    "Rum Pirate Drunkards"
+    "Dirty rice bags",
+    "Claude's Carter Fleshbag"
   ],
-  "my_score": 2,
+  "my_score": 14,
   "opponent_scores": [
+    20,
+    13,
+    13,
     12,
-    11,
+    12,
     9,
-    8,
-    4,
-    2,
-    1
+    9
   ],
   "expected_min_opponents": 6,
   "field_sharpness": 1.8,

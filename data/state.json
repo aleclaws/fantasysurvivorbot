@@ -51,24 +51,35 @@
     "ana"
   ],
   "edit": {
-    "devin": 0.7,
+    "jelly": -0.5,
+    "patt": -0.6,
+    "mike": -0.3,
     "brady": -0.2,
-    "jenna": 0.5,
-    "jelly": 0.7,
-    "patt": -0.4,
-    "rob": -0.2,
-    "eric": 0.9,
-    "lewis": 0.5,
-    "kristin": -0.5
+    "kilby": 0.0,
+    "devin": 0.8,
+    "lewis": 0.7,
+    "jenna": 0.2,
+    "maggie": 0.3,
+    "an": 0.3,
+    "sharonda": -0.6,
+    "linnea": -0.5,
+    "ori": -0.5,
+    "kristin": -0.4,
+    "carter": -0.4,
+    "alexis": -0.2,
+    "cristian": 0.3,
+    "rob": 0.5,
+    "eric": 0.8
   },
   "idols": [
-    "rob"
+    "rob",
+    "jelly"
   ],
   "my_draft": [
     "lewis",
     "patt"
   ],
-  "my_mvp": "rob",
+  "my_mvp": "jelly",
   "draft_preference_order": [
     "ori",
     "brady",
@@ -92,7 +103,7 @@
     "rob",
     "kristin"
   ],
-  "my_mvp_on_site": "rob",
+  "my_mvp_on_site": "jelly",
   "_mvp_desync": [
     "ACTION REQUIRED. my_mvp and the site disagree.",
     "data/site/standings.txt, captured 2026-09-27, says: 'Win Probability AI bot",
@@ -125,19 +136,16 @@
     "Do not re-add a value speculatively. If a wound becomes an on-screen",
     "infection, set it then, from footage, not from a synopsis."
   ],
-  "edit_updated_episode": 2,
+  "edit_updated_episode": 3,
   "_idols_note": [
-    "Castaways holding a hidden immunity idol. VERIFIED 2026-09-29, having been",
-    "carried unsourced since the episode 1 ingest.",
-    "rob: found a hidden immunity idol in the premiere. Inside Survivor's episode 1",
-    "stats page: 'Rob found a hidden immunity idol. This is the first idol without",
-    "an attached twist (beware/boomerang) found in a premiere episode since David vs",
-    "Goliath.' Corroborated by premiere recap coverage.",
-    "This matters more than its one line suggests. It is the whole reason Rob is the",
-    "Sole Survivor pick: with the idol P(win) is 0.166, without it 0.102, and without",
-    "it the pick becomes Patt or Kristin. Do not remove this entry without re-running",
-    "'python3 -m fsb mvp'.",
-    "Lewis was offered an idol on Exile Island and FAILED to retrieve it, so he holds",
-    "nothing. Do not add him."
+    "Castaways holding a hidden immunity idol.",
+    "rob: found one in the premiere (Inside Survivor ep 1 stats). Did NOT play it",
+    "in episode 2 - he planned to save Eric with it, the scheme collapsed, and he",
+    "kept it. Still held.",
+    "jelly: found one in episode 2, 'no beware' attached. Confirmed by the Inside",
+    "Survivor recap, which also has her reassessing her game and taking control of",
+    "Toka with Patt as her number one.",
+    "Lewis was offered one on Exile Island in episode 1 and FAILED to retrieve it.",
+    "He holds nothing. Do not add him."
   ]
 }

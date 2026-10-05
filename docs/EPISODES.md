@@ -440,7 +440,15 @@ cost was a small piece of thumb.
 
 **My week: zero vote points.** 10 on Jelly (Toka) scored nothing because
 Toka never voted. 10 on Eric (Savu) scored nothing because Eric survived.
-Say it plainly: the picks were wrong and the week was lost.
+Say it plainly: both picks were wrong.
+
+> **Corrected 2026-10-05, once the site rescored.** The sentence that
+> followed this said "the week was lost". That was wrong, and it was wrong
+> because it was written the same night from the vote alone, before any
+> scoring was visible. The week was the **best in the league**: 12 points,
+> 2 -> 14, and 6th place to 2nd. Toka WON immunity, which pays 3 points to
+> every member, and Lewis and Patt are both on Toka. Losing the vote is not
+> the same as losing the week. See the decomposition below.
 
 ### The five predictions, scored
 
@@ -514,3 +522,94 @@ episode 1 calibration said and `field_sharpness` is too low.
 once they publish, and set `edit_updated_episode` to 3. Deliberately not done
 tonight on same-night recaps - `edit` carries weight 1.40, the heaviest in
 the model, and it is the wrong input to rush.
+
+### Episode 2 scored — 2026-10-05. Best week in the league.
+
+| # | Team | Drafted | Srv | Vote | Out | Week | Total |
+|---|---|---|---|---|---|---|---|
+| 1 | Unprepared and Underweared | Devin/T, Linnea/S | 10 | **10** | 0 | 11 | 20 |
+| **2** | **me** | **Lewis/T, Patt/T** | **14** | **0** | 0 | **12** | **14** |
+| 3 | Claude Spoiler Bot | Aaliyah/–, Alexis/S | 5 | 6 | 2 | 1 | 13 |
+| 4 | Sole Samvivor Sam | Kristin/S, Eric/S | 11 | **2** | 0 | 2 | 13 |
+| 5 | Rum Pirate | Brady/T, Kilby/T | 12 | 0 | 0 | 11 | 12 |
+| 5 | Touch Copper | Jenna/T, Mike/T | 12 | 0 | 0 | 10 | 12 |
+| 7 | Dirty rice bags Sasha | Ori/S, Sharonda/S | 9 | 0 | 0 | 1 | 9 |
+| 7 | Claude's Carter | Carter/S, An/T | 9 | 0 | 0 | 5 | 9 |
+
+6th to 2nd, 2 points to 14, and the highest Survivor column in the league.
+
+**The correlated-roster call was right, and it was right for the stated
+reason.** RULES.md argued on 2026-09-29 that two castaways on one tribe is
+bad for a steady score but good from behind, because it is free variance and
+variance is what a trailing player wants. Toka lost in episode 1 and the
+three both-on-Toka teams were the bottom three. Toka won in episode 2 and
+those same three teams posted the three biggest weeks: 12, 11, 10. Both
+Savu-pair teams posted 2 and 1. This was a prediction, not a
+rationalisation, and it is now tested once in each direction.
+
+**The pre-registered field test, answered.** The question written down in
+advance was how many opponents found the boot. **Two of eight** — one all-in
+for 10, one spread for 2. That is the same hit rate as episode 1, so the
+episode 1 calibration holds and `field_sharpness` 1.8 stays. No change.
+
+The warning in it is about *magnitude*, not accuracy. One player went all-in
+on the right name and took 10 points in a single week, moving from 9th-equal
+to 1st. The spread player banked 2. Against a field this inaccurate, all-in
+remains correct — the engine's standing advice is sound — but it also means
+one correct week flips the whole table, in either direction.
+
+### Sole Survivor: Rob -> Jelly, 2026-10-05
+
+Held deliberately since 2026-09-29 pending episode 2's evidence, and the
+wait changed the answer twice over.
+
+| Candidate | P(win) before ep2 read | after |
+|---|---|---|
+| Rob Antonson | 0.177 (full priors) | **0.001** |
+| Kristin Flickinger | 0.224 (fitted age prior) | 0.090 |
+| Angelica "Jelly" Loblack | — | **0.202** |
+| Sharonda Cox | — | 0.201 |
+
+**Rob collapsed, and the reason is specific.** Inside Survivor's recap has
+him "breaking down from homesickness", his elaborate idol-play scheme to save
+Eric collapsing, and judges him "likely to struggle going forward". He also
+voted Eric, which was the losing side of a 6-4 — the wrong side of the
+numbers. His edit moves -0.2 -> +0.5, which makes him the SECOND most likely
+Savu boot at 0.121 per episode. Compounded over the remaining episodes that
+is 0.001 to win. Checked against `fsb status` rather than taken on trust,
+because a 200x drop from one signal deserves a second look.
+
+**Kristin was the answer for about four hours and is not any more.** The
+fitted age prior lifted her to 0.224 overnight, which is why Tuesday's note
+said the pick "leans Kristin". Episode 2 then gave Savu real content and the
+power shifted to Sharonda, Linnea and Ori, so Kristin settles at 0.090. This
+is exactly why the decision was held for evidence instead of taken on a
+weight change: the weight change alone would have pointed at the wrong name.
+
+**Jelly and Sharonda are tied** at 0.202 and 0.201, so the choice is made on
+things the tie cannot settle, all of which favour Jelly:
+
+1. **She holds an idol.** Found in episode 2, no beware attached, verified in
+   two sources. A modelled one-shot save.
+2. **She controls her tribe.** She reassessed her game after finding it and
+   took over Toka with Patt as her number one.
+3. **Much higher P(top 3)** — 0.520 against 0.417. That matters for a streak
+   bonus specifically: a pick who goes out early forces a switch, and a
+   switch resets the streak. Survival protects the streak even when it does
+   not win it.
+4. **No opponent drafted her.** Jelly was one of the five nobody took.
+   Sharonda is held by Dirty rice bags Sasha, so a deep run by Sharonda pays
+   that opponent's Survivor column as well as my bonus. Jelly's pays only me.
+
+**Expected value of the switch:** 0.202 × 11 remaining episodes ≈ 2.2 points,
+against 0.001 × 13 ≈ 0.01 for holding Rob. The streak reset costs the two
+episodes already banked and is obviously worth paying.
+
+Submitted and verified: the site holds Jelly.
+
+**Small defect noticed.** `sync_sole_pick`'s drift warning assumes the local
+value is authoritative: it said "my_mvp is 'rob' but the site holds 'jelly' -
+run: submit.py sole-survivor rob", which would have reverted a deliberate
+change. The detection is right and useful; the suggested remedy is only right
+when the site is the side that drifted. It should say to reconcile, naming
+both directions.
