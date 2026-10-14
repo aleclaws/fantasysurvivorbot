@@ -22,56 +22,53 @@
     "sole-survivor <id>' whenever a stronger candidate emerges - the site lets",
     "you change this pick for free; see docs/RULES.md."
   ],
-  "episode": 3,
+  "episode": 4,
   "merged": false,
   "tribes": {
     "an": "Toka",
     "jelly": "Toka",
     "brady": "Toka",
+    "carter": "Toka",
     "kilby": "Toka",
     "devin": "Toka",
     "jenna": "Toka",
     "lewis": "Toka",
     "maggie": "Toka",
     "mike": "Toka",
-    "patt": "Toka",
     "alexis": "Savu",
-    "carter": "Savu",
     "cristian": "Savu",
     "eric": "Savu",
     "kristin": "Savu",
     "linnea": "Savu",
     "ori": "Savu",
-    "rob": "Savu",
     "sharonda": "Savu"
   },
   "eliminated": [
     "aaliyah",
-    "ana"
+    "ana",
+    "rob",
+    "patt"
   ],
   "edit": {
+    "devin": -0.6,
     "jelly": -0.5,
-    "patt": -0.6,
+    "brady": -0.4,
     "mike": -0.3,
-    "brady": -0.2,
-    "kilby": 0.0,
-    "devin": 0.8,
-    "lewis": 0.7,
-    "jenna": 0.2,
-    "maggie": 0.3,
-    "an": 0.3,
+    "maggie": 0.2,
+    "jenna": 0.4,
+    "carter": 0.5,
+    "lewis": 0.6,
+    "an": 0.6,
+    "kilby": 0.7,
     "sharonda": -0.6,
     "linnea": -0.5,
     "ori": -0.5,
     "kristin": -0.4,
-    "carter": -0.4,
     "alexis": -0.2,
     "cristian": 0.3,
-    "rob": 0.5,
-    "eric": 0.8
+    "eric": 0.7
   },
   "idols": [
-    "rob",
     "jelly"
   ],
   "my_draft": [
@@ -135,7 +132,7 @@
     "Do not re-add a value speculatively. If a wound becomes an on-screen",
     "infection, set it then, from footage, not from a synopsis."
   ],
-  "edit_updated_episode": 3,
+  "edit_updated_episode": 4,
   "_idols_note": [
     "Castaways holding a hidden immunity idol.",
     "rob: found one in the premiere (Inside Survivor ep 1 stats). Did NOT play it",
@@ -146,5 +143,12 @@
     "Toka with Patt as her number one.",
     "Lewis was offered one on Exile Island in episode 1 and FAILED to retrieve it.",
     "He holds nothing. Do not add him."
+  ],
+  "_quit_note": [
+    "Rob Antonson QUIT in episode 3, claiming leg pain from a foot cut. Dr Barry",
+    "found zero signs of infection. He had been shown breaking down over missing",
+    "his family in episode 2, which is what the +0.5 edit signal was reading.",
+    "He was holding an idol and it left with him.",
+    "A quit pays NOBODY vote points, same as an evacuation."
   ]
 }

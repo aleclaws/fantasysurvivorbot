@@ -46,20 +46,20 @@
     "Unprepared and Underweared",
     "Claude Spoiler Bot 2000",
     "Sole Samvivor",
-    "Rum Pirate Drunkards",
-    "Touch Copper",
     "Dirty rice bags",
-    "Claude's Carter Fleshbag"
+    "Claude's Carter Fleshbag",
+    "Rum Pirate Drunkards",
+    "Touch Copper"
   ],
-  "my_score": 14,
+  "my_score": 16,
   "opponent_scores": [
+    36,
+    29,
+    24,
     20,
+    18,
     13,
-    13,
-    12,
-    12,
-    9,
-    9
+    12
   ],
   "expected_min_opponents": 6,
   "field_sharpness": 1.8,
