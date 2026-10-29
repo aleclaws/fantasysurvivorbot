@@ -22,7 +22,7 @@
     "sole-survivor <id>' whenever a stronger candidate emerges - the site lets",
     "you change this pick for free; see docs/RULES.md."
   ],
-  "episode": 5,
+  "episode": 6,
   "merged": false,
   "tribes": {
     "an": "Toka",
@@ -31,7 +31,6 @@
     "kristin": "Toka",
     "maggie": "Toka",
     "mike": "Toka",
-    "alexis": "Savu",
     "jelly": "Savu",
     "devin": "Savu",
     "ori": "Savu",
@@ -39,7 +38,6 @@
     "kilby": "Dina",
     "eric": "Dina",
     "lewis": "Dina",
-    "linnea": "Dina",
     "sharonda": "Dina"
   },
   "eliminated": [
@@ -47,25 +45,25 @@
     "ana",
     "rob",
     "patt",
-    "jenna"
+    "jenna",
+    "alexis",
+    "linnea"
   ],
   "edit": {
-    "devin": -0.7,
-    "jelly": -0.6,
-    "ori": -0.6,
-    "alexis": 0.5,
+    "devin": 0.3,
+    "ori": 0.0,
+    "jelly": -0.3,
     "kristin": 0.7,
     "an": 0.5,
-    "carter": 0.4,
-    "maggie": 0.2,
+    "carter": 0.2,
+    "maggie": 0.1,
     "brady": -0.3,
     "mike": -0.3,
-    "kilby": 0.6,
-    "lewis": 0.6,
-    "eric": 0.5,
-    "cristian": 0.2,
-    "linnea": -0.4,
-    "sharonda": -0.5
+    "lewis": 0.8,
+    "kilby": 0.7,
+    "eric": 0.1,
+    "cristian": -0.2,
+    "sharonda": -0.4
   },
   "idols": [
     "jelly"
@@ -131,7 +129,7 @@
     "Do not re-add a value speculatively. If a wound becomes an on-screen",
     "infection, set it then, from footage, not from a synopsis."
   ],
-  "edit_updated_episode": 5,
+  "edit_updated_episode": 6,
   "_idols_note": [
     "Castaways holding a hidden immunity idol.",
     "rob: found one in the premiere (Inside Survivor ep 1 stats). Did NOT play it",
