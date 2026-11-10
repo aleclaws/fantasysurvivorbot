@@ -22,22 +22,21 @@
     "sole-survivor <id>' whenever a stronger candidate emerges - the site lets",
     "you change this pick for free; see docs/RULES.md."
   ],
-  "episode": 6,
-  "merged": false,
+  "episode": 8,
+  "merged": true,
   "tribes": {
-    "an": "Toka",
-    "brady": "Toka",
-    "carter": "Toka",
-    "kristin": "Toka",
-    "maggie": "Toka",
-    "mike": "Toka",
-    "jelly": "Savu",
-    "devin": "Savu",
-    "cristian": "Dina",
-    "kilby": "Dina",
-    "eric": "Dina",
-    "lewis": "Dina",
-    "sharonda": "Dina"
+    "an": "Tovuto",
+    "jelly": "Tovuto",
+    "carter": "Tovuto",
+    "cristian": "Tovuto",
+    "kilby": "Tovuto",
+    "devin": "Tovuto",
+    "eric": "Tovuto",
+    "kristin": "Tovuto",
+    "lewis": "Tovuto",
+    "maggie": "Tovuto",
+    "mike": "Tovuto",
+    "sharonda": "Tovuto"
   },
   "eliminated": [
     "aaliyah",
@@ -46,26 +45,28 @@
     "patt",
     "jenna",
     "alexis",
-    "linnea"
+    "linnea",
+    "ori",
+    "brady"
   ],
   "edit": {
-    "devin": 0.3,
-    "ori": 0.0,
-    "jelly": -0.3,
-    "kristin": 0.7,
-    "an": 0.5,
+    "mike": 0.9,
+    "eric": 0.8,
+    "maggie": 0.6,
+    "kristin": 0.4,
+    "lewis": 0.5,
+    "kilby": 0.4,
     "carter": 0.2,
-    "maggie": 0.1,
-    "brady": -0.3,
-    "mike": -0.3,
-    "lewis": 0.8,
-    "kilby": 0.7,
-    "eric": 0.1,
-    "cristian": -0.2,
+    "an": 0.3,
+    "cristian": 0.2,
+    "devin": 0.0,
+    "jelly": -0.2,
     "sharonda": -0.4
   },
   "idols": [
-    "jelly"
+    "jelly",
+    "carter",
+    "sharonda"
   ],
   "my_draft": [
     "lewis",
@@ -96,24 +97,6 @@
     "kristin"
   ],
   "my_mvp_on_site": "jelly",
-  "_mvp_desync": [
-    "ACTION REQUIRED. my_mvp and the site disagree.",
-    "data/site/standings.txt, captured 2026-09-27, says: 'Win Probability AI bot",
-    "predicted Eric would be the Sole Survivor.' So the site still holds ERIC.",
-    "my_mvp was changed to 'rob' in the episode 1 ingest (commit aaf6507) and was",
-    "never submitted. No sole-survivor confirmation appears in the submit log after",
-    "the Eric one on 2026-09-17.",
-    "Current engine numbers: Patt 0.158, Rob 0.158, Eric 0.082. So the live pick is",
-    "worth about half of either candidate.",
-    "Note that 'rob' was chosen while the idol bug (fixed in aaf6507) inflated idol",
-    "holders to P(win) 0.35. Re-run 'python3 -m fsb mvp' and take its answer rather",
-    "than trusting 'rob'.",
-    "The site allows free changes to this pick. Fix it from a local session:",
-    "  python3 -m fsb mvp",
-    "  python3 tools/submit.py sole-survivor <castaway-id>",
-    "  python3 tools/submit.py verify",
-    "Then set my_mvp and my_mvp_on_site to the same value and delete this note."
-  ],
   "medevac_risk": {},
   "_medevac_note": [
     "P(a departure is a quit/evacuation/removal rather than a vote), per castaway.",
@@ -128,7 +111,7 @@
     "Do not re-add a value speculatively. If a wound becomes an on-screen",
     "infection, set it then, from footage, not from a synopsis."
   ],
-  "edit_updated_episode": 6,
+  "edit_updated_episode": 8,
   "_idols_note": [
     "Castaways holding a hidden immunity idol.",
     "rob: found one in the premiere (Inside Survivor ep 1 stats). Did NOT play it",
@@ -138,7 +121,8 @@
     "Survivor recap, which also has her reassessing her game and taking control of",
     "Toka with Patt as her number one.",
     "Lewis was offered one on Exile Island in episode 1 and FAILED to retrieve it.",
-    "He holds nothing. Do not add him."
+    "He holds nothing. Do not add him.",
+    "2026-11-10: carter holds an idol (Surviving Tribal merge piece). sharonda physically holds Kristin's tethered idol, playable only for Sharonda - so Sharonda is the protected one, not Kristin. jelly/devin hold 'a bag of advantages, real and fake' (Inside Survivor ep 7 recap)."
   ],
   "_quit_note": [
     "Rob Antonson QUIT in episode 3, claiming leg pain from a foot cut. Dr Barry",
@@ -146,5 +130,17 @@
     "his family in episode 2, which is what the +0.5 edit signal was reading.",
     "He was holding an idol and it left with him.",
     "A quit pays NOBODY vote points, same as an evacuation."
-  ]
+  ],
+  "_edit_note": [
+    "Set 2026-11-10 for episode 8 from ep 7 recaps and ep 8 previews (Inside Survivor, Surviving Tribal, DraftKings Network, TVLine sneak peek).",
+    "mike: leaked the Kristin plan, Maggie 'livid', consensus next boot unless immune. eric: took 4 votes at the merge, feud with Kilby. maggie: target after failed Kristin move. lewis/carter/an: left out of the merge vote; lewis wrote Eric. Episode 8 has a pairs twist ('Load the Ark, Two by Two') - possible double elimination, unconfirmed."
+  ],
+  "vote_override": {
+    "episode": 8,
+    "allocation": {
+      "eric": 6,
+      "mike": 4
+    },
+    "_why": "2026-11-10. Engine says Mike 10 (p=0.205). Mike is the consensus pick, so a hit there gains nothing on the field, and we are 31 behind. Eric took 4 votes at the merge and is close to Mike in risk; weighting him gains on everyone if he goes."
+  }
 }

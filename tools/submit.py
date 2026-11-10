@@ -31,7 +31,7 @@ import os
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -204,6 +204,26 @@ def stale_edit_warning(state: dict, episode: int) -> str:
     return (f"edit signals were last refreshed for episode {fresh}, this is "
             f"episode {episode}. The research step has not run - picks are on "
             f"stale reads. See docs/PLAYBOOK.md 'After each episode'.")
+
+
+def vote_override(state: dict, episode: int,
+                  votable: Dict[str, str]) -> Optional[Dict[str, int]]:
+    """A hand-set allocation for exactly this episode, or None.
+
+    state.json may carry {"vote_override": {"episode": N, "allocation":
+    {castaway_id: points}}}. It is honoured only when N is the episode being
+    voted on and every named castaway still has a vote field, so a stale
+    override can never leak into a later week.
+    """
+    override = state.get("vote_override") or {}
+    if override.get("episode") != episode:
+        return None
+    allocation = {cid: int(pts)
+                  for cid, pts in (override.get("allocation") or {}).items()
+                  if int(pts) > 0}
+    if not allocation or any(cid not in votable for cid in allocation):
+        return None
+    return allocation
 
 
 def load_display_names() -> Dict[str, str]:
@@ -664,12 +684,17 @@ def cmd_vote(args) -> None:
         if budgets:
             print(f"  site budgets: " +
                   ", ".join(f"{k} {v}" for k, v in sorted(budgets.items())))
-        alloc, _diag = optimise(season, league, budgets=budgets, **kwargs)
+        override = vote_override(season.state, season.episode, tribes)
         by_site_id: Dict[int, int] = {}
-        for _tribe, a in alloc.items():
-            for cid, pts in a.items():
-                if pts and cid in site_ids:
-                    by_site_id[site_ids[cid]] = pts
+        if override is not None:
+            print(f"  using vote_override from state.json: {override}")
+            by_site_id = {site_ids[cid]: pts for cid, pts in override.items()}
+        else:
+            alloc, _diag = optimise(season, league, budgets=budgets, **kwargs)
+            for _tribe, a in alloc.items():
+                for cid, pts in a.items():
+                    if pts and cid in site_ids:
+                        by_site_id[site_ids[cid]] = pts
         submit_vote(page, season.episode, by_site_id)
         print(f"confirmed: vote saved ({len(by_site_id)} castaways, "
               f"{sum(by_site_id.values())} points)")

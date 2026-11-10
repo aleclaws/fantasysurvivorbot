@@ -212,6 +212,8 @@ class TestSiteVoteView(unittest.TestCase):
     def test_engine_adopts_the_sites_pools_and_drops_the_unvotable(self):
         from fsb.model import Season
         s = Season()
+        for c in s.cast.values():  # independent of the live state file
+            c.out = False
         before = len(s.alive())
         tribes, _ = submit.site_vote_view(
             self.TWO_TRIBES, submit.site_ids_to_engine_ids())
@@ -226,7 +228,8 @@ class TestSiteVoteView(unittest.TestCase):
         # stamp that placeholder over whatever tribes the engine already knows.
         from fsb.model import Season
         s = Season()
-        for c in s.cast.values():
+        for c in s.cast.values():  # independent of the live state file
+            c.out = False
             c.tribe = "Savu"
         tribes, names = submit.site_vote_view(
             self.ONE_POOL, submit.site_ids_to_engine_ids())
@@ -307,6 +310,27 @@ class TestSoleSurvivorConfirmation(unittest.TestCase):
     def test_rejects_unrelated_text(self):
         self.assertFalse(submit.parse_sole_survivor_confirmation(
             "LOGIN\nEmail address\nPassword"))
+
+
+class TestVoteOverride(unittest.TestCase):
+    VOTABLE = {"eric": "Tovuto", "mike": "Tovuto"}
+
+    def test_returns_allocation_for_matching_episode(self):
+        state = {"vote_override": {"episode": 8,
+                                   "allocation": {"eric": 6, "mike": 4}}}
+        self.assertEqual(submit.vote_override(state, 8, self.VOTABLE),
+                         {"eric": 6, "mike": 4})
+
+    def test_ignores_override_for_another_episode(self):
+        state = {"vote_override": {"episode": 8, "allocation": {"eric": 10}}}
+        self.assertIsNone(submit.vote_override(state, 9, self.VOTABLE))
+
+    def test_ignores_override_naming_an_unvotable_castaway(self):
+        state = {"vote_override": {"episode": 8, "allocation": {"brady": 10}}}
+        self.assertIsNone(submit.vote_override(state, 8, self.VOTABLE))
+
+    def test_no_override_present(self):
+        self.assertIsNone(submit.vote_override({}, 8, self.VOTABLE))
 
 
 if __name__ == "__main__":
