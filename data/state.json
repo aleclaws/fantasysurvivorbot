@@ -138,9 +138,8 @@
   "vote_override": {
     "episode": 8,
     "allocation": {
-      "eric": 6,
-      "mike": 4
+      "eric": 10
     },
-    "_why": "2026-11-10. Engine says Mike 10 (p=0.205). Mike is the consensus pick, so a hit there gains nothing on the field, and we are 31 behind. Eric took 4 votes at the merge and is close to Mike in risk; weighting him gains on everyone if he goes."
+    "_why": "2026-11-10. User goal is first place or nothing, from 31 behind. Engine says Mike 10 (p=0.205), but Mike is the consensus pick, so a hit there gains nothing on the field. Eric took 4 votes at the merge and is close to Mike in risk. Only a 10-point hit the field misses closes the gap, so all 10 go on Eric."
   }
 }
