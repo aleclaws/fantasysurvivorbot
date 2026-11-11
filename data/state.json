@@ -51,9 +51,9 @@
   ],
   "edit": {
     "mike": 0.9,
-    "eric": 0.8,
+    "eric": 0.7,
     "maggie": 0.6,
-    "kristin": 0.4,
+    "kristin": 0.5,
     "lewis": 0.5,
     "kilby": 0.4,
     "carter": 0.2,
@@ -134,7 +134,8 @@
   "_edit_note": [
     "Set 2026-11-10 for episode 8 from ep 7 recaps and ep 8 previews (Inside Survivor, Surviving Tribal, DraftKings Network, TVLine sneak peek).",
     "mike: leaked the Kristin plan, Maggie 'livid', consensus next boot unless immune. eric: took 4 votes at the merge, feud with Kilby. maggie: target after failed Kristin move. lewis/carter/an: left out of the merge vote; lewis wrote Eric. Episode 8 has a pairs twist ('Load the Ark, Two by Two') - possible double elimination, unconfirmed.",
-    "Re-checked 2026-11-10 by the cloud routine (Yahoo/Surviving Tribal recap, TVLine sneak peek, DraftKings predictions). Vote was 9-4 Brady over Eric; Brady, Lewis, Carter, An voted Eric, so an raised 0.3 -> 0.5 (wrong side of the numbers). All other values confirmed. Mike won immunity in ep 7; nobody is immune yet for ep 8."
+    "Re-checked 2026-11-10 by the cloud routine (Yahoo/Surviving Tribal recap, TVLine sneak peek, DraftKings predictions). Vote was 9-4 Brady over Eric; Brady, Lewis, Carter, An voted Eric, so an raised 0.3 -> 0.5 (wrong side of the numbers). All other values confirmed. Mike won immunity in ep 7; nobody is immune yet for ep 8.",
+    "Re-checked 2026-11-11 (pick day, ep 8 airs tonight) from search summaries of Inside Survivor 'Next Time On Survivor', Surviving Tribal 'TONIGHT', CarterMatt, DraftKings predictions, Yahoo. No episode aired since Brady. Mike still the most-cited boot (0.9). eric 0.8 -> 0.7: still named at risk, but Inside Survivor reads his 'open forum' scene as a goat who stays. kristin 0.4 -> 0.5: DraftKings names her at risk with Eric and Mike. Pairs twist: Surviving Tribal expects Mike AND his challenge partner on the block; pairings unknown, double boot unconfirmed. All other values checked and kept."
   ],
   "vote_override": {
     "episode": 8,
